@@ -31,4 +31,8 @@ in
       };
     };
   };
+
+  homeManagerModule = {
+    options.modules.desktop.lightdm = options;
+  };
 }

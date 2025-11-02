@@ -47,6 +47,7 @@ in
 
       imports = [
         (import ./bspwm { inherit config lib pkgs; }).homeManagerModule
+        (import ./lightdm { inherit config lib pkgs; }).homeManagerModule
         ./dunst
         ./localsend.nix
         ./picom
