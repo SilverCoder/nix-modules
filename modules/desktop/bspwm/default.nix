@@ -39,68 +39,69 @@ in
     };
   };
 
-  options.modules.desktop.bspwm = options;
+  homeManagerModule = {
+    options.modules.desktop.bspwm = options;
 
-  imports = [
-    ./../dunst
-    ./../picom
-    ./../polybar
-    ./../rofi
-    ./../sxhkd
-  ];
-
-  config = lib.mkIf (desktopCfg.enable && cfg.enable) {
-    assertions = [
-      {
-        assertion = desktopCfg.wallpaper == null || builtins.pathExists (toString desktopCfg.wallpaper);
-        message = "Desktop wallpaper path does not exist: ${toString desktopCfg.wallpaper}";
-      }
+    imports = [
+      ./../dunst
+      ./../picom
+      ./../polybar
+      ./../rofi
+      ./../sxhkd
     ];
 
-    modules.desktop = {
-      dunst.enable = true;
-      picom.enable = true;
-      polybar.enable = true;
-      rofi.enable = true;
-      sxhkd.enable = true;
-    };
-
-    home = {
-      packages = with pkgs; [
-        shutter
+    config = lib.mkIf (desktopCfg.enable && cfg.enable) {
+      assertions = [
+        {
+          assertion = desktopCfg.wallpaper == null || builtins.pathExists (toString desktopCfg.wallpaper);
+          message = "Desktop wallpaper path does not exist: ${toString desktopCfg.wallpaper}";
+        }
       ];
-    };
 
-    gtk.enable = true;
+      modules.desktop = {
+        dunst.enable = true;
+        picom.enable = true;
+        polybar.enable = true;
+        rofi.enable = true;
+        sxhkd.enable = true;
+      };
 
-    programs = {
-      feh.enable = true;
-    };
+      home = {
+        packages = with pkgs; [
+          shutter
+        ];
+      };
 
+      gtk.enable = true;
 
-    xsession.windowManager.bspwm = {
-      enable = true;
-      extraConfig = ''
-        ${cfg.monitors}
+      programs = {
+        feh.enable = true;
+      };
 
-        bspc config focus_follows_pointer false
+      xsession.windowManager.bspwm = {
+        enable = true;
+        extraConfig = ''
+          ${cfg.monitors}
 
-        bspc config border_width 2
-        bspc config window_gap 16
-        bspc config normal_border_color "${cfg.normalBorderColor}"
-        bspc config active_border_color "${cfg.activeBorderColor}"
-        bspc config focused_border_color "${cfg.focusedBorderColor}"
-        bspc config presel_feedback_color "${cfg.preselBorderColor}"
-      '';
-      startupPrograms = lib.mkMerge [
-        ([
-          "polybar left"
-          "polybar center"
-          "polybar right"
-        ])
-        cfg.secondaryPolybars
-        (lib.mkIf (desktopCfg.wallpaper != null) [ "feh --bg-fill ${desktopCfg.wallpaper}" ])
-      ];
+          bspc config focus_follows_pointer false
+
+          bspc config border_width 2
+          bspc config window_gap 16
+          bspc config normal_border_color "${cfg.normalBorderColor}"
+          bspc config active_border_color "${cfg.activeBorderColor}"
+          bspc config focused_border_color "${cfg.focusedBorderColor}"
+          bspc config presel_feedback_color "${cfg.preselBorderColor}"
+        '';
+        startupPrograms = lib.mkMerge [
+          ([
+            "polybar left"
+            "polybar center"
+            "polybar right"
+          ])
+          cfg.secondaryPolybars
+          (lib.mkIf (desktopCfg.wallpaper != null) [ "feh --bg-fill ${desktopCfg.wallpaper}" ])
+        ];
+      };
     };
   };
 }

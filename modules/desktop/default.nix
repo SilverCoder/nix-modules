@@ -46,7 +46,7 @@ in
       options.modules.desktop = options { inherit lib machineCfg; };
 
       imports = [
-        ./bspwm
+        (import ./bspwm { inherit config lib pkgs; }).homeManagerModule
         ./dunst
         ./localsend.nix
         ./picom
