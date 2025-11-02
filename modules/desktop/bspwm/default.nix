@@ -2,9 +2,8 @@
 let
   desktopCfg = config.modules.desktop;
   cfg = config.modules.desktop.bspwm;
-in
-{
-  options.modules.desktop.bspwm = with lib; {
+
+  options = with lib; {
     enable = mkOption {
       type = types.bool;
       default = true;
@@ -30,6 +29,17 @@ in
     focusedBorderColor = mkOption { type = types.str; };
     preselBorderColor = mkOption { type = types.str; };
   };
+in
+{
+  nixosModule = {
+    options.modules.desktop.bspwm = options;
+
+    config = lib.mkIf (desktopCfg.enable && cfg.enable) {
+      services.xserver.windowManager.bspwm.enable = true;
+    };
+  };
+
+  options.modules.desktop.bspwm = options;
 
   imports = [
     ./../dunst

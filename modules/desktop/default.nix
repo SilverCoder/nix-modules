@@ -31,7 +31,9 @@ in
       options.modules.desktop = options { inherit lib machineCfg; };
 
       imports = [
+        (import ./bspwm { inherit config lib pkgs; }).nixosModule
         (import ./cosmic { inherit config lib; }).nixosModule
+        (import ./lightdm { inherit config lib pkgs; }).nixosModule
       ];
     };
 
