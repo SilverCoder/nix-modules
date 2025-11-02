@@ -63,7 +63,7 @@ in
 
     kitty.themeFile = "Dracula";
 
-    bat.theme = "Dracula";
+    bat.config.theme = "Dracula";
 
     zellij.settings.theme = "dracula";
 
