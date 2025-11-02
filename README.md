@@ -24,7 +24,7 @@ Reusable NixOS/home-manager modules for declarative system configuration.
 - `development` - Development tools (git, rust, node, dotnet, deno, vscode, android, unity, claude)
 - `machine` - Machine settings framework with feature flags
 - `system` - System configuration (fonts, locale, gtk, easyeffects)
-- `theme` - Dracula theme across all tools
+- `theme` - Base16 theme system (dracula default, extensible)
 
 ### nixosModules
 - `desktop` - NixOS desktop configuration (cosmic support)
@@ -36,6 +36,32 @@ Reusable NixOS/home-manager modules for declarative system configuration.
 - `gh` - Multi-identity gh cli wrappers (gh-{name})
 - `rclone` - rclone mount systemd service generators
 - `ssh` - SSH config helpers (github matchBlocks)
+
+## Theme System
+
+Base16 color standard with self-contained themes. Each theme exports:
+- `colors` - 16 base16 colors (base00-base0F)
+- `programs.*` - Complete program configurations
+- `services.*` - Service configurations
+- `gtk` - GTK theme
+- `modules.desktop.*` - Desktop module colors
+
+**Available themes:** dracula
+
+**Select theme:**
+```nix
+modules.theme.name = "dracula";  # default
+```
+
+**Adding new theme:**
+
+Create `themes/yourtheme.nix` with base16 colors + configs, add to `themes/default.nix`:
+```nix
+mkThemes = pkgs: {
+  dracula = import ./dracula.nix { inherit pkgs lib; };
+  yourtheme = import ./yourtheme.nix { inherit pkgs lib; };
+};
+```
 
 ## Usage
 
