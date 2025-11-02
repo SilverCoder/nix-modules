@@ -6,12 +6,6 @@ in
 {
   options.modules.cli.zellij = {
     enable = lib.mkEnableOption "zellij terminal multiplexer" // { default = true; };
-
-    theme = lib.mkOption {
-      type = lib.types.enum [ "dracula" ];
-      default = "dracula";
-      description = "Color theme (dracula)";
-    };
   };
 
   config = lib.mkIf (cliCfg.enable && cfg.enable) {
@@ -23,7 +17,6 @@ in
         enableZshIntegration = false;
 
         settings = {
-          theme = "${cfg.theme}";
           default_shell = "fish";
           show_startup_tips = false;
 

@@ -1,75 +1,36 @@
 { lib, ... }:
 let
-  options = with lib; {
-    theme = mkOption {
-      type = types.enum [ "dracula" ];
-      default = "dracula";
-    };
+  mkThemes = pkgs: {
+    dracula = import ./dracula.nix { inherit pkgs lib; };
+  };
+
+  mkThemeOption = themes: lib.mkOption {
+    type = lib.types.enum (builtins.attrNames themes);
+    default = "dracula";
+    description = "Global theme applied to all tools";
   };
 in
 {
   nixosModule = { config, pkgs, ... }:
     let
-      cfg = config.modules.theme;
-      themes = {
-        dracula = import ./dracula.nix { inherit pkgs; };
-      };
-      theme = themes.${cfg.theme};
+      themes = mkThemes pkgs;
+      theme = themes.${config.modules.theme.name};
     in
     {
-      options.modules.theme = options;
-
-      config = {
-        services = {
-          xserver = {
-            displayManager = {
-              lightdm = {
-                greeters = {
-                  gtk = {
-                    theme = theme.gtk.theme;
-                    iconTheme = theme.gtk.iconTheme;
-                  };
-                };
-              };
-            };
-          };
-        };
-      };
+      options.modules.theme.name = mkThemeOption themes;
+      config.services.xserver.displayManager.lightdm.greeters.gtk = theme.gtk;
     };
 
-  homeManagerModule =
-    { config, pkgs, ... }:
+  homeManagerModule = { config, pkgs, ... }:
     let
-      cfg = config.modules.theme;
-      themes = {
-        dracula = import ./dracula.nix { inherit pkgs; };
-      };
-      theme = themes.${cfg.theme};
+      themes = mkThemes pkgs;
+      theme = themes.${config.modules.theme.name};
     in
     {
-      options.modules.theme = options;
-
+      options.modules.theme.name = mkThemeOption themes;
       config = {
-        modules = {
-          desktop = {
-            bspwm = theme.bspwm;
-          };
-        };
-        gtk = {
-          theme = theme.gtk.theme;
-          iconTheme = theme.gtk.iconTheme;
-        };
-        programs = {
-          rofi = {
-            font = "Fira Sans Mono 11";
-            theme = "${theme.rofi.package}/theme/config1.rasi";
-          };
-        };
-        services = {
-          dunst = {
-            configFile = "${theme.dunst.package}/dunstrc";
-          };
-        };
+        inherit (theme) programs services gtk;
+        modules.desktop = theme.modules.desktop;
       };
     };
 }

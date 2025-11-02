@@ -6,12 +6,6 @@ in
 {
   options.modules.cli.kitty = {
     enable = lib.mkEnableOption "kitty terminal emulator";
-
-    theme = lib.mkOption {
-      type = lib.types.enum [ "Dracula" ];
-      default = "Dracula";
-      description = "Color theme (Dracula)";
-    };
   };
 
 
@@ -19,8 +13,6 @@ in
     programs = {
       kitty = {
         enable = true;
-
-        themeFile = cfg.theme;
 
         font = {
           name = "Fira Code";

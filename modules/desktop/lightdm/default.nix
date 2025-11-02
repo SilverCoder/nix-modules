@@ -16,19 +16,7 @@ in
     options.modules.desktop.lightdm = options;
 
     config = lib.mkIf (desktopCfg.enable && cfg.enable) {
-      services.xserver.displayManager.lightdm = {
-        enable = true;
-        greeters.gtk = {
-          theme = {
-            name = "Dracula";
-            package = pkgs.dracula-theme;
-          };
-          iconTheme = {
-            name = "Dracula";
-            package = pkgs.dracula-icon-theme;
-          };
-        };
-      };
+      services.xserver.displayManager.lightdm.enable = true;
     };
   };
 

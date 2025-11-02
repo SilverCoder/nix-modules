@@ -19,12 +19,6 @@ in
       description = "Helix package to use";
     };
 
-    theme = mkOption {
-      type = types.enum [ "dracula" "monokai_pro" ];
-      default = "dracula";
-      description = "Color theme (dracula, monokai_pro)";
-    };
-
     gpt-env = mkOption {
       type = types.nullOr types.path;
       default = null;
@@ -54,8 +48,6 @@ in
         defaultEditor = true;
         themes = {
           silver = {
-            inherits = cfg.theme;
-
             "ui.background" = {
               bg = "#282A35";
             };

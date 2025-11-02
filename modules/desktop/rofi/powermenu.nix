@@ -1,5 +1,6 @@
-{ pkgs, ... }:
+{ pkgs, config, ... }:
 let
+  rofiCfg = config.modules.desktop.rofi;
   theme = pkgs.writeText "powermenu.rasi" ''
     /**
      *
@@ -18,12 +19,12 @@ let
     /*****----- Global Properties -----*****/
     * {
         font:                        "JetBrains Mono Nerd Font 10";
-        background:                  #11092D;
-        background-alt:              #281657;
-        foreground:                  #FFFFFF;
-        selected:                    #DF5296;
-        active:                      #6E77FF;
-        urgent:                      #8E3596;
+        background:                  ${rofiCfg.colors.background or "#11092D"};
+        background-alt:              ${rofiCfg.colors.background-alt or "#281657"};
+        foreground:                  ${rofiCfg.colors.foreground or "#FFFFFF"};
+        selected:                    ${rofiCfg.colors.selected or "#DF5296"};
+        active:                      ${rofiCfg.colors.active or "#6E77FF"};
+        urgent:                      ${rofiCfg.colors.urgent or "#8E3596"};
     }
 
     /*

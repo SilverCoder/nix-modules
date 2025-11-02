@@ -6,12 +6,6 @@ in
 {
   options.modules.cli.yazi = {
     enable = lib.mkEnableOption "yazi terminal file manager" // { default = true; };
-
-    theme = lib.mkOption {
-      type = lib.types.enum [ "dracula" ];
-      default = "dracula";
-      description = "Color theme (dracula)";
-    };
   };
 
   config = lib.mkIf (cliCfg.enable && cfg.enable) {

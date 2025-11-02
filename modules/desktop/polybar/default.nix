@@ -18,21 +18,16 @@ in
       type = types.str;
       default = "alsa_output.usb-SteelSeries_SteelSeries_Arctis_7-00.stereo-game";
     };
+    colors = mkOption {
+      type = types.attrsOf types.str;
+      default = {};
+      description = "Polybar colors (set by theme module)";
+    };
   };
 
   config = lib.mkIf cfg.enable {
     services = {
-      polybar =
-        let
-          colors = {
-            transparent = "#00000000";
-            background = "#66282a36";
-            text = "#f8f8f2";
-            text-active = "#bd93f9";
-            text-disabled = "#66f8f8f2";
-          };
-        in
-        {
+      polybar = {
           enable = true;
           package = pkgs.polybar.override {
             alsaSupport = true;
@@ -52,8 +47,8 @@ in
               fuzzy-match = true;
               occupied-scroll = true;
               label = {
-                focused-foreground = colors.text-active;
-                empty-foreground = colors.text-disabled;
+                focused-foreground = cfg.colors.text-active;
+                empty-foreground = cfg.colors.text-disabled;
               };
             };
 
@@ -86,7 +81,7 @@ in
               label = {
                 volume.text = "%percentage%%";
                 muted.text = " muted";
-                muted.foreground = colors.text-disabled;
+                muted.foreground = cfg.colors.text-disabled;
 
               };
               ramp.volume = [ "" "" "" ];
@@ -119,12 +114,12 @@ in
           config = {
             "bar/base" = {
               monitor = "\${env:MONITOR:}";
-              background = colors.background;
-              foreground = colors.text;
+              background = cfg.colors.background;
+              foreground = cfg.colors.text;
               height = 28;
               line-size = "3pt";
               border-size = "3pt";
-              border-color = colors.transparent;
+              border-color = cfg.colors.transparent;
               font-0 = "Fira Code:size=11;2";
               font-1 = "JetBrainsMono Nerd Font;2";
               wm-restack = "bspwm";
