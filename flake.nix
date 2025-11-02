@@ -36,6 +36,7 @@
       nixosModules = {
         desktop = (importModule ./modules/desktop).nixosModule;
         machine = (importModule ./modules/machine).nixosModule;
+        theme = themeModule.nixosModule;
       };
 
       lib.utils = {
