@@ -5,9 +5,9 @@ public nixos/home-manager configuration modules.
 ## exports
 
 **homeManagerModules:**
-- cli - helix, fish, git, bat, lsd, fd, ripgrep, kitty, zellij, yazi, fzf
-- desktop - bspwm, cosmic, dunst, picom, polybar, rofi, sxhkd, localsend
-- development - rust, node, dotnet, deno, vscode, android, unity, claude
+- cli - helix, fish, bat, lsd, fzf, kitty, zellij, yazi
+- desktop - bspwm, cosmic, dunst, lightdm, picom, polybar, rofi, sxhkd, localsend
+- development - git, rust, node, dotnet, deno, vscode, android, unity, claude
 - machine - machine-specific settings framework
 - system - locale, fonts, gtk, easyeffects
 - theme - dracula theme across all tools

@@ -19,9 +19,9 @@ Reusable NixOS/home-manager modules for declarative system configuration.
 ## Exports
 
 ### homeManagerModules
-- `cli` - CLI tools (helix, fish, git, bat, lsd, fd, ripgrep, kitty, zellij, yazi)
-- `desktop` - Desktop environments (bspwm, cosmic, dunst, picom, polybar, rofi, sxhkd, localsend)
-- `development` - Development tools (rust, node, dotnet, deno, vscode, android, unity, claude)
+- `cli` - CLI tools (helix, fish, bat, lsd, fzf, kitty, zellij, yazi)
+- `desktop` - Desktop environments (bspwm, cosmic, dunst, lightdm, picom, polybar, rofi, sxhkd, localsend)
+- `development` - Development tools (git, rust, node, dotnet, deno, vscode, android, unity, claude)
 - `machine` - Machine settings framework with feature flags
 - `system` - System configuration (fonts, locale, gtk, easyeffects)
 - `theme` - Dracula theme across all tools
