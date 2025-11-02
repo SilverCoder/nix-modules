@@ -16,7 +16,10 @@ in
     options.modules.desktop.lightdm = options;
 
     config = lib.mkIf (desktopCfg.enable && cfg.enable) {
-      services.xserver.displayManager.lightdm.enable = true;
+      services.xserver.displayManager.lightdm = {
+        enable = true;
+        background = desktopCfg.wallpaper;
+      };
     };
   };
 
