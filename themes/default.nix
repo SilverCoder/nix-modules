@@ -18,7 +18,9 @@ in
     in
     {
       options.modules.theme.name = mkThemeOption themes;
-      config.services.xserver.displayManager.lightdm.greeters.gtk = theme.gtk;
+      config = lib.mkIf (config.modules.desktop.enable or false && config.modules.desktop.lightdm.enable or false) {
+        services.xserver.displayManager.lightdm.greeters.gtk = theme.gtk;
+      };
     };
 
   homeManagerModule = { config, pkgs, ... }:
