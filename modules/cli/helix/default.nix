@@ -54,7 +54,7 @@ in
           };
         };
         settings = {
-          theme = "silver";
+          theme = lib.mkDefault "silver";
 
           editor = {
             bufferline = "multiple";
