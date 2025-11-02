@@ -46,16 +46,7 @@ in
         enable = true;
         package = cfg.package;
         defaultEditor = true;
-        themes = {
-          silver = {
-            "ui.background" = {
-              bg = "#282A35";
-            };
-          };
-        };
         settings = {
-          theme = lib.mkDefault "silver";
-
           editor = {
             bufferline = "multiple";
             line-number = "relative";
