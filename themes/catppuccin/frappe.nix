@@ -129,21 +129,23 @@ in
       theme.flavor.use = "catppuccin-frappe";
     };
 
-    rofi = {
-      font = "Fira Sans Mono 11";
-      theme = "${(pkgs.fetchFromGitHub {
+    rofi = let
+      catppuccinTheme = pkgs.fetchFromGitHub {
         owner = "catppuccin";
         repo = "rofi";
         rev = "5350da41a11814f950c3354f090b90d4674a95ce";
         sha256 = "sha256-DNorfyl3C4RBclF2KDgwvQQwixpTwSRu7fIvihPN8JY=";
-      })}/basic/.local/share/rofi/themes/catppuccin-frappe.rasi";
-      extraConfig = {
-        element-text = {
-          selected-normal = "rgba ( 48, 52, 70, 100 % )";
-          selected-urgent = "rgba ( 48, 52, 70, 100 % )";
-          selected-active = "rgba ( 48, 52, 70, 100 % )";
-        };
       };
+      customTheme = pkgs.writeText "catppuccin-frappe-custom.rasi" ''
+        @import "${catppuccinTheme}/basic/.local/share/rofi/themes/catppuccin-frappe.rasi"
+
+        element-text selected {
+            text-color: ${colors.base00};
+        }
+      '';
+    in {
+      font = "Fira Sans Mono 11";
+      theme = toString customTheme;
     };
   };
 
