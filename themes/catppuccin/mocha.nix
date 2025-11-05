@@ -141,7 +141,7 @@ in
 
         element selected {
             background-color: @selected-col;
-            text-color: ${colors.base00} !important;
+            text-color: ${colors.base00};
         }
       '';
     in {
