@@ -65,14 +65,61 @@ in
 
     bat.config.theme = "Catppuccin Latte";
 
+    lsd.colors = {
+      user = "#8839ef";
+      group = "#7287fd";
+      permission = {
+        read = "#40a02b";
+        write = "#df8e1d";
+        exec = "#e64553";
+        exec-sticky = "#8839ef";
+        no-access = "#7c7f93";
+        octal = "#179299";
+        acl = "#179299";
+        context = "#04a5e5";
+      };
+      date = {
+        hour-old = "#179299";
+        day-old = "#04a5e5";
+        older = "#209fb5";
+      };
+      size = {
+        none = "#7c7f93";
+        small = "#40a02b";
+        medium = "#df8e1d";
+        large = "#fe640b";
+      };
+      inode = {
+        valid = "#ea76cb";
+        invalid = "#7c7f93";
+      };
+      links = {
+        valid = "#ea76cb";
+        invalid = "#7c7f93";
+      };
+      tree-edge = "#8c8fa1";
+      git-status = {
+        default = "#4c4f69";
+        unmodified = "#7c7f93";
+        ignored = "#7c7f93";
+        new-in-index = "#40a02b";
+        new-in-workdir = "#40a02b";
+        typechange = "#df8e1d";
+        deleted = "#d20f39";
+        renamed = "#40a02b";
+        modified = "#df8e1d";
+        conflicted = "#d20f39";
+      };
+    };
+
     zellij.settings.theme = "catppuccin-latte";
 
     yazi = {
       flavors.catppuccin-latte = pkgs.fetchFromGitHub {
         owner = "catppuccin";
         repo = "yazi";
-        rev = "d91da01c84ace948e310bb0c0d9b7f21db80abb2";
-        sha256 = "sha256-hwdJPUrQH5f1LMK6lPu87skEqrRoAQNiI2Weh8udzb8=";
+        rev = "043ffae14e7f7fcc136636d5f2c617b5bc2f5e31";
+        sha256 = "sha256-zkL46h1+U9ThD4xXkv1uuddrlQviEQD3wNZFRgv7M8Y=";
       };
       theme.flavor.use = "catppuccin-latte";
     };
@@ -91,13 +138,13 @@ in
   services.dunst.configFile = "${(pkgs.fetchFromGitHub {
     owner = "catppuccin";
     repo = "dunst";
-    rev = "ced856e4ecfaa3a10ba0decbb39957034b3630e6";
-    sha256 = "sha256-+u/TO3DF7H4xu/OhDkM+riHwx1bWw6rLVIvCnrWWJJY=";
+    rev = "5955cf0213d14a3494ec63580a81818b6f7caa66";
+    sha256 = "sha256-rBp9wU6QHpmNAjeaKnI6u8rOUlv8MC70SLUzeKHN/eY=";
   })}/src/latte.conf";
 
   gtk = {
     theme = {
-      name = "Catppuccin-Latte-Standard-${lib.strings.toUpper (builtins.substring 0 1 accent)}${builtins.substring 1 (builtins.stringLength accent - 1) accent}-Light";
+      name = "catppuccin-latte-${accent}-standard";
       package = pkgs.catppuccin-gtk.override {
         accents = [ accent ];
         variant = "latte";

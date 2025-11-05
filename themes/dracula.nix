@@ -69,6 +69,38 @@ in
 
     bat.config.theme = "Dracula";
 
+    lsd.colors = {
+      user = "#8be9fd";                    # cyan
+      group = "#f8f8f2";                   # foreground
+      permission = {
+        read = "#bd93f9";                  # purple
+        write = "#ff79c6";                 # pink
+        exec = "#8be9fd";                  # cyan
+        exec-sticky = "#8be9fd";           # cyan
+        no-access = "#ff5555";             # red
+      };
+      date = {
+        hour-old = "#9aedfe";              # comment lighter
+        day-old = "#6272a4";               # comment
+        older = "#44475a";                 # current line
+      };
+      size = {
+        none = "#44475a";                  # current line
+        small = "#50fa7b";                 # green
+        medium = "#ffb86c";                # orange
+        large = "#ff5555";                 # red
+      };
+      inode = {
+        valid = "#f8f8f2";                 # foreground
+        invalid = "#ff5555";               # red
+      };
+      links = {
+        valid = "#8be9fd";                 # cyan
+        invalid = "#ff5555";               # red
+      };
+      tree-edge = "#bd93f9";               # purple
+    };
+
     zellij.settings.theme = "dracula";
 
     yazi = {

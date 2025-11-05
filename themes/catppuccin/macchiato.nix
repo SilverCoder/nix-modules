@@ -65,14 +65,61 @@ in
 
     bat.config.theme = "Catppuccin Macchiato";
 
+    lsd.colors = {
+      user = "#c6a0f6";
+      group = "#b7bdf8";
+      permission = {
+        read = "#a6da95";
+        write = "#eed49f";
+        exec = "#ee99a0";
+        exec-sticky = "#c6a0f6";
+        no-access = "#939ab7";
+        octal = "#8bd5ca";
+        acl = "#8bd5ca";
+        context = "#91d7e3";
+      };
+      date = {
+        hour-old = "#8bd5ca";
+        day-old = "#91d7e3";
+        older = "#7dc4e4";
+      };
+      size = {
+        none = "#939ab7";
+        small = "#a6da95";
+        medium = "#eed49f";
+        large = "#f5a97f";
+      };
+      inode = {
+        valid = "#f5bde6";
+        invalid = "#939ab7";
+      };
+      links = {
+        valid = "#f5bde6";
+        invalid = "#939ab7";
+      };
+      tree-edge = "#8087a2";
+      git-status = {
+        default = "#cad3f5";
+        unmodified = "#939ab7";
+        ignored = "#939ab7";
+        new-in-index = "#a6da95";
+        new-in-workdir = "#a6da95";
+        typechange = "#eed49f";
+        deleted = "#ed8796";
+        renamed = "#a6da95";
+        modified = "#eed49f";
+        conflicted = "#ed8796";
+      };
+    };
+
     zellij.settings.theme = "catppuccin-macchiato";
 
     yazi = {
       flavors.catppuccin-macchiato = pkgs.fetchFromGitHub {
         owner = "catppuccin";
         repo = "yazi";
-        rev = "d91da01c84ace948e310bb0c0d9b7f21db80abb2";
-        sha256 = "sha256-hwdJPUrQH5f1LMK6lPu87skEqrRoAQNiI2Weh8udzb8=";
+        rev = "043ffae14e7f7fcc136636d5f2c617b5bc2f5e31";
+        sha256 = "sha256-zkL46h1+U9ThD4xXkv1uuddrlQviEQD3wNZFRgv7M8Y=";
       };
       theme.flavor.use = "catppuccin-macchiato";
     };
@@ -91,13 +138,13 @@ in
   services.dunst.configFile = "${(pkgs.fetchFromGitHub {
     owner = "catppuccin";
     repo = "dunst";
-    rev = "ced856e4ecfaa3a10ba0decbb39957034b3630e6";
-    sha256 = "sha256-+u/TO3DF7H4xu/OhDkM+riHwx1bWw6rLVIvCnrWWJJY=";
+    rev = "5955cf0213d14a3494ec63580a81818b6f7caa66";
+    sha256 = "sha256-rBp9wU6QHpmNAjeaKnI6u8rOUlv8MC70SLUzeKHN/eY=";
   })}/src/macchiato.conf";
 
   gtk = {
     theme = {
-      name = "Catppuccin-Macchiato-Standard-${lib.strings.toUpper (builtins.substring 0 1 accent)}${builtins.substring 1 (builtins.stringLength accent - 1) accent}-Dark";
+      name = "catppuccin-macchiato-${accent}-standard";
       package = pkgs.catppuccin-gtk.override {
         accents = [ accent ];
         variant = "macchiato";

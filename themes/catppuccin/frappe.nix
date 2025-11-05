@@ -65,14 +65,61 @@ in
 
     bat.config.theme = "Catppuccin Frappe";
 
+    lsd.colors = {
+      user = "#ca9ee6";
+      group = "#babbf1";
+      permission = {
+        read = "#a6d189";
+        write = "#e5c890";
+        exec = "#ea999c";
+        exec-sticky = "#ca9ee6";
+        no-access = "#949cbb";
+        octal = "#81c8be";
+        acl = "#81c8be";
+        context = "#99d1db";
+      };
+      date = {
+        hour-old = "#81c8be";
+        day-old = "#99d1db";
+        older = "#85c1dc";
+      };
+      size = {
+        none = "#949cbb";
+        small = "#a6d189";
+        medium = "#e5c890";
+        large = "#ef9f76";
+      };
+      inode = {
+        valid = "#f4b8e4";
+        invalid = "#949cbb";
+      };
+      links = {
+        valid = "#f4b8e4";
+        invalid = "#949cbb";
+      };
+      tree-edge = "#838ba7";
+      git-status = {
+        default = "#c6d0f5";
+        unmodified = "#949cbb";
+        ignored = "#949cbb";
+        new-in-index = "#a6d189";
+        new-in-workdir = "#a6d189";
+        typechange = "#e5c890";
+        deleted = "#e78284";
+        renamed = "#a6d189";
+        modified = "#e5c890";
+        conflicted = "#e78284";
+      };
+    };
+
     zellij.settings.theme = "catppuccin-frappe";
 
     yazi = {
       flavors.catppuccin-frappe = pkgs.fetchFromGitHub {
         owner = "catppuccin";
         repo = "yazi";
-        rev = "d91da01c84ace948e310bb0c0d9b7f21db80abb2";
-        sha256 = "sha256-hwdJPUrQH5f1LMK6lPu87skEqrRoAQNiI2Weh8udzb8=";
+        rev = "043ffae14e7f7fcc136636d5f2c617b5bc2f5e31";
+        sha256 = "sha256-zkL46h1+U9ThD4xXkv1uuddrlQviEQD3wNZFRgv7M8Y=";
       };
       theme.flavor.use = "catppuccin-frappe";
     };
@@ -91,13 +138,13 @@ in
   services.dunst.configFile = "${(pkgs.fetchFromGitHub {
     owner = "catppuccin";
     repo = "dunst";
-    rev = "ced856e4ecfaa3a10ba0decbb39957034b3630e6";
-    sha256 = "sha256-+u/TO3DF7H4xu/OhDkM+riHwx1bWw6rLVIvCnrWWJJY=";
+    rev = "5955cf0213d14a3494ec63580a81818b6f7caa66";
+    sha256 = "sha256-rBp9wU6QHpmNAjeaKnI6u8rOUlv8MC70SLUzeKHN/eY=";
   })}/src/frappe.conf";
 
   gtk = {
     theme = {
-      name = "Catppuccin-Frappe-Standard-${lib.strings.toUpper (builtins.substring 0 1 accent)}${builtins.substring 1 (builtins.stringLength accent - 1) accent}-Dark";
+      name = "catppuccin-frappe-${accent}-standard";
       package = pkgs.catppuccin-gtk.override {
         accents = [ accent ];
         variant = "frappe";

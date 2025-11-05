@@ -65,14 +65,61 @@ in
 
     bat.config.theme = "Catppuccin Mocha";
 
+    lsd.colors = {
+      user = "#cba6f7";
+      group = "#b4befe";
+      permission = {
+        read = "#a6e3a1";
+        write = "#f9e2af";
+        exec = "#eba0ac";
+        exec-sticky = "#cba6f7";
+        no-access = "#a6adc8";
+        octal = "#94e2d5";
+        acl = "#94e2d5";
+        context = "#89dceb";
+      };
+      date = {
+        hour-old = "#94e2d5";
+        day-old = "#89dceb";
+        older = "#74c7ec";
+      };
+      size = {
+        none = "#a6adc8";
+        small = "#a6e3a1";
+        medium = "#f9e2af";
+        large = "#fab387";
+      };
+      inode = {
+        valid = "#f5c2e7";
+        invalid = "#a6adc8";
+      };
+      links = {
+        valid = "#f5c2e7";
+        invalid = "#a6adc8";
+      };
+      tree-edge = "#bac2de";
+      git-status = {
+        default = "#cdd6f4";
+        unmodified = "#a6adc8";
+        ignored = "#a6adc8";
+        new-in-index = "#a6e3a1";
+        new-in-workdir = "#a6e3a1";
+        typechange = "#f9e2af";
+        deleted = "#f38ba8";
+        renamed = "#a6e3a1";
+        modified = "#f9e2af";
+        conflicted = "#f38ba8";
+      };
+    };
+
     zellij.settings.theme = "catppuccin-mocha";
 
     yazi = {
       flavors.catppuccin-mocha = pkgs.fetchFromGitHub {
         owner = "catppuccin";
         repo = "yazi";
-        rev = "d91da01c84ace948e310bb0c0d9b7f21db80abb2";
-        sha256 = "sha256-hwdJPUrQH5f1LMK6lPu87skEqrRoAQNiI2Weh8udzb8=";
+        rev = "043ffae14e7f7fcc136636d5f2c617b5bc2f5e31";
+        sha256 = "sha256-zkL46h1+U9ThD4xXkv1uuddrlQviEQD3wNZFRgv7M8Y=";
       };
       theme.flavor.use = "catppuccin-mocha";
     };
@@ -91,13 +138,13 @@ in
   services.dunst.configFile = "${(pkgs.fetchFromGitHub {
     owner = "catppuccin";
     repo = "dunst";
-    rev = "ced856e4ecfaa3a10ba0decbb39957034b3630e6";
-    sha256 = "sha256-+u/TO3DF7H4xu/OhDkM+riHwx1bWw6rLVIvCnrWWJJY=";
+    rev = "5955cf0213d14a3494ec63580a81818b6f7caa66";
+    sha256 = "sha256-rBp9wU6QHpmNAjeaKnI6u8rOUlv8MC70SLUzeKHN/eY=";
   })}/src/mocha.conf";
 
   gtk = {
     theme = {
-      name = "Catppuccin-Mocha-Standard-${lib.strings.toUpper (builtins.substring 0 1 accent)}${builtins.substring 1 (builtins.stringLength accent - 1) accent}-Dark";
+      name = "catppuccin-mocha-${accent}-standard";
       package = pkgs.catppuccin-gtk.override {
         accents = [ accent ];
         variant = "mocha";
