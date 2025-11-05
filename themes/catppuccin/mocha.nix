@@ -31,7 +31,13 @@ in
   launcherImage = ./assets/mocha.jpg;
 
   programs = {
-    helix.settings.theme = "catppuccin_mocha";
+    helix = {
+      themes.catppuccin-mocha-custom = {
+        inherits = "catppuccin_mocha";
+        "ui.background".bg = colors.base00;
+      };
+      settings.theme = "catppuccin-mocha-custom";
+    };
 
     fish.plugins = [
       {

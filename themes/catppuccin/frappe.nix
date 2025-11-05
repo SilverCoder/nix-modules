@@ -31,7 +31,13 @@ in
   launcherImage = ./assets/frappe.png;
 
   programs = {
-    helix.settings.theme = "catppuccin_frappe";
+    helix = {
+      themes.catppuccin-frappe-custom = {
+        inherits = "catppuccin_frappe";
+        "ui.background".bg = colors.base00;
+      };
+      settings.theme = "catppuccin-frappe-custom";
+    };
 
     fish.plugins = [
       {

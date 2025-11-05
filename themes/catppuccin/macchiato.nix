@@ -31,7 +31,13 @@ in
   launcherImage = ./assets/macchiato.jpg;
 
   programs = {
-    helix.settings.theme = "catppuccin_macchiato";
+    helix = {
+      themes.catppuccin-macchiato-custom = {
+        inherits = "catppuccin_macchiato";
+        "ui.background".bg = colors.base00;
+      };
+      settings.theme = "catppuccin-macchiato-custom";
+    };
 
     fish.plugins = [
       {

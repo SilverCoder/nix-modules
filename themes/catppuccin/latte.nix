@@ -31,7 +31,13 @@ in
   launcherImage = ./assets/latte.jpg;
 
   programs = {
-    helix.settings.theme = "catppuccin_latte";
+    helix = {
+      themes.catppuccin-latte-custom = {
+        inherits = "catppuccin_latte";
+        "ui.background".bg = colors.base00;
+      };
+      settings.theme = "catppuccin-latte-custom";
+    };
 
     fish.plugins = [
       {
