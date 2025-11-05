@@ -46,20 +46,22 @@ Base16 color standard with self-contained themes. Each theme exports:
 - `gtk` - GTK theme
 - `modules.desktop.*` - Desktop module colors
 
-**Available themes:** dracula
+**Available themes:** dracula, catppuccin-mocha, catppuccin-frappe, catppuccin-macchiato, catppuccin-latte
 
 **Select theme:**
 ```nix
 modules.theme.name = "dracula";  # default
+# or
+modules.theme.name = "catppuccin-mocha";
 ```
 
 **Adding new theme:**
 
-Create `themes/yourtheme.nix` with base16 colors + configs, add to `themes/default.nix`:
+Create `themes/yourtheme/` directory with `default.nix` containing base16 colors + configs, add to `themes/default.nix`:
 ```nix
 mkThemes = pkgs: {
-  dracula = import ./dracula.nix { inherit pkgs lib; };
-  yourtheme = import ./yourtheme.nix { inherit pkgs lib; };
+  dracula = import ./dracula { inherit pkgs lib; };
+  yourtheme = import ./yourtheme { inherit pkgs lib; };
 };
 ```
 

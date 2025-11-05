@@ -1,7 +1,7 @@
 { lib, ... }:
 let
   mkThemes = pkgs: {
-    dracula = import ./dracula.nix { inherit pkgs lib; };
+    dracula = import ./dracula { inherit pkgs lib; };
   } // (import ./catppuccin { inherit pkgs lib; });
 
   mkThemeOption = themes: lib.mkOption {

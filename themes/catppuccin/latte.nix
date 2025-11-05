@@ -1,7 +1,6 @@
 { pkgs, lib }:
 let
   themeLib = import ../lib.nix { inherit lib; };
-  accent = "mauve";
 
   # base16 catppuccin latte color scheme
   colors = {
@@ -144,16 +143,16 @@ in
 
   gtk = {
     theme = {
-      name = "catppuccin-latte-${accent}-standard";
+      name = "catppuccin-latte-mauve-standard";
       package = pkgs.catppuccin-gtk.override {
-        accents = [ accent ];
+        accents = [ "mauve" ];
         variant = "latte";
       };
     };
     iconTheme = {
       name = "Papirus-Light";
       package = pkgs.catppuccin-papirus-folders.override {
-        accent = accent;
+        accent = "mauve";
         flavor = "latte";
       };
     };

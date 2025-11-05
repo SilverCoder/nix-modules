@@ -1,33 +1,33 @@
 { pkgs, lib }:
 let
-  themeLib = import ./lib.nix { inherit lib; };
+  themeLib = import ../lib.nix { inherit lib; };
 
   # base16 dracula color scheme
   colors = {
-    base00 = "#282a36";  # background
-    base01 = "#44475a";  # lighter background / current line
-    base02 = "#44475a";  # selection
-    base03 = "#6272a4";  # comments
-    base04 = "#9aedfe";  # dark foreground
-    base05 = "#f8f8f2";  # foreground
-    base06 = "#f8f8f2";  # light foreground
-    base07 = "#ffffff";  # light background
-    base08 = "#ff5555";  # red
-    base09 = "#ffb86c";  # orange
-    base0A = "#f1fa8c";  # yellow
-    base0B = "#50fa7b";  # green
-    base0C = "#8be9fd";  # cyan
-    base0D = "#ff79c6";  # pink (using as blue)
-    base0E = "#bd93f9";  # purple
-    base0F = "#ff79c6";  # pink (special)
+    base00 = "#282a36";  # Default Background
+    base01 = "#44475a";  # Lighter Background (status bars)
+    base02 = "#44475a";  # Selection Background
+    base03 = "#6272a4";  # Comments, Invisibles, Line Highlighting
+    base04 = "#6272a4";  # Dark Foreground (status bars)
+    base05 = "#f8f8f2";  # Default Foreground, Caret, Delimiters, Operators
+    base06 = "#f8f8f2";  # Light Foreground
+    base07 = "#ffffff";  # Light Background
+    base08 = "#ff5555";  # Variables, XML Tags, Markup Link Text, Diff Deleted (red)
+    base09 = "#ffb86c";  # Integers, Boolean, Constants, Markup Link Url (orange)
+    base0A = "#f1fa8c";  # Classes, Markup Bold, Search Text Background (yellow)
+    base0B = "#50fa7b";  # Strings, Inherited Class, Markup Code, Diff Inserted (green)
+    base0C = "#8be9fd";  # Support, Regular Expressions, Escape Characters (cyan)
+    base0D = "#bd93f9";  # Functions, Methods, Attribute IDs, Headings (purple)
+    base0E = "#ff79c6";  # Keywords, Storage, Selector, Diff Changed (pink)
+    base0F = "#ff79c6";  # Deprecated, Embedded Language Tags (pink)
   };
 in
 {
   inherit colors;
 
-  defaultWallpaper = ./dracula/assets/wallpaper.jpg;
-  powermenuImage = ./dracula/assets/powermenu.png;
-  launcherImage = ./dracula/assets/launcher.png;
+  defaultWallpaper = ./assets/wallpaper.jpg;
+  powermenuImage = ./assets/powermenu.png;
+  launcherImage = ./assets/launcher.png;
 
   programs = {
     helix = {
@@ -99,6 +99,18 @@ in
         invalid = "#ff5555";               # red
       };
       tree-edge = "#bd93f9";               # purple
+      git-status = {
+        default = "#f8f8f2";               # foreground
+        unmodified = "#6272a4";            # comment
+        ignored = "#6272a4";               # comment
+        new-in-index = "#50fa7b";          # green
+        new-in-workdir = "#50fa7b";        # green
+        typechange = "#f1fa8c";            # yellow
+        deleted = "#ff5555";               # red
+        renamed = "#50fa7b";               # green
+        modified = "#f1fa8c";              # yellow
+        conflicted = "#ff5555";            # red
+      };
     };
 
     zellij.settings.theme = "dracula";
