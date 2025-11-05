@@ -160,8 +160,11 @@ in
 
     rofi.colors = {
       background = colors.base00;
+      background-alt = colors.base01;
       foreground = colors.base05;
       selected = colors.base0E;
+      active = colors.base0C;
+      urgent = colors.base08;
     };
   };
 }
