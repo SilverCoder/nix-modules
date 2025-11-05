@@ -28,7 +28,7 @@ in
 
   defaultWallpaper = ./assets/frappe.png;
 
-  powermenuImage = ./assets/frappe-powermenu.png;
+  powermenuImage = ./assets/frappe.png;
   launcherImage = ./assets/frappe.png;
 
   programs = {
@@ -177,8 +177,11 @@ in
 
     rofi.colors = {
       background = colors.base00;
+      background-alt = colors.base02;
       foreground = colors.base05;
       selected = colors.base0E;
+      active = colors.base0D;
+      urgent = colors.base08;
     };
   };
 }

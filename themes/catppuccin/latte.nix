@@ -28,7 +28,7 @@ in
 
   defaultWallpaper = ./assets/latte.jpg;
 
-  powermenuImage = ./assets/latte-powermenu.png;
+  powermenuImage = ./assets/latte.jpg;
   launcherImage = ./assets/latte.jpg;
 
   programs = {
@@ -177,8 +177,11 @@ in
 
     rofi.colors = {
       background = colors.base00;
+      background-alt = colors.base02;
       foreground = colors.base05;
       selected = colors.base0E;
+      active = colors.base0D;
+      urgent = colors.base08;
     };
   };
 }
