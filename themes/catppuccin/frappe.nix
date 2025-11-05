@@ -139,8 +139,9 @@ in
       customTheme = pkgs.writeText "catppuccin-frappe-custom.rasi" ''
         @import "${catppuccinTheme}/basic/.local/share/rofi/themes/catppuccin-frappe.rasi"
 
-        * {
-            fg-col2: ${colors.base00};
+        element selected {
+            background-color: @selected-col;
+            text-color: ${colors.base00} !important;
         }
       '';
     in {
