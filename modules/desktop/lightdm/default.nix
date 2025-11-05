@@ -7,7 +7,7 @@ let
     enable = mkOption {
       type = types.bool;
       default = false;
-      description = "Enable LightDM display manager with Dracula theme";
+      description = "Enable LightDM display manager";
     };
   };
 in
