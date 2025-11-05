@@ -33,7 +33,7 @@ in
     helix = {
       themes.dracula-custom = {
         inherits = "dracula";
-        "ui.background".bg = colors.base00;
+        "ui.background".bg = "#282a35";
       };
       settings.theme = "dracula-custom";
     };

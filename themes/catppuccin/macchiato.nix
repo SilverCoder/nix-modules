@@ -34,7 +34,7 @@ in
     helix = {
       themes.catppuccin-macchiato-custom = {
         inherits = "catppuccin_macchiato";
-        "ui.background".bg = colors.base00;
+        "ui.background".bg = "#242739";
       };
       settings.theme = "catppuccin-macchiato-custom";
     };

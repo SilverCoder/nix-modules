@@ -34,7 +34,7 @@ in
     helix = {
       themes.catppuccin-frappe-custom = {
         inherits = "catppuccin_frappe";
-        "ui.background".bg = colors.base00;
+        "ui.background".bg = "#303445";
       };
       settings.theme = "catppuccin-frappe-custom";
     };

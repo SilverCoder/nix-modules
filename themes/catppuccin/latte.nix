@@ -34,7 +34,7 @@ in
     helix = {
       themes.catppuccin-latte-custom = {
         inherits = "catppuccin_latte";
-        "ui.background".bg = colors.base00;
+        "ui.background".bg = "#eff1f4";
       };
       settings.theme = "catppuccin-latte-custom";
     };
