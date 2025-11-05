@@ -137,6 +137,13 @@ in
         rev = "5350da41a11814f950c3354f090b90d4674a95ce";
         sha256 = "sha256-DNorfyl3C4RBclF2KDgwvQQwixpTwSRu7fIvihPN8JY=";
       })}/basic/.local/share/rofi/themes/catppuccin-latte.rasi";
+      extraConfig = {
+        element-text = {
+          selected-normal = "rgba ( 239, 241, 245, 100 % )";
+          selected-urgent = "rgba ( 239, 241, 245, 100 % )";
+          selected-active = "rgba ( 239, 241, 245, 100 % )";
+        };
+      };
     };
   };
 

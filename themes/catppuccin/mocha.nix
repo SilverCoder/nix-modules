@@ -137,6 +137,13 @@ in
         rev = "5350da41a11814f950c3354f090b90d4674a95ce";
         sha256 = "sha256-DNorfyl3C4RBclF2KDgwvQQwixpTwSRu7fIvihPN8JY=";
       })}/basic/.local/share/rofi/themes/catppuccin-mocha.rasi";
+      extraConfig = {
+        element-text = {
+          selected-normal = "rgba ( 30, 30, 46, 100 % )";
+          selected-urgent = "rgba ( 30, 30, 46, 100 % )";
+          selected-active = "rgba ( 30, 30, 46, 100 % )";
+        };
+      };
     };
   };
 
