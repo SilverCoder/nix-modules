@@ -139,7 +139,7 @@ in
       customTheme = pkgs.writeText "catppuccin-latte-custom.rasi" ''
         @import "${catppuccinTheme}/basic/.local/share/rofi/themes/catppuccin-latte.rasi"
 
-        element-text selected {
+        element selected.normal element-text {
             text-color: ${colors.base00};
         }
       '';
