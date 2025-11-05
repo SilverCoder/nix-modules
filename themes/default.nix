@@ -2,7 +2,7 @@
 let
   mkThemes = pkgs: {
     dracula = import ./dracula.nix { inherit pkgs lib; };
-  };
+  } // (import ./catppuccin { inherit pkgs lib; });
 
   mkThemeOption = themes: lib.mkOption {
     type = lib.types.enum (builtins.attrNames themes);
