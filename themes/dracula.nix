@@ -25,6 +25,10 @@ in
 {
   inherit colors;
 
+  defaultWallpaper = ./dracula/assets/wallpaper.jpg;
+  powermenuImage = ./dracula/assets/powermenu.png;
+  launcherImage = ./dracula/assets/launcher.png;
+
   programs = {
     helix = {
       themes.dracula-custom = {

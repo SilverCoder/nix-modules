@@ -60,7 +60,7 @@ let
         spacing:                     30px;
         padding:                     30px;
         background-color:            transparent;
-        background-image:            url("${./powermenu.png}", height);
+        ${if rofiCfg.powermenuImage != null then "background-image:            url(\"${rofiCfg.powermenuImage}\", height);" else ""}
         children:                    [ "inputbar", "dummy", "message" ];
     }
 
@@ -71,7 +71,7 @@ let
         border-radius:               10px;
         border-color:                @background-alt;
         background-color:            transparent;
-        background-image:            url("${./powermenu.png}", height);
+        ${if rofiCfg.powermenuImage != null then "background-image:            url(\"${rofiCfg.powermenuImage}\", height);" else ""}
     }
 
     /*****----- Inputbar -----*****/

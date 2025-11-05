@@ -26,6 +26,11 @@ in
 {
   inherit colors;
 
+  defaultWallpaper = ./assets/latte.jpg;
+
+  powermenuImage = ./assets/latte-powermenu.png;
+  launcherImage = ./assets/latte.jpg;
+
   programs = {
     helix.settings.theme = "catppuccin_latte";
 

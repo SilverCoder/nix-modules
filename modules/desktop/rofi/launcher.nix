@@ -74,7 +74,7 @@ let
         spacing:                     10px;
         padding:                     80px 60px;
         background-color:            transparent;
-        background-image:            url("${./launcher.png}", width);
+        ${if rofiCfg.launcherImage != null then "background-image:            url(\"${rofiCfg.launcherImage}\", width);" else ""}
         text-color:                  @foreground;
         orientation:                 horizontal;
         children:                    [ "textbox-prompt-colon", "entry", "dummy", "mode-switcher" ];

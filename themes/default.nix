@@ -32,7 +32,18 @@ in
       options.modules.theme.name = mkThemeOption themes;
       config = {
         inherit (theme) programs services gtk;
-        modules.desktop = theme.modules.desktop;
+        modules.desktop = lib.mkMerge [
+          theme.modules.desktop
+          (lib.mkIf (theme ? defaultWallpaper) {
+            wallpaper = lib.mkDefault theme.defaultWallpaper;
+          })
+          (lib.mkIf (theme ? powermenuImage) {
+            rofi.powermenuImage = lib.mkDefault theme.powermenuImage;
+          })
+          (lib.mkIf (theme ? launcherImage) {
+            rofi.launcherImage = lib.mkDefault theme.launcherImage;
+          })
+        ];
       };
     };
 }

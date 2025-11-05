@@ -26,6 +26,11 @@ in
 {
   inherit colors;
 
+  defaultWallpaper = ./assets/mocha.jpg;
+
+  powermenuImage = ./assets/mocha-powermenu.png;
+  launcherImage = ./assets/mocha.jpg;
+
   programs = {
     helix.settings.theme = "catppuccin_mocha";
 

@@ -26,6 +26,11 @@ in
 {
   inherit colors;
 
+  defaultWallpaper = ./assets/macchiato.jpg;
+
+  powermenuImage = ./assets/macchiato-powermenu.png;
+  launcherImage = ./assets/macchiato.jpg;
+
   programs = {
     helix.settings.theme = "catppuccin_macchiato";
 

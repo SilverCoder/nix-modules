@@ -26,6 +26,11 @@ in
 {
   inherit colors;
 
+  defaultWallpaper = ./assets/frappe.png;
+
+  powermenuImage = ./assets/frappe-powermenu.png;
+  launcherImage = ./assets/frappe.png;
+
   programs = {
     helix.settings.theme = "catppuccin_frappe";
 
