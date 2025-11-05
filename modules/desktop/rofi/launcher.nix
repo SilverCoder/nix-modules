@@ -170,15 +170,15 @@ let
     }
     element selected.normal {
         background-color:            @selected;
-        text-color:                  @foreground;
+        text-color:                  @background;
     }
     element selected.urgent {
         background-color:            @urgent;
-        text-color:                  @foreground;
+        text-color:                  @background;
     }
     element selected.active {
         background-color:            @urgent;
-        text-color:                  @foreground;
+        text-color:                  @background;
     }
     element-icon {
         background-color:            transparent;
