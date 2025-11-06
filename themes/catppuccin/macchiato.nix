@@ -5,7 +5,7 @@ let
   # base16 catppuccin macchiato color scheme
   colors = {
     base00 = "#24273a"; # base
-    base01 = "#181926"; # mantle
+    base01 = "#1e2030"; # mantle
     base02 = "#363a4f"; # surface0
     base03 = "#494d64"; # surface1
     base04 = "#5b6078"; # surface2
