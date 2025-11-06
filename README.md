@@ -65,6 +65,10 @@ mkThemes = pkgs: {
 };
 ```
 
+**Theme implementation notes:**
+
+Catppuccin themes use slightly modified helix background colors (off by one hex digit from base00) to prevent transparent backgrounds in terminal emulators.
+
 ## Usage
 
 ```nix

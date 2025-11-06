@@ -4,31 +4,31 @@ let
 
   # base16 catppuccin macchiato color scheme
   colors = {
-    base00 = "#24273a";  # base
-    base01 = "#1e2030";  # mantle
-    base02 = "#363a4f";  # surface0
-    base03 = "#494d64";  # surface1
-    base04 = "#5b6078";  # surface2
-    base05 = "#cad3f5";  # text
-    base06 = "#f4dbd6";  # rosewater
-    base07 = "#b7bdf8";  # lavender
-    base08 = "#ed8796";  # red
-    base09 = "#f5a97f";  # peach
-    base0A = "#eed49f";  # yellow
-    base0B = "#a6da95";  # green
-    base0C = "#8bd5ca";  # teal
-    base0D = "#8aadf4";  # blue
-    base0E = "#c6a0f6";  # mauve
-    base0F = "#f0c6c6";  # flamingo
+    base00 = "#24273a"; # base
+    base01 = "#181926"; # mantle
+    base02 = "#363a4f"; # surface0
+    base03 = "#494d64"; # surface1
+    base04 = "#5b6078"; # surface2
+    base05 = "#cad3f5"; # text
+    base06 = "#f4dbd6"; # rosewater
+    base07 = "#b7bdf8"; # lavender
+    base08 = "#ed8796"; # red
+    base09 = "#f5a97f"; # peach
+    base0A = "#eed49f"; # yellow
+    base0B = "#a6da95"; # green
+    base0C = "#8bd5ca"; # teal
+    base0D = "#8aadf4"; # blue
+    base0E = "#c6a0f6"; # mauve
+    base0F = "#f0c6c6"; # flamingo
   };
 in
 {
   inherit colors;
 
-  defaultWallpaper = ./assets/macchiato.jpg;
+  defaultWallpaper = ./assets/mocha.jpg;
 
-  powermenuImage = ./assets/macchiato.jpg;
-  launcherImage = ./assets/macchiato.jpg;
+  powermenuImage = ./assets/mocha.jpg;
+  launcherImage = ./assets/mocha.jpg;
 
   programs = {
     helix = {
@@ -129,24 +129,26 @@ in
       theme.flavor.use = "catppuccin-macchiato";
     };
 
-    rofi = let
-      catppuccinTheme = pkgs.fetchFromGitHub {
-        owner = "catppuccin";
-        repo = "rofi";
-        rev = "5350da41a11814f950c3354f090b90d4674a95ce";
-        sha256 = "sha256-DNorfyl3C4RBclF2KDgwvQQwixpTwSRu7fIvihPN8JY=";
-      };
-      customTheme = pkgs.writeText "catppuccin-macchiato-custom.rasi" ''
-        @import "${catppuccinTheme}/basic/.local/share/rofi/themes/catppuccin-macchiato.rasi"
+    rofi =
+      let
+        catppuccinTheme = pkgs.fetchFromGitHub {
+          owner = "catppuccin";
+          repo = "rofi";
+          rev = "5350da41a11814f950c3354f090b90d4674a95ce";
+          sha256 = "sha256-DNorfyl3C4RBclF2KDgwvQQwixpTwSRu7fIvihPN8JY=";
+        };
+        customTheme = pkgs.writeText "catppuccin-macchiato-custom.rasi" ''
+          @import "${catppuccinTheme}/basic/.local/share/rofi/themes/catppuccin-macchiato.rasi"
 
-        element selected.normal {
-            text-color: ${colors.base00};
-        }
-      '';
-    in {
-      font = "Fira Sans Mono 11";
-      theme = toString customTheme;
-    };
+          element selected.normal {
+              text-color: ${colors.base00};
+          }
+        '';
+      in
+      {
+        font = "Fira Sans Mono 11";
+        theme = toString customTheme;
+      };
   };
 
   services.dunst.configFile = "${(pkgs.fetchFromGitHub {
