@@ -119,14 +119,48 @@ in
 
     zellij.settings.theme = "catppuccin-latte";
 
-    yazi = {
-      flavors.catppuccin-latte = pkgs.fetchFromGitHub {
-        owner = "catppuccin";
-        repo = "yazi";
-        rev = "043ffae14e7f7fcc136636d5f2c617b5bc2f5e31";
-        sha256 = "sha256-zkL46h1+U9ThD4xXkv1uuddrlQviEQD3wNZFRgv7M8Y=";
+    yazi.theme = {
+      manager = {
+        cwd = { fg = colors.base0C; };
+        hovered = { fg = colors.base00; bg = colors.base0D; bold = true; };
+        preview_hovered = { underline = true; };
+        find_keyword = { fg = colors.base0A; italic = true; };
+        find_position = { fg = colors.base0E; bg = "reset"; italic = true; };
+        marker_copied = { fg = colors.base0B; bg = colors.base0B; };
+        marker_cut = { fg = colors.base08; bg = colors.base08; };
+        marker_marked = { fg = colors.base0C; bg = colors.base0C; };
+        marker_selected = { fg = colors.base0E; bg = colors.base0E; };
+        count_copied = { fg = colors.base00; bg = colors.base0B; };
+        count_cut = { fg = colors.base00; bg = colors.base08; };
+        count_selected = { fg = colors.base00; bg = colors.base0E; };
+        border_symbol = "│";
+        border_style = { fg = colors.base03; };
       };
-      theme.flavor.use = "catppuccin-latte";
+      tabs = {
+        active = { fg = colors.base00; bg = colors.base05; bold = true; };
+        inactive = { fg = colors.base05; bg = colors.base02; };
+      };
+      status = {
+        separator_style = { fg = colors.base03; bg = colors.base03; };
+        progress_label = { fg = "#ffffff"; bold = true; };
+        progress_normal = { fg = colors.base0D; bg = colors.base02; };
+        progress_error = { fg = colors.base08; bg = colors.base02; };
+        perm_type = { fg = colors.base0D; };
+        perm_read = { fg = colors.base0A; };
+        perm_write = { fg = colors.base08; };
+        perm_exec = { fg = colors.base0B; };
+        perm_sep = { fg = colors.base03; };
+      };
+      filetype.rules = [
+        { fg = colors.base0D; mime = "image/*"; }
+        { fg = colors.base0B; mime = "video/*"; }
+        { fg = colors.base0A; mime = "audio/*"; }
+        { fg = colors.base09; mime = "application/*zip*"; }
+        { fg = colors.base09; mime = "application/*tar*"; }
+        { fg = colors.base09; mime = "application/*compressed*"; }
+        { fg = colors.base09; mime = "application/*rar*"; }
+        { fg = colors.base0E; name = "*/"; }
+      ];
     };
 
     rofi = let
