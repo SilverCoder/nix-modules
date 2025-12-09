@@ -1,19 +1,29 @@
-# nix-modules
+# CLAUDE.md
+
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+
+## overview
 
 public nixos/home-manager modules. see README.md for full docs.
 
-## quick reference
+## development
 
-**homeManagerModules:** cli, desktop, development, machine, system, theme
-**nixosModules:** desktop, machine
-**lib.utils:** age, git, gh, rclone, ssh
+no build/test/lint setup. validate manually:
+- `nix flake check` - syntax validation
+- `nix eval .#homeManagerModules.cli` - test module evaluation
 
-## theme system
+## architecture quick-reference
 
-base16 themes (dracula default). self-contained: export colors + full configs.
-select: `modules.theme.name = "dracula"`
-add theme: create themes/name.nix, add to mkThemes in themes/default.nix
+**module pattern:** `config.modules.{category}.{feature}` namespace with `lib.mkEnableOption` defaulting true
 
-## dependencies
+**feature gating:** modules check `config.modules.machine.features.desktop` for conditional activation
 
-flake inputs: helix, helix-gpt, rust-overlay (see flake.nix)
+**dual-mode:** desktop & machine export both nixosModule + homeManagerModule
+
+**auto-enable:** bspwm enables dunst, picom, polybar, rofi, sxhkd
+
+## implementation notes
+
+**helix bg:** themes use bg one hex digit off base00 to prevent terminal transparency issues
+
+**helix-gpt:** private flake input, requires ssh access
