@@ -217,6 +217,37 @@ in
       preselBorderColor = colors.base03;
     };
 
+    cosmic = {
+      accentColor = colors.base0E;
+      bgColor = colors.base00;
+      textColor = colors.base05;
+      surfaceColors = {
+        surface0 = colors.base01;
+        surface1 = colors.base02;
+        surface2 = colors.base03;
+      };
+      semanticColors = {
+        success = colors.base0B;
+        warning = colors.base0A;
+        destructive = colors.base08;
+      };
+      activeHint = 3;
+      gapInner = 8;
+      gapOuter = 0;
+      panel = {
+        position = "Top";
+        applets = {
+          left = [ "com.system76.CosmicPanelWorkspacesButton" ];
+          center = [ "com.system76.CosmicAppletTime" ];
+          right = [
+            "com.system76.CosmicAppletStatusArea"
+            "com.system76.CosmicAppletAudio"
+            "com.system76.CosmicAppletPower"
+          ];
+        };
+      };
+    };
+
     polybar.colors = {
       transparent = "#00000000";
       background = themeLib.mkOpacity 0.4 colors.base00;

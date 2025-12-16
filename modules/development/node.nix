@@ -17,6 +17,14 @@ in
           ${nodejs}/bin/corepack enable --install-directory $out/bin
         '')
       ];
+
+      sessionVariables = {
+        NPM_CONFIG_PREFIX = "$HOME/.npm-global";
+      };
+
+      sessionPath = [
+        "$HOME/.npm-global/bin"
+      ];
     };
   };
 }

@@ -19,6 +19,9 @@ in
       services.xserver.displayManager.lightdm = {
         enable = true;
         background = desktopCfg.wallpaper;
+        extraConfig = ''
+          sessions-directory=/run/current-system/sw/share/wayland-sessions:/run/current-system/sw/share/xsessions
+        '';
       };
     };
   };
