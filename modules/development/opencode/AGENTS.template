@@ -1,0 +1,20 @@
+- be extremely concise. sacrifice grammar for concision.
+- critical feedback over praise.
+- commit messages: brief. no fluff. don't add authored with claude.
+- don't automate or do things without asking.
+
+## github
+- gh cli: when in directory, use corresponding config:
+  - `~/development/silvercoder` → `gh-silvercoder`
+  - `~/development/geobility-systems` → `gh-geobility`
+  - `~/development/artfabrik` → `gh-artfabrik`
+
+## plans
+- end each plan with unresolved questions (if any).
+- questions: extremely concise. sacrifice grammar for concision.
+
+## environment
+- nixos system.
+- prefer nix flakes for reproducible environments.
+- `,` command: run prebuilt binaries.
+- `nix run`: use programs from nixpkgs.

@@ -16,6 +16,7 @@ in
     ./dotnet.nix
     ./git.nix
     ./node.nix
+    ./opencode
     ./rust.nix
     ./unity
     ./vscode.nix
