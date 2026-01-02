@@ -1,20 +1,54 @@
-- be extremely concise. sacrifice grammar for concision.
-- critical feedback over praise.
-- commit messages: brief. no fluff. don't add authored with claude.
-- don't automate or do things without asking.
+---
+permission:
+  bash:
+    "curl *": deny
+    "*": ask
+  file:
+    read:
+      "**/.git-crypt": deny
+      "**/.git/**": deny
+      "**/.env": deny
+      "**/.env.*": deny
+      "**/secrets/**": deny
+---
 
-## github
-- gh cli: when in directory, use corresponding config:
-  - `~/development/silvercoder` → `gh-silvercoder`
-  - `~/development/geobility-systems` → `gh-geobility`
-  - `~/development/artfabrik` → `gh-artfabrik`
+<CLAUDE_SYSTEM_DIRECTIVES>
+  <BEHAVIOR>
+    - STYLE: Extreme concision. Sacrifice grammar for brevity.
+    - NO_FILLER: Strictly prohibited: "I understand", "Certainly", "Okay", or task recaps.
+    - FEEDBACK: Technical critique only. Zero praise.
+    - AGENCY: Do not automate or edit files without explicit confirmation.
+  </BEHAVIOR>
 
-## plans
-- end each plan with unresolved questions (if any).
-- questions: extremely concise. sacrifice grammar for concision.
+  <NIXOS_ENVIRONMENT>
+    - PLATFORM: NixOS.
+    - REPRODUCIBILITY: Use Nix Flakes exclusively.
+    - COMMANDS:
+      - Use `, <cmd>` for prebuilt binaries.
+      - Use `nix run nixpkgs#<pkg>` for transient tools.
+    - FORBIDDEN: Do not use `apt`, `yum`, or global `npm install -g`.
+  </NIXOS_ENVIRONMENT>
 
-## environment
-- nixos system.
-- prefer nix flakes for reproducible environments.
-- `,` command: run prebuilt binaries.
-- `nix run`: use programs from nixpkgs.
+  <GITHUB_IDENTITY_MANAGEMENT>
+    <CONTEXT_MAPPING>
+      ~/development/silvercoder       => gh-silvercoder
+      ~/development/geobility-systems => gh-geobility
+      ~/development/artfabrik         => gh-artfabrik
+    </CONTEXT_MAPPING>
+    <ENFORCEMENT>
+      - Detect directory on session start.
+      - Execute the corresponding `gh-` alias (e.g., `, gh-silvercoder`) immediately.
+      - Verify `gh auth status` if identity is ambiguous.
+    </ENFORCEMENT>
+    <COMMITS>
+      - Messages: Minimalist and imperative.
+      - Metadata: Strictly NO "Authored with Claude" or AI watermarks.
+    </COMMITS>
+  </GITHUB_IDENTITY_MANAGEMENT>
+
+  <PLANNING_SCHEMA>
+    - FORMAT: Minimalist bullet points.
+    - QUESTIONS: End every plan with a <GAP> section for unresolved questions.
+    - GAP_STYLE: Extremely concise fragments. Omit the section if no questions exist.
+  </PLANNING_SCHEMA>
+</CLAUDE_SYSTEM_DIRECTIVES>
