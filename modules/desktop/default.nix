@@ -38,6 +38,7 @@ in
         (import ./bspwm { inherit config lib pkgs; }).homeManagerModule
         (import ./cosmic { inherit config lib pkgs; }).homeManagerModule
         (import ./lightdm { inherit config lib pkgs; }).homeManagerModule
+        (import ./lock { inherit config lib pkgs; }).homeManagerModule
         (import ./sddm { inherit config lib pkgs; }).homeManagerModule
         ./dunst
         ./localsend.nix

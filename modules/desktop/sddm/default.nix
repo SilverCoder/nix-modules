@@ -82,6 +82,8 @@ in
         };
       in
       {
+        environment.systemPackages = [ sddm-astronaut-package ];
+
         services.displayManager.sddm = {
           enable = true;
           wayland.enable = false;
@@ -92,7 +94,7 @@ in
               InputMethod = "";
             };
             X11 = {
-              ServerArguments = "-nolisten tcp -dpi 96";
+              ServerArguments = "-nolisten tcp";
             };
           };
         };

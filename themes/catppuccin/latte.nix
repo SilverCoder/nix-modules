@@ -22,12 +22,11 @@ let
     base0F = "#dd7878";  # flamingo
   };
 
-  wallpaper = ./assets/latte.jpg;
 in
 {
   inherit colors;
 
-  defaultWallpaper = wallpaper;
+  wallpaper = ./assets/latte.jpg;
 
   powermenuImage = ./assets/latte.jpg;
   launcherImage = ./assets/latte.jpg;
@@ -209,6 +208,14 @@ in
     };
   };
 
+  pointerCursor = {
+    name = "catppuccin-latte-dark-cursors";
+    package = pkgs.catppuccin-cursors.latteDark;
+    size = 32;
+    gtk.enable = true;
+    x11.enable = true;
+  };
+
   modules.desktop = {
     bspwm = {
       normalBorderColor = colors.base02;
@@ -241,6 +248,18 @@ in
       textAlt = colors.base04;
       accent = colors.base0E;
       warning = colors.base08;
+    };
+
+    lock = {
+      enable = true;
+      colors = {
+        background = colors.base00;
+        backgroundAlt = colors.base02;
+        text = colors.base05;
+        textAlt = colors.base04;
+        accent = colors.base0E;
+        warning = colors.base08;
+      };
     };
   };
 }

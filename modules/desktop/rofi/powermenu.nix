@@ -180,7 +180,7 @@ pkgs.writeShellApplication {
 
     run_cmd() {
     		if [[ $1 == '--lock' ]]; then
-            loginctl lock-session
+            lock-screen
     		elif [[ $1 == '--reboot' ]]; then
             systemctl reboot
     		elif [[ $1 == '--logout' ]]; then

@@ -19,10 +19,13 @@ in
     {
       options.modules.theme.name = mkThemeOption themes;
       config = lib.mkMerge [
+        (lib.mkIf (theme ? wallpaper) {
+          modules.desktop.wallpaper = lib.mkDefault theme.wallpaper;
+        })
         (lib.mkIf (config.services.xserver.displayManager.lightdm.enable or false) {
           services.xserver.displayManager.lightdm = {
             greeters.gtk = theme.gtk;
-            background = lib.mkIf (theme ? defaultWallpaper) theme.defaultWallpaper;
+            background = lib.mkIf (theme ? wallpaper) theme.wallpaper;
           };
         })
         (lib.mkIf (theme ? modules.desktop.sddm) {
@@ -40,10 +43,11 @@ in
       options.modules.theme.name = mkThemeOption themes;
       config = {
         inherit (theme) programs services gtk;
+        home.pointerCursor = lib.mkIf (theme ? pointerCursor) theme.pointerCursor;
         modules.desktop = lib.mkMerge [
           theme.modules.desktop
-          (lib.mkIf (theme ? defaultWallpaper) {
-            wallpaper = lib.mkDefault theme.defaultWallpaper;
+          (lib.mkIf (theme ? wallpaper) {
+            wallpaper = lib.mkDefault theme.wallpaper;
           })
           (lib.mkIf (theme ? powermenuImage) {
             rofi.powermenuImage = lib.mkDefault theme.powermenuImage;

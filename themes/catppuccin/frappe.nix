@@ -22,12 +22,11 @@ let
     base0F = "#eebebe";  # flamingo
   };
 
-  wallpaper = ./assets/frappe.png;
 in
 {
   inherit colors;
 
-  defaultWallpaper = wallpaper;
+  wallpaper = ./assets/frappe.png;
 
   powermenuImage = ./assets/frappe.png;
   launcherImage = ./assets/frappe.png;
@@ -209,6 +208,14 @@ in
     };
   };
 
+  pointerCursor = {
+    name = "catppuccin-frappe-light-cursors";
+    package = pkgs.catppuccin-cursors.frappeLight;
+    size = 32;
+    gtk.enable = true;
+    x11.enable = true;
+  };
+
   modules.desktop = {
     bspwm = {
       normalBorderColor = colors.base02;
@@ -241,6 +248,18 @@ in
       textAlt = colors.base04;
       accent = colors.base0E;
       warning = colors.base08;
+    };
+
+    lock = {
+      enable = true;
+      colors = {
+        background = colors.base00;
+        backgroundAlt = colors.base02;
+        text = colors.base05;
+        textAlt = colors.base04;
+        accent = colors.base0E;
+        warning = colors.base08;
+      };
     };
   };
 }
