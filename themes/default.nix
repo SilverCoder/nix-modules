@@ -18,12 +18,17 @@ in
     in
     {
       options.modules.theme.name = mkThemeOption themes;
-      config = lib.mkIf (config.services.xserver.displayManager.lightdm.enable or false) {
-        services.xserver.displayManager.lightdm = {
-          greeters.gtk = theme.gtk;
-          background = lib.mkIf (theme ? defaultWallpaper) theme.defaultWallpaper;
-        };
-      };
+      config = lib.mkMerge [
+        (lib.mkIf (config.services.xserver.displayManager.lightdm.enable or false) {
+          services.xserver.displayManager.lightdm = {
+            greeters.gtk = theme.gtk;
+            background = lib.mkIf (theme ? defaultWallpaper) theme.defaultWallpaper;
+          };
+        })
+        {
+          modules.desktop = theme.modules.desktop;
+        }
+      ];
     };
 
   homeManagerModule = { config, pkgs, ... }:
