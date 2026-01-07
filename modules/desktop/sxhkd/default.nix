@@ -40,7 +40,7 @@ in
         {
           enable = true;
           keybindings = with pkgs; {
-            "super + Escape" = "${lightdm}/bin/dm-tool lock";
+            "super + Escape" = "loginctl lock-session";
             "super + space" = "${rofiCfg.launcher}/bin/launcher";
             "super + Tab" = "${rofiCfg.launcher}/bin/launcher window";
             "super + b" = "${google-chrome}/bin/google-chrome-stable --enable-unsafe-webgpu";
