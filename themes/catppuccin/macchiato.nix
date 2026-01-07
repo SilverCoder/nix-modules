@@ -268,7 +268,7 @@ in
     sddm.package = pkgs.sddm-astronaut.override {
       embeddedTheme = "black_hole";
       themeConfig = {
-        Background = toString defaultWallpaper;
+        Background = toString ./assets/mocha.jpg;
         FormBackgroundColor = colors.base00;
         BackgroundColor = colors.base00;
         DimBackgroundColor = colors.base00;
