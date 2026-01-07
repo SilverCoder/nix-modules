@@ -25,8 +25,8 @@ in
             background = lib.mkIf (theme ? defaultWallpaper) theme.defaultWallpaper;
           };
         })
-        (lib.mkIf (theme ? modules.desktop) {
-          modules.desktop = theme.modules.desktop;
+        (lib.mkIf (theme ? modules.desktop.sddm) {
+          modules.desktop.sddm = theme.modules.desktop.sddm;
         })
       ];
     };

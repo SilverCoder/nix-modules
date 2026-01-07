@@ -37,63 +37,77 @@ let
       };
     };
   };
-
-  sddmPackage = pkgs.sddm-astronaut.override {
-    embeddedTheme = "black_hole";
-    themeConfig = {
-      Background = toString desktopCfg.wallpaper;
-      FormBackgroundColor = cfg.colors.background;
-      BackgroundColor = cfg.colors.background;
-      DimBackgroundColor = cfg.colors.background;
-      LoginFieldBackgroundColor = cfg.colors.backgroundAlt;
-      PasswordFieldBackgroundColor = cfg.colors.backgroundAlt;
-      LoginFieldTextColor = cfg.colors.text;
-      PasswordFieldTextColor = cfg.colors.text;
-      UserIconColor = cfg.colors.text;
-      PasswordIconColor = cfg.colors.text;
-      PlaceholderTextColor = cfg.colors.textAlt;
-      WarningColor = cfg.colors.warning;
-      LoginButtonTextColor = cfg.colors.text;
-      LoginButtonBackgroundColor = cfg.colors.backgroundAlt;
-      SystemButtonsIconsColor = cfg.colors.text;
-      SessionButtonTextColor = cfg.colors.text;
-      VirtualKeyboardButtonTextColor = cfg.colors.text;
-      DropdownTextColor = cfg.colors.text;
-      DropdownSelectedBackgroundColor = cfg.colors.backgroundAlt;
-      DropdownBackgroundColor = cfg.colors.background;
-      HighlightTextColor = cfg.colors.textAlt;
-      HighlightBackgroundColor = cfg.colors.backgroundAlt;
-      HighlightBorderColor = cfg.colors.backgroundAlt;
-      HoverUserIconColor = cfg.colors.accent;
-      HoverPasswordIconColor = cfg.colors.accent;
-      HoverSystemButtonsIconsColor = cfg.colors.accent;
-      HoverSessionButtonTextColor = cfg.colors.accent;
-      HoverVirtualKeyboardButtonTextColor = cfg.colors.accent;
-      HeaderTextColor = cfg.colors.text;
-      DateTextColor = cfg.colors.text;
-      TimeTextColor = cfg.colors.text;
-    };
-  };
 in
 {
   nixosModule = {
     options.modules.desktop.sddm = options;
 
-    config = lib.mkIf (desktopCfg.enable && cfg.enable) {
-      services.displayManager.sddm = {
-        enable = true;
-        wayland.enable = true;
-        theme = "sddm-astronaut-theme";
-        package = pkgs.kdePackages.sddm;
-      };
+    config = lib.mkIf (desktopCfg.enable && cfg.enable) (
+      let
+        sddm-astronaut-package = pkgs.sddm-astronaut.override {
+          embeddedTheme = "black_hole";
+          themeConfig = {
+            Background = toString desktopCfg.wallpaper;
+            FormBackgroundColor = cfg.colors.background;
+            BackgroundColor = cfg.colors.background;
+            DimBackgroundColor = cfg.colors.background;
+            LoginFieldBackgroundColor = cfg.colors.backgroundAlt;
+            PasswordFieldBackgroundColor = cfg.colors.backgroundAlt;
+            LoginFieldTextColor = cfg.colors.text;
+            PasswordFieldTextColor = cfg.colors.text;
+            UserIconColor = cfg.colors.text;
+            PasswordIconColor = cfg.colors.text;
+            PlaceholderTextColor = cfg.colors.textAlt;
+            WarningColor = cfg.colors.warning;
+            LoginButtonTextColor = cfg.colors.text;
+            LoginButtonBackgroundColor = cfg.colors.backgroundAlt;
+            SystemButtonsIconsColor = cfg.colors.text;
+            SessionButtonTextColor = cfg.colors.text;
+            VirtualKeyboardButtonTextColor = cfg.colors.text;
+            DropdownTextColor = cfg.colors.text;
+            DropdownSelectedBackgroundColor = cfg.colors.backgroundAlt;
+            DropdownBackgroundColor = cfg.colors.background;
+            HighlightTextColor = cfg.colors.textAlt;
+            HighlightBackgroundColor = cfg.colors.backgroundAlt;
+            HighlightBorderColor = cfg.colors.backgroundAlt;
+            HoverUserIconColor = cfg.colors.accent;
+            HoverPasswordIconColor = cfg.colors.accent;
+            HoverSystemButtonsIconsColor = cfg.colors.accent;
+            HoverSessionButtonTextColor = cfg.colors.accent;
+            HoverVirtualKeyboardButtonTextColor = cfg.colors.accent;
+            HeaderTextColor = cfg.colors.text;
+            DateTextColor = cfg.colors.text;
+            TimeTextColor = cfg.colors.text;
+          };
+        };
+      in
+      {
+        services.displayManager.sddm = {
+          enable = true;
+          wayland.enable = false;
+          theme = "sddm-astronaut-theme";
+          extraPackages = [ sddm-astronaut-package ];
+          settings = {
+            General = {
+              InputMethod = "";
+            };
+            X11 = {
+              ServerArguments = "-nolisten tcp -dpi 96";
+            };
+          };
+        };
 
-      services.xserver.xkb = {
-        layout = "de";
-        variant = "";
-      };
-
-      environment.systemPackages = [ sddmPackage ];
-    };
+        services.xserver = {
+          xkb = {
+            layout = "de";
+            variant = "";
+          };
+          displayManager.setupCommands = ''
+            ${pkgs.xorg.xrandr}/bin/xrandr --auto
+          '';
+        };
+      }
+    );
   };
 
   homeManagerModule = {
