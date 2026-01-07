@@ -10,9 +10,47 @@ let
       description = "Enable SDDM display manager";
     };
 
-    package = mkOption {
-      type = types.package;
-      description = "SDDM theme package (set by theme module)";
+    colors = mkOption {
+      type = types.attrsOf types.str;
+      default = {};
+      description = "SDDM theme colors (set by theme module)";
+    };
+  };
+
+  themePackage = pkgs.sddm-astronaut.override {
+    embeddedTheme = "black_hole";
+    themeConfig = {
+      Background = toString desktopCfg.wallpaper;
+      FormBackgroundColor = cfg.colors.background;
+      BackgroundColor = cfg.colors.background;
+      DimBackgroundColor = cfg.colors.background;
+      LoginFieldBackgroundColor = cfg.colors.surface;
+      PasswordFieldBackgroundColor = cfg.colors.surface;
+      LoginFieldTextColor = cfg.colors.text;
+      PasswordFieldTextColor = cfg.colors.text;
+      UserIconColor = cfg.colors.text;
+      PasswordIconColor = cfg.colors.text;
+      PlaceholderTextColor = cfg.colors.textDim;
+      WarningColor = cfg.colors.warning;
+      LoginButtonTextColor = cfg.colors.text;
+      LoginButtonBackgroundColor = cfg.colors.surface;
+      SystemButtonsIconsColor = cfg.colors.text;
+      SessionButtonTextColor = cfg.colors.text;
+      VirtualKeyboardButtonTextColor = cfg.colors.text;
+      DropdownTextColor = cfg.colors.text;
+      DropdownSelectedBackgroundColor = cfg.colors.surface;
+      DropdownBackgroundColor = cfg.colors.background;
+      HighlightTextColor = cfg.colors.textDim;
+      HighlightBackgroundColor = cfg.colors.surface;
+      HighlightBorderColor = cfg.colors.surface;
+      HoverUserIconColor = cfg.colors.accent;
+      HoverPasswordIconColor = cfg.colors.accent;
+      HoverSystemButtonsIconsColor = cfg.colors.accent;
+      HoverSessionButtonTextColor = cfg.colors.accent;
+      HoverVirtualKeyboardButtonTextColor = cfg.colors.accent;
+      HeaderTextColor = cfg.colors.text;
+      DateTextColor = cfg.colors.text;
+      TimeTextColor = cfg.colors.text;
     };
   };
 in
@@ -33,7 +71,7 @@ in
         variant = "";
       };
 
-      environment.systemPackages = [ cfg.package ];
+      environment.systemPackages = [ themePackage ];
     };
   };
 

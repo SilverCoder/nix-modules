@@ -265,41 +265,13 @@ in
       urgent = colors.base08;
     };
 
-    sddm.package = pkgs.sddm-astronaut.override {
-      embeddedTheme = "black_hole";
-      themeConfig = {
-        Background = toString ./assets/mocha.jpg;
-        FormBackgroundColor = colors.base00;
-        BackgroundColor = colors.base00;
-        DimBackgroundColor = colors.base00;
-        LoginFieldBackgroundColor = colors.base02;
-        PasswordFieldBackgroundColor = colors.base02;
-        LoginFieldTextColor = colors.base05;
-        PasswordFieldTextColor = colors.base05;
-        UserIconColor = colors.base05;
-        PasswordIconColor = colors.base05;
-        PlaceholderTextColor = colors.base04;
-        WarningColor = colors.base08;
-        LoginButtonTextColor = colors.base05;
-        LoginButtonBackgroundColor = colors.base02;
-        SystemButtonsIconsColor = colors.base05;
-        SessionButtonTextColor = colors.base05;
-        VirtualKeyboardButtonTextColor = colors.base05;
-        DropdownTextColor = colors.base05;
-        DropdownSelectedBackgroundColor = colors.base02;
-        DropdownBackgroundColor = colors.base00;
-        HighlightTextColor = colors.base04;
-        HighlightBackgroundColor = colors.base02;
-        HighlightBorderColor = colors.base02;
-        HoverUserIconColor = colors.base0E;
-        HoverPasswordIconColor = colors.base0E;
-        HoverSystemButtonsIconsColor = colors.base0E;
-        HoverSessionButtonTextColor = colors.base0E;
-        HoverVirtualKeyboardButtonTextColor = colors.base0E;
-        HeaderTextColor = colors.base05;
-        DateTextColor = colors.base05;
-        TimeTextColor = colors.base05;
-      };
+    sddm.colors = {
+      background = colors.base00;
+      surface = colors.base02;
+      text = colors.base05;
+      textDim = colors.base04;
+      accent = colors.base0E;
+      warning = colors.base08;
     };
   };
 }

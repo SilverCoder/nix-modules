@@ -76,6 +76,14 @@ in
         echo "Adding MCP server context7"
         ${pkgs.claude-code}/bin/claude mcp add --scope user --transport stdio context7 -- npx -y @upstash/context7@latest || true
       fi
+
+      # Add chrome-devtools MCP server if not already added
+      if [[ -f "$claude_json" ]] && ${pkgs.jq}/bin/jq -e '.mcpServers["chrome-devtools"]' "$claude_json" > /dev/null 2>&1; then
+        echo "MCP server chrome-devtools already added"
+      else
+        echo "Adding MCP server chrome-devtools"
+        ${pkgs.claude-code}/bin/claude mcp add --scope user --transport stdio chrome-devtools -- npx -y chrome-devtools-mcp@latest || true
+      fi
     '';
 
     # Merge default claude.json with existing ~/.claude.json
