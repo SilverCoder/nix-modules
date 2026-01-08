@@ -91,6 +91,8 @@ in
           bspc config active_border_color "${cfg.activeBorderColor}"
           bspc config focused_border_color "${cfg.focusedBorderColor}"
           bspc config presel_feedback_color "${cfg.preselBorderColor}"
+
+          xsetroot -cursor_name left_ptr &
         '';
         startupPrograms = lib.mkMerge [
           ([

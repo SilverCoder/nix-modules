@@ -3,136 +3,132 @@ let
   desktopCfg = config.modules.desktop;
   cfg = config.modules.desktop.lock;
 
-  # Convert #RRGGBB to RRGGBBAA format
   toRGBA = color: alpha:
-    let
-      hex = lib.removePrefix "#" color;
-    in
-    "${hex}${alpha}";
+    let hex = lib.removePrefix "#" color;
+    in "${hex}${alpha}";
 
-  # Betterlockscreen config (X11)
   betterlockscreenConfig = pkgs.writeText "betterlockscreenrc" ''
-    # Betterlockscreen config - themed
+    # layout: centered ring with time/date INSIDE (catppuccin style)
+    lockargs=(
+      --pass-media-keys --pass-screen-keys --pass-volume-keys --pass-power-keys
+      --indicator --clock --force-clock
+      --radius 100 --ring-width 7
+      --ind-pos="x+w/2:y+h/2"
+      --time-str="%H:%M"
+      --time-pos="ix:iy-15"
+      --time-align=0
+      --time-color=${toRGBA cfg.colors.text "ff"}
+      --date-str="%A %d.%m.%Y"
+      --date-pos="ix:iy+20"
+      --date-align=0
+      --date-color=${toRGBA cfg.colors.text "ff"}
+      --time-font="Fira Sans" --date-font="Fira Sans"
+      --time-size=28 --date-size=12
+      --verif-text="" --wrong-text="" --noinput-text=""
+    )
 
-    lockargs=()
-
-    # Background
+    # catppuccin-style: transparent insides, colored rings
     bgcolor=${toRGBA cfg.colors.background "ff"}
-
-    # Login box
-    loginbox=${toRGBA cfg.colors.background "99"}
+    loginbox=00000000
     loginshadow=00000000
 
-    # Ring colors
-    ringcolor=${toRGBA cfg.colors.accent "ff"}
-    insidecolor=${toRGBA cfg.colors.background "cc"}
-    separatorcolor=${toRGBA cfg.colors.backgroundAlt "ff"}
+    ringcolor=${toRGBA cfg.colors.ring "ff"}
+    insidecolor=00000000
+    separatorcolor=00000000
 
-    # Verification ring
-    ringvercolor=${toRGBA cfg.colors.accent "ff"}
-    insidevercolor=${toRGBA cfg.colors.backgroundAlt "cc"}
+    ringvercolor=${toRGBA cfg.colors.ringVerify "ff"}
+    insidevercolor=00000000
 
-    # Wrong password ring
-    ringwrongcolor=${toRGBA cfg.colors.warning "ff"}
-    insidewrongcolor=${toRGBA cfg.colors.warning "66"}
+    ringwrongcolor=${toRGBA cfg.colors.ringWrong "ff"}
+    insidewrongcolor=00000000
 
-    # Text colors
     timecolor=${toRGBA cfg.colors.text "ff"}
-    greetercolor=${toRGBA cfg.colors.textAlt "ff"}
+    datecolor=${toRGBA cfg.colors.text "ff"}
+    greetercolor=${toRGBA cfg.colors.text "ff"}
     layoutcolor=${toRGBA cfg.colors.text "ff"}
-    verifcolor=${toRGBA cfg.colors.text "ff"}
-    wrongcolor=${toRGBA cfg.colors.warning "ff"}
-    modifcolor=${toRGBA cfg.colors.accent "ff"}
+    verifcolor=${toRGBA cfg.colors.ringVerify "ff"}
+    wrongcolor=${toRGBA cfg.colors.ringWrong "ff"}
+    modifcolor=${toRGBA cfg.colors.ringCapsLock "ff"}
 
-    # Key highlight
-    keyhlcolor=${toRGBA cfg.colors.accent "ff"}
-    bshlcolor=${toRGBA cfg.colors.warning "ff"}
+    keyhlcolor=${toRGBA cfg.colors.keyHighlight "ff"}
+    bshlcolor=${toRGBA cfg.colors.bsHighlight "ff"}
 
-    # Effects
     fx_list=(blur)
-    dim_level=${toString cfg.dimLevel}
-    blur_level=${toString cfg.blurLevel}
+    dim_level=0
+    blur_level=1
 
-    # Time/date format
-    time_format="%H:%M"
-    date_format="%A, %d %B"
-
-    # Greeter
-    greeter="${cfg.greeterText}"
+    greeter=""
     locktext=""
-    font="sans-serif"
 
-    # Display
     display_on=0
     span_image=false
   '';
 
-  # Swaylock config (Wayland)
   swaylockConfig = pkgs.writeText "swaylock-config" ''
-    daemonize
     show-failed-attempts
     ignore-empty-password
+    indicator-caps-lock
 
-    # Effects
     screenshots
-    effect-blur=${toString (cfg.blurLevel * 5)}x${toString (cfg.blurLevel * 3)}
-    effect-vignette=0.5:0.5
+    effect-blur=5x3
     fade-in=0.2
 
-    # Colors (RRGGBBAA)
+    # catppuccin-style: transparent insides, colored rings
     color=${toRGBA cfg.colors.background "ff"}
+    inside-color=00000000
+    inside-clear-color=00000000
+    inside-caps-lock-color=00000000
+    inside-ver-color=00000000
+    inside-wrong-color=00000000
 
-    # Inside
-    inside-color=${toRGBA cfg.colors.background "cc"}
-    inside-clear-color=${toRGBA cfg.colors.backgroundAlt "cc"}
-    inside-ver-color=${toRGBA cfg.colors.backgroundAlt "cc"}
-    inside-wrong-color=${toRGBA cfg.colors.warning "66"}
+    ring-color=${toRGBA cfg.colors.ring "ff"}
+    ring-clear-color=${toRGBA cfg.colors.bsHighlight "ff"}
+    ring-caps-lock-color=${toRGBA cfg.colors.ringCapsLock "ff"}
+    ring-ver-color=${toRGBA cfg.colors.ringVerify "ff"}
+    ring-wrong-color=${toRGBA cfg.colors.ringWrong "ff"}
 
-    # Ring
-    ring-color=${toRGBA cfg.colors.accent "ff"}
-    ring-clear-color=${toRGBA cfg.colors.accent "ff"}
-    ring-ver-color=${toRGBA cfg.colors.accent "ff"}
-    ring-wrong-color=${toRGBA cfg.colors.warning "ff"}
-
-    # Line (between ring and inside)
     line-color=00000000
     line-clear-color=00000000
+    line-caps-lock-color=00000000
     line-ver-color=00000000
     line-wrong-color=00000000
 
-    # Separator
-    separator-color=${toRGBA cfg.colors.backgroundAlt "ff"}
+    separator-color=00000000
+    key-hl-color=${toRGBA cfg.colors.keyHighlight "ff"}
+    bs-hl-color=${toRGBA cfg.colors.bsHighlight "ff"}
+    caps-lock-bs-hl-color=${toRGBA cfg.colors.bsHighlight "ff"}
+    caps-lock-key-hl-color=${toRGBA cfg.colors.keyHighlight "ff"}
 
-    # Key highlight
-    key-hl-color=${toRGBA cfg.colors.accent "ff"}
-    bs-hl-color=${toRGBA cfg.colors.warning "ff"}
-
-    # Text
     text-color=${toRGBA cfg.colors.text "ff"}
-    text-clear-color=${toRGBA cfg.colors.text "ff"}
-    text-ver-color=${toRGBA cfg.colors.text "ff"}
-    text-wrong-color=${toRGBA cfg.colors.warning "ff"}
+    text-clear-color=${toRGBA cfg.colors.bsHighlight "ff"}
+    text-caps-lock-color=${toRGBA cfg.colors.ringCapsLock "ff"}
+    text-ver-color=${toRGBA cfg.colors.ringVerify "ff"}
+    text-wrong-color=${toRGBA cfg.colors.ringWrong "ff"}
 
-    # Layout
+    layout-bg-color=00000000
+    layout-border-color=00000000
+    layout-text-color=${toRGBA cfg.colors.text "ff"}
+
+    # layout: centered ring with time/date INSIDE (catppuccin style)
     indicator
     indicator-radius=100
-    indicator-thickness=10
-
-    # Clock
+    indicator-thickness=7
     clock
     timestr=%H:%M
-    datestr=%A, %d %B
-
-    # Font
-    font=sans-serif
-    font-size=24
+    datestr=%A %d.%m.%Y
+    font=Fira Sans
+    font-size=28
   '';
 
-  # Wrapper script
   lockScript = pkgs.writeShellScriptBin "lock-screen" ''
+    # Force English for day/month names
+    export LC_TIME=en_US.UTF-8
+
     if [ "$XDG_SESSION_TYPE" = "wayland" ]; then
       exec ${pkgs.swaylock-effects}/bin/swaylock -C ${swaylockConfig}
     else
+      # Ensure keyboard layout is set before locking
+      ${pkgs.xorg.setxkbmap}/bin/setxkbmap de
       exec ${pkgs.betterlockscreen}/bin/betterlockscreen -l blur
     fi
   '';
@@ -141,56 +137,35 @@ let
     enable = mkOption {
       type = types.bool;
       default = false;
-      description = "Enable screen locker (X11 + Wayland)";
-    };
-
-    greeterText = mkOption {
-      type = types.str;
-      default = "Type password to unlock";
-      description = "Text shown on lock screen";
-    };
-
-    blurLevel = mkOption {
-      type = types.int;
-      default = 1;
-      description = "Blur level (1-5)";
-    };
-
-    dimLevel = mkOption {
-      type = types.int;
-      default = 40;
-      description = "Dim level (0-100)";
+      description = "Enable screen locker";
     };
 
     colors = {
-      background = mkOption {
-        type = types.str;
-        description = "Background color";
-      };
-      backgroundAlt = mkOption {
-        type = types.str;
-        description = "Alternate background color";
-      };
-      text = mkOption {
-        type = types.str;
-        description = "Primary text color";
-      };
-      textAlt = mkOption {
-        type = types.str;
-        description = "Secondary text color";
-      };
-      accent = mkOption {
-        type = types.str;
-        description = "Accent color";
-      };
-      warning = mkOption {
-        type = types.str;
-        description = "Warning/error color";
-      };
+      background = mkOption { type = types.str; description = "Background color (base00)"; };
+      text = mkOption { type = types.str; description = "Primary text color (base05)"; };
+      ring = mkOption { type = types.str; description = "Ring color - normal state (lavender/base07)"; };
+      ringVerify = mkOption { type = types.str; description = "Ring color - verifying (blue/base0D)"; };
+      ringWrong = mkOption { type = types.str; description = "Ring color - wrong password (red/base08)"; };
+      ringCapsLock = mkOption { type = types.str; description = "Ring color - caps lock (peach/base09)"; };
+      keyHighlight = mkOption { type = types.str; description = "Key press highlight (green/base0B)"; };
+      bsHighlight = mkOption { type = types.str; description = "Backspace highlight (rosewater/base06)"; };
     };
   };
 in
 {
+  nixosModule = { lib, ... }: {
+    options.modules.desktop.lock.enable = lib.mkOption {
+      type = lib.types.bool;
+      default = false;
+      description = "Enable screen locker";
+    };
+
+    # PAM for screen lockers (X11 + Wayland) - always enabled
+    config.security.pam.services.i3lock.enable = true;
+    config.security.pam.services.i3lock-color.enable = true;
+    config.security.pam.services.swaylock.enable = true;
+  };
+
   homeManagerModule = {
     options.modules.desktop.lock = options;
 
@@ -201,10 +176,8 @@ in
         pkgs.swaylock-effects
       ];
 
-      # Betterlockscreen config
       xdg.configFile."betterlockscreen/betterlockscreenrc".source = betterlockscreenConfig;
 
-      # Cache wallpaper for betterlockscreen on activation
       home.activation.betterlockscreenCache = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
         if [ -f "${toString desktopCfg.wallpaper}" ]; then
           ${pkgs.betterlockscreen}/bin/betterlockscreen -u "${toString desktopCfg.wallpaper}" --fx blur 2>/dev/null || true

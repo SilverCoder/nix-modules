@@ -31,6 +31,13 @@ in
         (lib.mkIf (theme ? modules.desktop.sddm) {
           modules.desktop.sddm = theme.modules.desktop.sddm;
         })
+        (lib.mkIf (theme ? pointerCursor) {
+          modules.desktop.sddm.cursor = {
+            name = theme.pointerCursor.name;
+            package = theme.pointerCursor.package;
+            size = theme.pointerCursor.size;
+          };
+        })
       ];
     };
 

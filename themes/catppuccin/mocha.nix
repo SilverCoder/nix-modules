@@ -254,11 +254,13 @@ in
       enable = true;
       colors = {
         background = colors.base00;
-        backgroundAlt = colors.base02;
         text = colors.base05;
-        textAlt = colors.base04;
-        accent = colors.base0E;
-        warning = colors.base08;
+        ring = colors.base07;         # lavender
+        ringVerify = colors.base0D;   # blue
+        ringWrong = colors.base08;    # red
+        ringCapsLock = colors.base09; # peach
+        keyHighlight = colors.base0B; # green
+        bsHighlight = colors.base06;  # rosewater
       };
     };
   };

@@ -22,6 +22,7 @@ in
         (import ./bspwm { inherit config lib pkgs; }).nixosModule
         (import ./cosmic { inherit config lib pkgs; }).nixosModule
         (import ./lightdm { inherit config lib pkgs; }).nixosModule
+        (import ./lock { inherit config lib pkgs; }).nixosModule
         (import ./sddm { inherit config lib pkgs; }).nixosModule
       ];
     };

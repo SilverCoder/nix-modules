@@ -10,6 +10,24 @@ let
       description = "Enable SDDM display manager";
     };
 
+    cursor = {
+      name = mkOption {
+        type = types.str;
+        default = "Adwaita";
+        description = "Cursor theme name";
+      };
+      package = mkOption {
+        type = types.nullOr types.package;
+        default = null;
+        description = "Cursor theme package (defaults to adwaita-icon-theme)";
+      };
+      size = mkOption {
+        type = types.int;
+        default = 32;
+        description = "Cursor size";
+      };
+    };
+
     colors = {
       background = mkOption {
         type = types.str;
@@ -80,9 +98,10 @@ in
             TimeTextColor = cfg.colors.text;
           };
         };
+        cursorPackage = if cfg.cursor.package != null then cfg.cursor.package else pkgs.adwaita-icon-theme;
       in
       {
-        environment.systemPackages = [ sddm-astronaut-package ];
+        environment.systemPackages = [ sddm-astronaut-package cursorPackage ];
 
         services.displayManager.sddm = {
           enable = true;
@@ -92,6 +111,10 @@ in
           settings = {
             General = {
               InputMethod = "";
+            };
+            Theme = {
+              CursorTheme = cfg.cursor.name;
+              CursorSize = cfg.cursor.size;
             };
             X11 = {
               ServerArguments = "-nolisten tcp";
