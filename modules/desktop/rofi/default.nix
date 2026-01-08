@@ -1,5 +1,6 @@
 { config, lib, pkgs, ... }:
 let
+  desktopCfg = config.modules.desktop;
   cfg = config.modules.desktop.rofi;
 in
 {
@@ -35,7 +36,7 @@ in
     };
   };
 
-  config = lib.mkIf cfg.enable {
+  config = lib.mkIf (desktopCfg.enable && cfg.enable) {
     programs = {
       rofi.enable = true;
     };

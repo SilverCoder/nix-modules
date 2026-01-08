@@ -224,6 +224,18 @@ in
       preselBorderColor = colors.base03;
     };
 
+    niri = {
+      activeBorderColor = colors.base0D;
+      inactiveBorderColor = colors.base02;
+    };
+
+    waybar.colors = {
+      background = themeLib.mkOpacityCss 0.4 colors.base00;
+      text = colors.base05;
+      text-active = colors.base0E;
+      text-disabled = themeLib.mkOpacityCss 0.4 colors.base05;
+    };
+
     polybar.colors = {
       transparent = "#00000000";
       background = themeLib.mkOpacity 0.4 colors.base00;
@@ -255,12 +267,12 @@ in
       colors = {
         background = colors.base00;
         text = colors.base05;
-        ring = colors.base07;         # lavender
-        ringVerify = colors.base0D;   # blue
-        ringWrong = colors.base08;    # red
-        ringCapsLock = colors.base09; # peach
-        keyHighlight = colors.base0B; # green
-        bsHighlight = colors.base06;  # rosewater
+        ring = colors.base07;
+        ringVerify = colors.base0D;
+        ringWrong = colors.base08;
+        ringCapsLock = colors.base09;
+        keyHighlight = colors.base0B;
+        bsHighlight = colors.base06;
       };
     };
   };

@@ -1,4 +1,4 @@
-{ ... }:
+{ niri ? null, ... }:
 let
   options = { lib, machineCfg, ... }: {
     enable = lib.mkEnableOption "desktop environment modules" // { default = machineCfg.features.desktop; };
@@ -23,6 +23,7 @@ in
         (import ./cosmic { inherit config lib pkgs; }).nixosModule
         (import ./lightdm { inherit config lib pkgs; }).nixosModule
         (import ./lock { inherit config lib pkgs; }).nixosModule
+        (import ./niri { inherit config lib pkgs niri; }).nixosModule
         (import ./sddm { inherit config lib pkgs; }).nixosModule
       ];
     };
@@ -40,10 +41,12 @@ in
         (import ./cosmic { inherit config lib pkgs; }).homeManagerModule
         (import ./lightdm { inherit config lib pkgs; }).homeManagerModule
         (import ./lock { inherit config lib pkgs; }).homeManagerModule
+        (import ./niri { inherit config lib pkgs niri; }).homeManagerModule
         (import ./sddm { inherit config lib pkgs; }).homeManagerModule
         ./dunst
         ./localsend.nix
         ./picom
+        ./waybar
       ];
 
       config = lib.mkIf cfg.enable {

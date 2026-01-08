@@ -9,9 +9,13 @@
     };
     helix-gpt = { url = "git+ssh://git@github.com/SilverCoder/helix-gpt?ref=main"; inputs.nixpkgs.follows = "nixpkgs"; };
     rust-overlay = { url = "github:oxalica/rust-overlay"; inputs.nixpkgs.follows = "nixpkgs"; };
+    niri = { 
+      url = "github:sodiboo/niri-flake"; 
+      inputs.nixpkgs.follows = "nixpkgs"; 
+    };
   };
 
-  outputs = inputs@{ nixpkgs, home-manager, helix, helix-gpt, rust-overlay, ... }:
+  outputs = inputs@{ nixpkgs, home-manager, helix, helix-gpt, rust-overlay, niri, ... }:
     let
       # Support multiple systems
       systems = [ "x86_64-linux" "aarch64-linux" "x86_64-darwin" "aarch64-darwin" ];
