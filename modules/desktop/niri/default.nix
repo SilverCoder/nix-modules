@@ -64,6 +64,8 @@ in
         waybar.enable = true;
       };
 
+      programs.kitty.font.size = lib.mkForce 11;
+
       programs.niri.settings = {
         prefer-no-csd = true;
         hotkey-overlay.skip-at-startup = true;
@@ -103,6 +105,7 @@ in
         ];
 
         environment = {
+          DISPLAY = ":1";
           NIXOS_OZONE_WL = "1";
         };
 
