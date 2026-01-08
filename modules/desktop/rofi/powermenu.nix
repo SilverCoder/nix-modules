@@ -159,6 +159,11 @@ pkgs.writeShellApplication {
     rofi
   ];
   text = ''
+    # Unset DISPLAY to force Wayland backend when available
+    if [ -n "$WAYLAND_DISPLAY" ]; then
+      unset DISPLAY
+    fi
+
     uptime=$(uptime -p | sed -e 's/up //g')
     host=$(hostname)
 

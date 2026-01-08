@@ -107,16 +107,19 @@ in
         };
 
         binds = {
-          "Mod+T".action.spawn = [ "${pkgs.kitty}/bin/kitty" ];
+          "Mod+T".action.spawn = [ "env" "-u" "DISPLAY" "${pkgs.kitty}/bin/kitty" ];
           "Mod+B".action.spawn = [ "${pkgs.google-chrome}/bin/google-chrome-stable" "--enable-unsafe-webgpu" ];
-          "Mod+F".action.spawn = [ "${pkgs.thunar}/bin/thunar" ];
+          "Mod+E".action.spawn = [ "${pkgs.thunar}/bin/thunar" ];
           "Mod+Space".action.spawn = [ "${rofiCfg.launcher}/bin/launcher" ];
-          "Mod+Tab".action.spawn = [ "${rofiCfg.launcher}/bin/launcher" "window" ];
           "Mod+Escape".action.spawn = [ "lock-screen" ];
 
           "Mod+Q".action.close-window = {};
-          "Mod+M".action.fullscreen-window = {};
+          "Mod+F".action.maximize-column = {};
+          "Mod+M".action.expand-column-to-available-width = {};
+          "Mod+Shift+F".action.fullscreen-window = {};
           "Mod+G".action.toggle-window-floating = {};
+          "Mod+Tab".action.toggle-overview = {};
+          "Mod+O".action.toggle-overview = {};
 
           "Mod+H".action.focus-column-left = {};
           "Mod+J".action.focus-window-down = {};
@@ -161,8 +164,25 @@ in
           "Mod+Equal".action.set-column-width = "+10%";
           "Mod+Comma".action.consume-window-into-column = {};
           "Mod+Period".action.expel-window-from-column = {};
+          "Mod+C".action.center-column = {};
+          "Mod+W".action.toggle-column-tabbed-display = {};
 
+          "Print".action.screenshot = {};
+          "Ctrl+Print".action.screenshot-screen = {};
+          "Alt+Print".action.screenshot-window = {};
+
+          "Mod+Alt+H".action.focus-monitor-left = {};
+          "Mod+Alt+L".action.focus-monitor-right = {};
+          "Mod+Alt+Shift+H".action.move-column-to-monitor-left = {};
+          "Mod+Alt+Shift+L".action.move-column-to-monitor-right = {};
+
+          "Mod+Shift+Slash".action.show-hotkey-overlay = {};
           "Mod+Shift+E".action.quit.skip-confirmation = true;
+
+          "Mod+WheelScrollDown".action.focus-column-right = {};
+          "Mod+WheelScrollUp".action.focus-column-left = {};
+          "Mod+Shift+WheelScrollDown".action.focus-workspace-down = {};
+          "Mod+Shift+WheelScrollUp".action.focus-workspace-up = {};
         };
       };
 

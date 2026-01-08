@@ -3,6 +3,11 @@ let
   desktopCfg = config.modules.desktop;
   cfg = config.modules.desktop.waybar;
   rofiCfg = config.modules.desktop.rofi;
+
+  bg = cfg.colors.background or "rgba(36, 39, 58, 0.4)";
+  text = cfg.colors.text or "#cad3f5";
+  textActive = cfg.colors.text-active or "#c6a0f6";
+  textDisabled = cfg.colors.text-disabled or "rgba(202, 211, 245, 0.4)";
 in
 {
   options.modules.desktop.waybar = with lib; {
@@ -25,111 +30,97 @@ in
     programs.waybar = {
       enable = true;
 
-      settings = {
-        left = {
-          layer = "top";
-          position = "top";
-          width = 0;
-          margin-top = 3;
-          margin-left = 3;
-          height = 28;
+      settings.mainBar = {
+        layer = "top";
+        position = "top";
+        height = 28;
+        margin-top = 8;
+        margin-left = 8;
+        margin-right = 8;
 
-          modules-left = [ "niri/workspaces" ];
+        modules-left = [ "tray" ];
+        modules-center = [ "clock" ];
+        modules-right = [ "cpu" "memory" "pulseaudio" "custom/powermenu" ];
 
-          "niri/workspaces" = {
-            format = "{icon}";
-            format-icons = {
-              active = "";
-              default = "";
-            };
-          };
+        clock = {
+          format = " {:%A %d.%m.%Y, Week %W %H:%M:%S}";
+          interval = 1;
         };
 
-        center = {
-          layer = "top";
-          position = "top";
-          width = 0;
-          margin-top = 3;
-          height = 28;
-
-          modules-center = [ "clock" ];
-
-          clock = {
-            format = " {:%A %d.%m.%Y, Week %W}   {:%H:%M:%S}";
-            interval = 1;
-          };
+        cpu = {
+          format = " {usage}%";
+          interval = 2;
         };
 
-        right = {
-          layer = "top";
-          position = "top";
-          width = 0;
-          margin-top = 3;
-          margin-right = 3;
-          height = 28;
+        memory = {
+          format = " {percentage}%";
+          interval = 1;
+        };
 
-          modules-right = [ "cpu" "memory" "pulseaudio" "custom/powermenu" ];
-
-          cpu = {
-            format = " {usage}%";
-            interval = 2;
+        pulseaudio = {
+          format = "{icon} {volume}%";
+          format-muted = " muted";
+          format-icons = {
+            default = [ "" "" "" ];
           };
+          on-click-right = "${pkgs.pavucontrol}/bin/pavucontrol";
+        } // lib.optionalAttrs (cfg.audioSink != null) {
+          on-scroll-up = "${pkgs.pulseaudio}/bin/pactl set-sink-volume ${cfg.audioSink} +2%";
+          on-scroll-down = "${pkgs.pulseaudio}/bin/pactl set-sink-volume ${cfg.audioSink} -2%";
+          on-click = "${pkgs.pulseaudio}/bin/pactl set-sink-mute ${cfg.audioSink} toggle";
+        };
 
-          memory = {
-            format = " {percentage_used}%";
-            interval = 1;
-          };
+        tray = {
+          icon-size = 18;
+          spacing = 8;
+        };
 
-          pulseaudio = {
-            format = "{icon} {volume}%";
-            format-muted = " muted";
-            format-icons = {
-              default = [ "" "" "" ];
-            };
-            on-click-right = "${pkgs.pavucontrol}/bin/pavucontrol";
-          } // lib.optionalAttrs (cfg.audioSink != null) {
-            on-scroll-up = "${pkgs.pulseaudio}/bin/pactl set-sink-volume ${cfg.audioSink} +2%";
-            on-scroll-down = "${pkgs.pulseaudio}/bin/pactl set-sink-volume ${cfg.audioSink} -2%";
-            on-click = "${pkgs.pulseaudio}/bin/pactl set-sink-mute ${cfg.audioSink} toggle";
-          };
-
-          "custom/powermenu" = {
-            format = " ";
-            on-click = "${rofiCfg.powermenu}/bin/powermenu";
-          };
+        "custom/powermenu" = {
+          format = "";
+          tooltip = false;
+          on-click = "${rofiCfg.powermenu}/bin/powermenu";
         };
       };
 
       style = ''
         * {
-          font-family: "Fira Code", "JetBrainsMono Nerd Font";
+          font-family: "JetBrainsMono Nerd Font", "Fira Code";
           font-size: 11px;
+          min-height: 0;
         }
 
         window#waybar {
           background: transparent;
+          color: ${text};
         }
 
-        #workspaces,
-        #clock,
+        #tray,
+        #clock {
+          background-color: ${bg};
+          color: ${text};
+          border-radius: 16px;
+          padding: 0 16px;
+        }
+
         #cpu,
         #memory,
         #pulseaudio,
         #custom-powermenu {
-          background-color: ${cfg.colors.background or "rgba(36, 39, 58, 0.4)"};
-          color: ${cfg.colors.text or "#cad3f5"};
-          border-radius: 16px;
-          padding: 0 16px;
-          margin: 0 3px;
+          background-color: ${bg};
+          color: ${text};
+          padding: 0 12px;
+          margin: 0;
+          border-radius: 0;
         }
 
-        #workspaces button {
-          color: ${cfg.colors.text-disabled or "rgba(202, 211, 245, 0.4)"};
-          padding: 0 5px;
+        #cpu {
+          border-radius: 16px 0 0 16px;
+          padding-left: 16px;
         }
 
-        #workspaces button.active {
-          color: ${cfg.colors.text-active or "#c6a0f6"};
+        #custom-powermenu {
+          border-radius: 0 16px 16px 0;
+          padding-right: 16px;
         }
       '';
     };

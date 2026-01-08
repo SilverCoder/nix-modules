@@ -44,11 +44,11 @@ in
             "super + space" = "${rofiCfg.launcher}/bin/launcher";
             "super + Tab" = "${rofiCfg.launcher}/bin/launcher window";
             "super + b" = "${google-chrome}/bin/google-chrome-stable --enable-unsafe-webgpu";
-            "super + f" = "thunar";
+            "super + e" = "thunar";
             "super + t" = "${kitty}/bin/kitty";
 
             "super + q" = "bspc node -c";
-            "super + m" = "bspc node -t {fullscreen,tiled} -f";
+            "super + f" = "bspc node -t {fullscreen,tiled} -f";
             "super + g" = "bspc node -t {floating,tiled} -f";
 
             "super + {h,j,k,l}" = "bspc node -f {west,south,north,east}";
