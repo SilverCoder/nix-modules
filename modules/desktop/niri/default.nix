@@ -4,6 +4,32 @@ let
   cfg = config.modules.desktop.niri;
   rofiCfg = config.modules.desktop.rofi;
 
+  primaryOutput = lib.findFirst (o: o.primary) null cfg.outputs;
+
+  outputType = with lib; types.submodule {
+    options = {
+      name = mkOption {
+        type = types.str;
+        description = "Output name (e.g. DP-0, DP-2)";
+      };
+      scale = mkOption {
+        type = types.float;
+        default = 1.0;
+        description = "Scale factor for this output";
+      };
+      position = mkOption {
+        type = types.nullOr (types.attrsOf types.int);
+        default = null;
+        description = "Logical position {x, y} of this output";
+      };
+      primary = mkOption {
+        type = types.bool;
+        default = false;
+        description = "Primary output (waybar appears here)";
+      };
+    };
+  };
+
   options = with lib; {
     enable = mkOption {
       type = types.bool;
@@ -14,7 +40,13 @@ let
     scale = mkOption {
       type = types.float;
       default = 1.0;
-      description = "Output scale factor";
+      description = "Default output scale factor (used when outputs is empty)";
+    };
+
+    outputs = mkOption {
+      type = types.listOf outputType;
+      default = [];
+      description = "Per-output configuration. Empty list uses wildcard with default scale.";
     };
 
     activeBorderColor = mkOption { type = types.str; };
@@ -58,22 +90,25 @@ in
     ];
 
     config = lib.mkIf (desktopCfg.enable && cfg.enable) {
+      home.sessionVariables.DISPLAY = ":1";
+
       modules.desktop = {
         dunst.enable = true;
         rofi.enable = true;
         waybar.enable = true;
       };
 
-      programs.kitty.font.size = lib.mkForce 11;
-
       programs.niri.settings = {
         prefer-no-csd = true;
         hotkey-overlay.skip-at-startup = true;
         screenshot-path = "~/Pictures/Screenshots/%Y-%m-%dT%H:%M:%S.png";
 
-        outputs."*" = {
-          scale = cfg.scale;
-        };
+        outputs = if cfg.outputs == [] then {
+          "*" = { scale = cfg.scale; };
+        } else builtins.listToAttrs (map (o: {
+          name = o.name;
+          value = { scale = o.scale; } // lib.optionalAttrs (o.position != null) { position = o.position; };
+        }) cfg.outputs);
 
         input = {
           keyboard.xkb.layout = "de";
@@ -100,6 +135,7 @@ in
         };
 
         spawn-at-startup = [
+          { command = [ "${pkgs.xwayland-satellite}/bin/xwayland-satellite" ":1" ]; }
           { command = [ "${pkgs.swaybg}/bin/swaybg" "-i" "${toString desktopCfg.wallpaper}" "-m" "fill" ]; }
           { command = [ "${pkgs.waybar}/bin/waybar" ]; }
         ];
@@ -110,7 +146,7 @@ in
         };
 
         binds = {
-          "Mod+T".action.spawn = [ "env" "-u" "DISPLAY" "${pkgs.kitty}/bin/kitty" ];
+          "Mod+T".action.spawn = [ "${pkgs.kitty}/bin/kitty" ];
           "Mod+B".action.spawn = [ "${pkgs.google-chrome}/bin/google-chrome-stable" "--enable-unsafe-webgpu" ];
           "Mod+E".action.spawn = [ "${pkgs.thunar}/bin/thunar" ];
           "Mod+Space".action.spawn = [ "${rofiCfg.launcher}/bin/launcher" ];
@@ -138,11 +174,11 @@ in
           "Mod+Shift+K".action.move-window-up = {};
           "Mod+Shift+L".action.move-column-right = {};
 
-          "Mod+Ctrl+H".action.focus-workspace-down = {};
-          "Mod+Ctrl+L".action.focus-workspace-up = {};
+          "Mod+Ctrl+H".action.focus-monitor-left = {};
+          "Mod+Ctrl+L".action.focus-monitor-right = {};
 
-          "Mod+Shift+Ctrl+H".action.move-window-to-workspace-down = {};
-          "Mod+Shift+Ctrl+L".action.move-window-to-workspace-up = {};
+          "Mod+Shift+Ctrl+H".action.move-column-to-monitor-left = {};
+          "Mod+Shift+Ctrl+L".action.move-column-to-monitor-right = {};
 
           "Mod+1".action.focus-workspace = 1;
           "Mod+2".action.focus-workspace = 2;
@@ -174,10 +210,6 @@ in
           "Ctrl+Print".action.screenshot-screen = {};
           "Alt+Print".action.screenshot-window = {};
 
-          "Mod+Alt+H".action.focus-monitor-left = {};
-          "Mod+Alt+L".action.focus-monitor-right = {};
-          "Mod+Alt+Shift+H".action.move-column-to-monitor-left = {};
-          "Mod+Alt+Shift+L".action.move-column-to-monitor-right = {};
 
           "Mod+Shift+Slash".action.show-hotkey-overlay = {};
           "Mod+Shift+E".action.quit.skip-confirmation = true;

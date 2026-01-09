@@ -6,12 +6,17 @@ let
 
   bg = cfg.colors.background or "rgba(36, 39, 58, 0.4)";
   text = cfg.colors.text or "#cad3f5";
-  textActive = cfg.colors.text-active or "#c6a0f6";
   textDisabled = cfg.colors.text-disabled or "rgba(202, 211, 245, 0.4)";
 in
 {
   options.modules.desktop.waybar = with lib; {
     enable = mkEnableOption "waybar status bar";
+
+    output = mkOption {
+      type = types.nullOr types.str;
+      default = null;
+      description = "Output to show waybar on (null = all outputs)";
+    };
 
     audioSink = mkOption {
       type = types.nullOr types.str;
@@ -21,7 +26,7 @@ in
 
     colors = mkOption {
       type = types.attrsOf types.str;
-      default = {};
+      default = { };
       description = "Waybar colors";
     };
   };
@@ -39,11 +44,16 @@ in
         margin-right = 8;
 
         modules-left = [ "tray" ];
-        modules-center = [ "clock" ];
+        modules-center = [ "clock#date" "clock#time" ];
         modules-right = [ "cpu" "memory" "pulseaudio" "custom/powermenu" ];
 
-        clock = {
-          format = " {:%A %d.%m.%Y, Week %W %H:%M:%S}";
+        "clock#date" = {
+          format = " {:%A %d.%m.%Y, Week %W}";
+          interval = 60;
+        };
+
+        "clock#time" = {
+          format = " {:%H:%M:%S}";
           interval = 1;
         };
 
@@ -80,6 +90,8 @@ in
           tooltip = false;
           on-click = "${rofiCfg.powermenu}/bin/powermenu";
         };
+      } // lib.optionalAttrs (cfg.output != null) {
+        output = cfg.output;
       };
 
       style = ''
@@ -95,32 +107,25 @@ in
         }
 
         #tray,
-        #clock {
-          background-color: ${bg};
-          color: ${text};
+        .modules-center,
+        .modules-right {
+          background: ${bg};
           border-radius: 16px;
           padding: 0 16px;
         }
 
+        #clock.date,
+        #clock.time,
         #cpu,
         #memory,
         #pulseaudio,
         #custom-powermenu {
-          background-color: ${bg};
-          color: ${text};
-          padding: 0 12px;
-          margin: 0;
-          border-radius: 0;
+          background: transparent;
+          padding: 0 4px;
         }
 
-        #cpu {
-          border-radius: 16px 0 0 16px;
-          padding-left: 16px;
-        }
-
-        #custom-powermenu {
-          border-radius: 0 16px 16px 0;
-          padding-right: 16px;
+        #pulseaudio.muted {
+          color: ${textDisabled};
         }
       '';
     };
