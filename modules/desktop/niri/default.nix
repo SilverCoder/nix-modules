@@ -145,7 +145,12 @@ in
           NIXOS_OZONE_WL = "1";
         };
 
-        binds = {
+        binds = let
+          monitorBinds = lib.listToAttrs (lib.imap0 (i: o: {
+            name = "Mod+Ctrl+${toString (i + 1)}";
+            value = { action.focus-monitor = o.name; };
+          }) cfg.outputs);
+        in monitorBinds // {
           "Mod+T".action.spawn = [ "${pkgs.kitty}/bin/kitty" ];
           "Mod+B".action.spawn = [ "${pkgs.google-chrome}/bin/google-chrome-stable" "--enable-unsafe-webgpu" ];
           "Mod+E".action.spawn = [ "${pkgs.thunar}/bin/thunar" ];
@@ -157,7 +162,6 @@ in
           "Mod+M".action.expand-column-to-available-width = {};
           "Mod+Shift+F".action.fullscreen-window = {};
           "Mod+G".action.toggle-window-floating = {};
-          "Mod+Tab".action.toggle-overview = {};
           "Mod+O".action.toggle-overview = {};
 
           "Mod+H".action.focus-column-left = {};
@@ -206,9 +210,9 @@ in
           "Mod+C".action.center-column = {};
           "Mod+W".action.toggle-column-tabbed-display = {};
 
-          "Print".action.screenshot = {};
-          "Ctrl+Print".action.screenshot-screen = {};
-          "Alt+Print".action.screenshot-window = {};
+          "Print".action.spawn = [ "sh" "-c" ''${pkgs.grim}/bin/grim -g "$(${pkgs.slurp}/bin/slurp)" - | ${pkgs.satty}/bin/satty -f -'' ];
+          "Ctrl+Print".action.spawn = [ "sh" "-c" ''${pkgs.grim}/bin/grim - | ${pkgs.satty}/bin/satty -f -'' ];
+          "Alt+Print".action.spawn = [ "sh" "-c" ''${pkgs.grim}/bin/grim -g "$(${pkgs.slurp}/bin/slurp -o)" - | ${pkgs.satty}/bin/satty -f -'' ];
 
 
           "Mod+Shift+Slash".action.show-hotkey-overlay = {};
@@ -225,6 +229,7 @@ in
         wl-clipboard
         grim
         slurp
+        satty
         swaybg
         xwayland-satellite
       ];
