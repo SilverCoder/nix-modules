@@ -222,11 +222,6 @@ pkgs.writeShellApplication {
   text = ''
     mode=''${1:-drun}
 
-    # Unset DISPLAY to force Wayland backend when available
-    if [ -n "$WAYLAND_DISPLAY" ]; then
-      unset DISPLAY
-    fi
-
     rofi \
         -show "$mode" \
         -theme ${theme}
