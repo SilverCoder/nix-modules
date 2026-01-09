@@ -71,6 +71,7 @@ let
 
     screenshots
     effect-blur=5x3
+    effect-vignette=0.5:0.0
     fade-in=0.2
 
     # catppuccin-style: transparent insides, colored rings
