@@ -102,6 +102,7 @@ in
         prefer-no-csd = true;
         hotkey-overlay.skip-at-startup = true;
         screenshot-path = "~/Pictures/Screenshots/%Y-%m-%dT%H:%M:%S.png";
+        gestures.hot-corners.enable = false;
 
         outputs = if cfg.outputs == [] then {
           "*" = { scale = cfg.scale; };

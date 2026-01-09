@@ -19,6 +19,7 @@ in
         settings = {
           default_shell = "fish";
           show_startup_tips = false;
+          support_kitty_keyboard_protocol = false;
 
           ui = {
             pane_frames = {
