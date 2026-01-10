@@ -70,8 +70,8 @@ let
     indicator-caps-lock
 
     screenshots
-    effect-blur=7x5
-    effect-vignette=0.6:0.0
+    effect-blur=10x5
+    effect-vignette=0.3:0.0
     fade-in=0.2
 
     # catppuccin-style: transparent insides, colored rings
