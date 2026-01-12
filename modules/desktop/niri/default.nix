@@ -159,9 +159,9 @@ in
           "Mod+Escape".action.spawn = [ "lock-screen" ];
 
           "Mod+Q".action.close-window = {};
-          "Mod+F".action.maximize-column = {};
+          "Mod+F".action.fullscreen-window = {};
           "Mod+M".action.expand-column-to-available-width = {};
-          "Mod+Shift+F".action.fullscreen-window = {};
+          "Mod+Shift+M".action.maximize-column = {};
           "Mod+G".action.toggle-window-floating = {};
           "Mod+O".action.toggle-overview = {};
 
@@ -184,6 +184,11 @@ in
 
           "Mod+Shift+Ctrl+H".action.move-column-to-monitor-left = {};
           "Mod+Shift+Ctrl+L".action.move-column-to-monitor-right = {};
+
+          "Mod+Ctrl+J".action.focus-workspace-down = {};
+          "Mod+Ctrl+K".action.focus-workspace-up = {};
+          "Mod+Shift+Ctrl+J".action.move-window-to-workspace-down = {};
+          "Mod+Shift+Ctrl+K".action.move-window-to-workspace-up = {};
 
           "Mod+1".action.focus-workspace = 1;
           "Mod+2".action.focus-workspace = 2;
