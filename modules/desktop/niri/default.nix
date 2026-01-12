@@ -61,6 +61,9 @@ in
       programs.niri.enable = true;
       nixpkgs.overlays = [ niri.overlays.niri ];
 
+      # niri-portals.conf references gtk portal for Access/Notification interfaces
+      xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
+
       environment.etc."nvidia/nvidia-application-profiles-rc.d/50-niri.json".text = builtins.toJSON {
         rules = [{
           pattern = {
