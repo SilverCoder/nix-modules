@@ -139,7 +139,6 @@ in
         };
 
         spawn-at-startup = [
-          { command = [ "${pkgs.xwayland-satellite}/bin/xwayland-satellite" ":1" ]; }
           { command = [ "${pkgs.swaybg}/bin/swaybg" "-i" "${toString desktopCfg.wallpaper}" "-m" "fill" ]; }
           { command = [ "${pkgs.waybar}/bin/waybar" ]; }
         ];
@@ -242,6 +241,22 @@ in
         swaybg
         xwayland-satellite
       ];
+
+      systemd.user.services.xwayland-satellite = {
+        Unit = {
+          Description = "XWayland Satellite";
+          PartOf = [ "graphical-session.target" ];
+          After = [ "graphical-session.target" ];
+        };
+        Service = {
+          ExecStart = "${pkgs.xwayland-satellite}/bin/xwayland-satellite :1";
+          Restart = "on-failure";
+          RestartSec = 3;
+        };
+        Install = {
+          WantedBy = [ "graphical-session.target" ];
+        };
+      };
     };
   };
 }
