@@ -37,7 +37,7 @@ permission:
     </CONTEXT_MAPPING>
     <ENFORCEMENT>
       - Detect directory on session start.
-      - Execute the corresponding `gh-` alias (e.g., `, gh-silvercoder`) immediately.
+      - Execute the corresponding `gh-` alias (e.g. `gh-silvercoder`) immediately.
       - Verify `gh auth status` if identity is ambiguous.
     </ENFORCEMENT>
     <COMMITS>
