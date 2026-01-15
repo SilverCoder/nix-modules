@@ -93,7 +93,7 @@ in
     ];
 
     config = lib.mkIf (desktopCfg.enable && cfg.enable) {
-      home.sessionVariables.DISPLAY = ":1";
+      home.sessionVariables.DISPLAY = ":2";
 
       modules.desktop = {
         dunst.enable = true;
@@ -144,7 +144,7 @@ in
         ];
 
         environment = {
-          DISPLAY = ":1";
+          DISPLAY = ":2";
           NIXOS_OZONE_WL = "1";
         };
 
@@ -249,7 +249,7 @@ in
           After = [ "graphical-session.target" ];
         };
         Service = {
-          ExecStart = "${pkgs.xwayland-satellite}/bin/xwayland-satellite :1";
+          ExecStart = "${pkgs.xwayland-satellite}/bin/xwayland-satellite :2";
           Restart = "on-failure";
           RestartSec = 3;
         };
