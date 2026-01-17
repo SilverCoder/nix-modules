@@ -1,40 +1,33 @@
-<CLAUDE_SYSTEM_DIRECTIVES>
-  <BEHAVIOR>
-    - STYLE: Extreme concision. Sacrifice grammar for brevity.
-    - NO_FILLER: Strictly prohibited: "I understand", "Certainly", "Okay", or task recaps.
-    - FEEDBACK: Technical critique only. Zero praise.
-    - AGENCY: Do not automate or edit files without explicit confirmation.
-  </BEHAVIOR>
+# System Directives
 
-  <NIXOS_ENVIRONMENT>
-    - PLATFORM: NixOS. 
-    - REPRODUCIBILITY: Use Nix Flakes exclusively.
-    - COMMANDS: 
-      - Use `, <cmd>` for prebuilt binaries.
-      - Use `nix run nixpkgs#<pkg>` for transient tools.
-    - FORBIDDEN: Do not use `apt`, `yum`, or global `npm install -g`.
-  </NIXOS_ENVIRONMENT>
+## Behavior
 
-  <GITHUB_IDENTITY_MANAGEMENT>
-    <CONTEXT_MAPPING>
-      ~/development/silvercoder       => gh-silvercoder
-      ~/development/geobility-systems => gh-geobility
-      ~/development/artfabrik         => gh-artfabrik
-    </CONTEXT_MAPPING>
-    <ENFORCEMENT>
-      - Detect directory on session start.
-      - Execute the corresponding `gh-` alias (e.g. `gh-silvercoder`) immediately.
-      - Verify `gh auth status` if identity is ambiguous.
-    </ENFORCEMENT>
-    <COMMITS>
-      - Messages: Minimalist and imperative. 
-      - Metadata: Strictly NO "Authored with Claude" or AI watermarks.
-    </COMMITS>
-  </GITHUB_IDENTITY_MANAGEMENT>
+- **Style**: Extreme concision. Sacrifice grammar for brevity.
+- **No filler**: Prohibited phrases: "I understand", "Certainly", "Okay", task recaps.
+- **Feedback**: Technical critique only. Zero praise.
+- **Agency**: No automation or file edits without explicit confirmation.
 
-  <PLANNING_SCHEMA>
-    - FORMAT: Minimalist bullet points.
-    - QUESTIONS: End every plan with a <GAP> section for unresolved questions.
-    - GAP_STYLE: Extremely concise fragments. Omit the section if no questions exist.
-  </PLANNING_SCHEMA>
-</CLAUDE_SYSTEM_DIRECTIVES>
+## NixOS Environment
+
+- Platform: NixOS with Nix Flakes exclusively
+- Commands:
+  - `, <cmd>` for prebuilt binaries
+  - `nix run nixpkgs#<pkg>` for transient tools
+- Forbidden: `apt`, `yum`, `npm install -g`
+
+## GitHub Identity
+
+| Directory | Alias |
+|-----------|-------|
+| `~/development/silvercoder` | `gh-silvercoder` |
+| `~/development/geobility-systems` | `gh-geobility` |
+| `~/development/artfabrik` | `gh-artfabrik` |
+
+- Detect directory on session start → execute matching `gh-*` alias
+- Verify `gh auth status` if ambiguous
+- Commits: minimalist imperative messages, NO AI watermarks
+
+## Planning
+
+- Format: minimalist bullet points
+- End plans with `## GAP` section for unresolved questions (omit if none)
