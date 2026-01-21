@@ -15,12 +15,15 @@ in
 
     # Install/update opencode via npm
     home.activation.opencodeInstall = lib.hm.dag.entryAfter [ "linkGeneration" ] ''
+      export NPM_CONFIG_PREFIX="$HOME/.npm-global"
+      export PATH="$HOME/.npm-global/bin:$PATH"
+
       if ! command -v opencode &> /dev/null; then
         echo "Installing opencode via npm"
-        npm install -g opencode-ai
+        ${pkgs.nodejs}/bin/npm install -g opencode-ai
       else
         echo "Updating opencode"
-        npm upgrade -g opencode-ai
+        ${pkgs.nodejs}/bin/npm upgrade -g opencode-ai
       fi
     '';
 

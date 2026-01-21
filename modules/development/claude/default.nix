@@ -20,12 +20,15 @@ in
 
     # Install/update claude-code via npm
     home.activation.claudeInstall = lib.hm.dag.entryAfter [ "linkGeneration" ] ''
+      export NPM_CONFIG_PREFIX="$HOME/.npm-global"
+      export PATH="$HOME/.npm-global/bin:$PATH"
+
       if ! command -v claude &> /dev/null; then
         echo "Installing claude-code via npm"
-        npm install -g @anthropic-ai/claude-code
+        ${pkgs.nodejs}/bin/npm install -g @anthropic-ai/claude-code
       else
         echo "Updating claude-code"
-        npm update -g @anthropic-ai/claude-code
+        ${pkgs.nodejs}/bin/npm update -g @anthropic-ai/claude-code
       fi
     '';
 
