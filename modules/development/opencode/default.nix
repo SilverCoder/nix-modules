@@ -13,8 +13,19 @@ in
       source = ./AGENTS.template;
     };
 
+    # Install/update opencode via npm
+    home.activation.opencodeInstall = lib.hm.dag.entryAfter [ "linkGeneration" ] ''
+      if ! command -v opencode &> /dev/null; then
+        echo "Installing opencode via npm"
+        npm install -g opencode-ai
+      else
+        echo "Updating opencode"
+        npm upgrade -g opencode-ai
+      fi
+    '';
+
     # Install superpowers plugin
-    home.activation.opencodeSuperpowers = lib.hm.dag.entryAfter [ "linkGeneration" ] ''
+    home.activation.opencodeSuperpowers = lib.hm.dag.entryAfter [ "opencodeInstall" ] ''
       superpowers_dir="$HOME/.config/opencode/superpowers"
       plugin_dir="$HOME/.config/opencode/plugin"
 

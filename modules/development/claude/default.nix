@@ -9,8 +9,6 @@ in
   };
 
   config = lib.mkIf (developmentCfg.enable && cfg.enable) {
-    home.packages = [ pkgs.claude-code ];
-
     home.file.".claude/CLAUDE.md" = {
       source = ./CLAUDE.template;
     };
@@ -20,9 +18,19 @@ in
       recursive = true;
     };
 
+    # Install/update claude-code via npm
+    home.activation.claudeInstall = lib.hm.dag.entryAfter [ "linkGeneration" ] ''
+      if ! command -v claude &> /dev/null; then
+        echo "Installing claude-code via npm"
+        npm install -g @anthropic-ai/claude-code
+      else
+        echo "Updating claude-code"
+        npm update -g @anthropic-ai/claude-code
+      fi
+    '';
+
     # Install superpowers marketplace and plugin
-    # Runs after linkGeneration to ensure SSH configuration is active
-    home.activation.claudePlugins = lib.hm.dag.entryAfter [ "linkGeneration" ] ''
+    home.activation.claudePlugins = lib.hm.dag.entryAfter [ "claudeInstall" ] ''
       $DRY_RUN_CMD mkdir -p "$HOME/.claude/plugins"
 
       # Add superpowers marketplace if not already added
@@ -33,7 +41,7 @@ in
         # Verify SSH access to github before attempting clone
         if ${pkgs.openssh}/bin/ssh -T git@github.com 2>&1 | grep -q "successfully authenticated"; then
           echo "Adding marketplace superpowers-marketplace"
-          ${pkgs.claude-code}/bin/claude plugin marketplace add obra/superpowers-marketplace
+          claude plugin marketplace add obra/superpowers-marketplace
         else
           echo "Warning: SSH to github.com not configured, skipping marketplace add"
           echo "Run manually: claude plugin marketplace add obra/superpowers-marketplace"
@@ -48,7 +56,7 @@ in
         # Only install if SSH is configured
         if ${pkgs.openssh}/bin/ssh -T git@github.com 2>&1 | grep -q "successfully authenticated"; then
           echo "Installing plugin superpowers@superpowers-marketplace"
-          ${pkgs.claude-code}/bin/claude plugin install superpowers@superpowers-marketplace
+          claude plugin install superpowers@superpowers-marketplace
         else
           echo "Warning: SSH to github.com not configured, skipping plugin install"
           echo "Run manually: claude plugin install superpowers@superpowers-marketplace"
@@ -74,7 +82,7 @@ in
         echo "MCP server context7 already added"
       else
         echo "Adding MCP server context7"
-        ${pkgs.claude-code}/bin/claude mcp add --scope user --transport stdio context7 -- npx -y @upstash/context7@latest || true
+        claude mcp add --scope user --transport stdio context7 -- npx -y @upstash/context7@latest || true
       fi
 
       # Add chrome-devtools MCP server if not already added
@@ -82,7 +90,7 @@ in
         echo "MCP server chrome-devtools already added"
       else
         echo "Adding MCP server chrome-devtools"
-        ${pkgs.claude-code}/bin/claude mcp add --scope user --transport stdio chrome-devtools -- npx -y chrome-devtools-mcp@latest || true
+        claude mcp add --scope user --transport stdio chrome-devtools -- npx -y chrome-devtools-mcp@latest || true
       fi
     '';
 
