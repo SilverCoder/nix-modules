@@ -16,7 +16,7 @@ in
     # Install/update opencode via npm
     home.activation.opencodeInstall = lib.hm.dag.entryAfter [ "linkGeneration" ] ''
       export NPM_CONFIG_PREFIX="$HOME/.npm-global"
-      export PATH="$HOME/.npm-global/bin:$PATH"
+      export PATH="${pkgs.nodejs}/bin:$HOME/.npm-global/bin:$PATH"
 
       if ! command -v opencode &> /dev/null; then
         echo "Installing opencode via npm"
