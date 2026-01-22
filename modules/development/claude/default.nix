@@ -18,18 +18,10 @@ in
       recursive = true;
     };
 
-    # Install/update claude-code via npm
+    # Install/update claude-code via official installer
     home.activation.claudeInstall = lib.hm.dag.entryAfter [ "linkGeneration" ] ''
-      export NPM_CONFIG_PREFIX="$HOME/.npm-global"
-      export PATH="${pkgs.nodejs}/bin:$HOME/.npm-global/bin:$PATH"
-
-      if ! command -v claude &> /dev/null; then
-        echo "Installing claude-code via npm"
-        ${pkgs.nodejs}/bin/npm install -g @anthropic-ai/claude-code
-      else
-        echo "Updating claude-code"
-        ${pkgs.nodejs}/bin/npm update -g @anthropic-ai/claude-code
-      fi
+      echo "Installing/updating claude-code"
+      ${pkgs.curl}/bin/curl -fsSL https://claude.ai/install.sh | ${pkgs.bash}/bin/bash
     '';
 
     # Install superpowers marketplace and plugin
