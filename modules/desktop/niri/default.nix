@@ -138,8 +138,9 @@ in
           ];
         };
 
-        spawn-at-startup = [
-          { command = [ "${pkgs.swaybg}/bin/swaybg" "-i" "${toString desktopCfg.wallpaper}" "-m" "fill" ]; }
+        spawn-at-startup = lib.optional (desktopCfg.wallpaper != null)
+          { command = [ "${pkgs.swaybg}/bin/swaybg" "-i" "${config.home.homeDirectory}/.config/wallpaper" "-m" "fill" ]; }
+        ++ [
           { command = [ "${pkgs.waybar}/bin/waybar" ]; }
         ];
 
@@ -231,6 +232,10 @@ in
           "Mod+Shift+WheelScrollDown".action.focus-workspace-down = {};
           "Mod+Shift+WheelScrollUp".action.focus-workspace-up = {};
         };
+      };
+
+      home.file.".config/wallpaper" = lib.mkIf (desktopCfg.wallpaper != null) {
+        source = desktopCfg.wallpaper;
       };
 
       home.packages = with pkgs; [
