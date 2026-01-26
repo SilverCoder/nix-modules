@@ -21,7 +21,7 @@ in
     # Install/update claude-code via official installer
     home.activation.claudeInstall = lib.hm.dag.entryAfter [ "linkGeneration" ] ''
       echo "Installing/updating claude-code"
-      ${pkgs.curl}/bin/curl -fsSL https://claude.ai/install.sh | ${pkgs.bash}/bin/bash
+      ${pkgs.curl}/bin/curl -fsSL https://claude.ai/install.sh | PATH="${pkgs.curl}/bin:$PATH" ${pkgs.bash}/bin/bash
     '';
 
     # Install superpowers marketplace and plugin
