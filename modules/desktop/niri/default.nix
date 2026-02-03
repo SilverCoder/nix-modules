@@ -229,6 +229,17 @@ in
           "Mod+Shift+Slash".action.show-hotkey-overlay = {};
           "Mod+Shift+E".action.quit.skip-confirmation = true;
 
+          # Hardware keys
+          "XF86AudioRaiseVolume".action.spawn = [ "${pkgs.pulseaudio}/bin/pactl" "set-sink-volume" "@DEFAULT_SINK@" "+5%" ];
+          "XF86AudioLowerVolume".action.spawn = [ "${pkgs.pulseaudio}/bin/pactl" "set-sink-volume" "@DEFAULT_SINK@" "-5%" ];
+          "XF86AudioMute".action.spawn = [ "${pkgs.pulseaudio}/bin/pactl" "set-sink-mute" "@DEFAULT_SINK@" "toggle" ];
+          "XF86MonBrightnessUp".action.spawn = [ "${pkgs.brightnessctl}/bin/brightnessctl" "set" "+5%" ];
+          "XF86MonBrightnessDown".action.spawn = [ "${pkgs.brightnessctl}/bin/brightnessctl" "set" "5%-" ];
+          "XF86AudioPlay".action.spawn = [ "${pkgs.playerctl}/bin/playerctl" "play-pause" ];
+          "XF86AudioNext".action.spawn = [ "${pkgs.playerctl}/bin/playerctl" "next" ];
+          "XF86AudioPrev".action.spawn = [ "${pkgs.playerctl}/bin/playerctl" "previous" ];
+          "XF86Calculator".action.spawn = [ "${pkgs.gnome-calculator}/bin/gnome-calculator" ];
+
           "Mod+WheelScrollDown".action.focus-column-right = {};
           "Mod+WheelScrollUp".action.focus-column-left = {};
           "Mod+Shift+WheelScrollDown".action.focus-workspace-down = {};
