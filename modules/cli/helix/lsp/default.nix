@@ -2,11 +2,47 @@
 
 let
   cfg = config.modules.cli.helix;
+  completionCfg = cfg.completion;
+  ollamaCfg = config.modules.development.ollama;
+
+  completionEnabled = completionCfg.enable;
+  model = if completionCfg.model != null then completionCfg.model else ollamaCfg.completionModel;
+
+  completionLspEntry = lib.optionalAttrs completionEnabled {
+    name = "lsp-ai";
+    only-features = [ "completion" ];
+  };
 in
 {
   imports = [
     ./web.nix
   ];
+
+  options.modules.cli.helix.completion = with lib; {
+    enable = mkOption {
+      type = types.bool;
+      default = true;
+      description = "Enable AI completion via lsp-ai + Ollama";
+    };
+
+    model = mkOption {
+      type = types.nullOr types.str;
+      default = null;
+      description = "Model override (default: from modules.development.ollama.completionModel)";
+    };
+
+    maxContext = mkOption {
+      type = types.int;
+      default = 2048;
+      description = "Maximum context size for completions";
+    };
+
+    maxTokens = mkOption {
+      type = types.int;
+      default = 32;
+      description = "Maximum tokens to generate";
+    };
+  };
 
   config = lib.mkIf (cfg.enable) {
     home = {
@@ -30,7 +66,9 @@ in
         prettier
         vscode-langservers-extracted
         yaml-language-server
-      ]);
+      ]) ++ lib.optionals completionEnabled [
+        pkgs.lsp-ai
+      ];
     };
 
     programs.helix = {
@@ -89,17 +127,29 @@ in
               ];
             };
           };
-          gpt =
-            let
-              wrapper = pkgs.writeShellScriptBin "gpt" (lib.concatStrings [
-                (if cfg.gpt-env != null then ". ${cfg.gpt-env}" else "")
-                "\n"
-                ''${pkgs.helix-gpt}/bin/helix-gpt --logFile "$HOME/.cache/helix/helix-gpt.log" "$@"''
-              ]);
-            in
-            {
-              command = "${wrapper}/bin/gpt";
+          lsp-ai = lib.mkIf completionEnabled {
+            command = "lsp-ai";
+            config = {
+              memory.file_store = { };
+              models.ollama = {
+                type = "ollama";
+                model = model;
+                generate_endpoint = "http://localhost:${toString ollamaCfg.port}/api/generate";
+              };
+              completion = {
+                model = "ollama";
+                parameters = {
+                  max_context = completionCfg.maxContext;
+                  options.num_predict = completionCfg.maxTokens;
+                  fim = {
+                    start = "<fim_prefix>";
+                    middle = "<fim_suffix>";
+                    end = "<fim_middle>";
+                  };
+                };
+              };
             };
+          };
           kotlin-language-server = {
             command = "kotlin-language-server";
           };
@@ -137,7 +187,7 @@ in
             auto-format = true;
             language-servers = [
               "bash-language-server"
-              { name = "gpt"; only-features = [ "completion" "code-action" ]; }
+              completionLspEntry
             ];
           }
           {
@@ -145,7 +195,7 @@ in
             auto-format = true;
             language-servers = [
               "omnisharp"
-              { name = "gpt"; only-features = [ "completion" "code-action" ]; }
+              completionLspEntry
             ];
           }
           {
@@ -153,7 +203,7 @@ in
             auto-format = true;
             language-servers = [
               "dart"
-              { name = "gpt"; only-features = [ "completion" "code-action" ]; }
+              completionLspEntry
             ];
           }
           {
@@ -161,7 +211,7 @@ in
             auto-format = true;
             language-servers = [
               "dockerfile-language-server"
-              { name = "gpt"; only-features = [ "completion" "code-action" ]; }
+              completionLspEntry
             ];
           }
           {
@@ -170,7 +220,7 @@ in
             language-servers = [
               { name = "vscode-json-language-server"; except-features = [ "format" ]; }
               { name = "efm-prettier"; only-features = [ "format" ]; }
-              { name = "gpt"; only-features = [ "completion" "code-action" ]; }
+              completionLspEntry
             ];
           }
           {
@@ -179,7 +229,7 @@ in
             language-servers = [
               { name = "kotlin-language-server"; except-features = [ "format" ]; }
               { name = "efm-kotlin"; only-features = [ "format" ]; }
-              { name = "gpt"; only-features = [ "completion" "code-action" ]; }
+              completionLspEntry
             ];
           }
           {
@@ -188,7 +238,7 @@ in
               { name = "marksman"; except-features = [ "format" ]; }
               { name = "efm-markdown"; except-features = [ "format" ]; }
               { name = "efm-prettier"; only-features = [ "format" ]; }
-              { name = "gpt"; only-features = [ "completion" "code-action" ]; }
+              completionLspEntry
             ];
           }
           {
@@ -196,7 +246,7 @@ in
             auto-format = true;
             language-servers = [
               "nil"
-              { name = "gpt"; only-features = [ "completion" "code-action" ]; }
+              completionLspEntry
             ];
           }
           {
@@ -205,7 +255,7 @@ in
             language-servers = [
               "rust-analyzer"
               "tailwindcss"
-              { name = "gpt"; only-features = [ "completion" "code-action" ]; }
+              completionLspEntry
             ];
           }
           {
@@ -214,14 +264,14 @@ in
             language-servers = [
               { name = "sourcekit-lsp"; except-features = [ "format" ]; }
               { name = "efm-swift"; only-features = [ "format" ]; }
-              { name = "gpt"; only-features = [ "completion" "code-action" ]; }
+              completionLspEntry
             ];
           }
           {
             name = "toml";
             auto-format = true;
             language-servers = [
-              { name = "gpt"; only-features = [ "completion" "code-action" ]; }
+              completionLspEntry
             ];
           }
           {
@@ -229,7 +279,7 @@ in
             auto-format = true;
             language-servers = [
               "yaml-language-server"
-              { name = "gpt"; only-features = [ "completion" "code-action" ]; }
+              completionLspEntry
             ];
           }
         ];

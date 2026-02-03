@@ -1,54 +1,71 @@
 { ... }:
-{ config, lib, pkgs, ... }:
 let
-  cfg = config.modules.development;
-  machineCfg = config.modules.machine;
+  ollamaModule = import ./ollama { };
 in
 {
-  options.modules.development = {
-    enable = lib.mkEnableOption "development tools and environments" // { default = true; };
-  };
+  nixosModule = { config, lib, ... }:
+    let cfg = config.modules.development; in
+    {
+      options.modules.development.enable = lib.mkOption {
+        type = lib.types.bool;
+        default = true;
+        description = "Enable development tools";
+      };
 
-  imports = [
-    ./android.nix
-    ./claude
-    ./deno.nix
-    ./dotnet.nix
-    ./git.nix
-    ./node.nix
-    ./opencode
-    ./rust.nix
-    ./unity
-    ./vscode.nix
-  ];
-
-  config = lib.mkIf cfg.enable {
-    modules.development = {
-      android.enable = false;
-      unity.enable = machineCfg.features.desktop;
-      vscode.enable = machineCfg.features.desktop;
-      deno.enable = false;
-      dotnet.enable = machineCfg.name != "wsl";
+      imports = [ ollamaModule.nixosModule ];
     };
 
-    home = {
-      packages = with pkgs; [
-        clang-tools
-        cmake
-        gcc
-        gdb
-        gnumake
-        libxkbcommon
-        lldb
-        llvm
-        meson
-        # netcoredbg
-        openssl
-        pkg-config
-        tokei
-        wabt
-        zlib
+  homeManagerModule = { config, lib, pkgs, ... }:
+    let
+      cfg = config.modules.development;
+      machineCfg = config.modules.machine;
+    in
+    {
+      options.modules.development.enable = lib.mkOption {
+        type = lib.types.bool;
+        default = true;
+        description = "Enable development tools";
+      };
+
+      imports = [
+        ollamaModule.homeManagerModule
+        ./android.nix
+        ./claude
+        ./deno.nix
+        ./dotnet.nix
+        ./git.nix
+        ./node.nix
+        ./opencode
+        ./rust.nix
+        ./unity
+        ./vscode.nix
       ];
+
+      config = lib.mkIf cfg.enable {
+        modules.development = {
+          android.enable = false;
+          unity.enable = machineCfg.features.desktop;
+          vscode.enable = machineCfg.features.desktop;
+          deno.enable = false;
+          dotnet.enable = machineCfg.name != "wsl";
+        };
+
+        home.packages = with pkgs; [
+          clang-tools
+          cmake
+          gcc
+          gdb
+          gnumake
+          libxkbcommon
+          lldb
+          llvm
+          meson
+          openssl
+          pkg-config
+          tokei
+          wabt
+          zlib
+        ];
+      };
     };
-  };
 }

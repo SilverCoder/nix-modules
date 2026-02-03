@@ -2,6 +2,11 @@
 
 let
   cfg = config.modules.cli.helix;
+  completionEnabled = cfg.completion.enable;
+  completionLspEntry = lib.optionalAttrs completionEnabled {
+    name = "lsp-ai";
+    only-features = [ "completion" ];
+  };
 in
 {
   config = lib.mkIf (cfg.enable) {
@@ -59,13 +64,13 @@ in
               { name = "typescript-language-server"; except-features = [ "format" ]; }
               { name = "eslint"; except-features = [ "format" ]; }
               { name = "efm-prettier"; only-features = [ "format" ]; }
-              { name = "gpt"; only-features = [ "completion" "code-action" ]; }
+              completionLspEntry
             ];
             webLanguageServers = [
               { name = "vscode-html-language-server"; except-features = [ "format" ]; }
               { name = "vscode-css-language-server"; except-features = [ "format" ]; }
               { name = "efm-prettier"; only-features = [ "format" ]; }
-              { name = "gpt"; only-features = [ "completion" "code-action" ]; }
+              completionLspEntry
             ];
           in
           [
