@@ -18,25 +18,9 @@ in
       default = inputs.helix.packages.${pkgs.stdenv.hostPlatform.system}.default;
       description = "Helix package to use";
     };
-
-    gpt-env = mkOption {
-      type = types.nullOr types.path;
-      default = null;
-      description = "Path to GPT environment file for helix-gpt LSP";
-    };
   };
 
   config = lib.mkIf (cliCfg.enable && cfg.enable) {
-    assertions = [
-      {
-        # Skip validation for /run paths (runtime-generated like agenix secrets)
-        assertion = cfg.gpt-env == null
-          || lib.hasPrefix "/run/" (toString cfg.gpt-env)
-          || builtins.pathExists (toString cfg.gpt-env);
-        message = "Helix gpt-env path does not exist: ${toString cfg.gpt-env}";
-      }
-    ];
-
     home = {
       packages = [ inputs.ccase.packages.${pkgs.stdenv.hostPlatform.system}.default ];
     };

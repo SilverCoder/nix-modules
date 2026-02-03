@@ -7,21 +7,15 @@
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.rust-overlay.follows = "rust-overlay";
     };
-    helix-gpt = { url = "git+ssh://git@github.com/SilverCoder/helix-gpt?ref=main"; inputs.nixpkgs.follows = "nixpkgs"; };
     rust-overlay = { url = "github:oxalica/rust-overlay"; inputs.nixpkgs.follows = "nixpkgs"; };
-    niri = { 
-      url = "github:sodiboo/niri-flake"; 
-      inputs.nixpkgs.follows = "nixpkgs"; 
+    niri = {
+      url = "github:sodiboo/niri-flake";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
   };
 
-  outputs = inputs@{ nixpkgs, home-manager, helix, helix-gpt, rust-overlay, niri, ... }:
+  outputs = inputs@{ nixpkgs, home-manager, helix, rust-overlay, niri, ... }:
     let
-      # Support multiple systems
-      systems = [ "x86_64-linux" "aarch64-linux" "x86_64-darwin" "aarch64-darwin" ];
-
-      forAllSystems = fn: nixpkgs.lib.genAttrs systems (system: fn system);
-
       importModule = path: import path inputs;
 
       # Theme module is now system-agnostic (gets pkgs from module system)
@@ -31,7 +25,7 @@
       homeManagerModules = {
         cli = importModule ./modules/cli;
         desktop = (importModule ./modules/desktop).homeManagerModule;
-        development = importModule ./modules/development;
+        development = (importModule ./modules/development).homeManagerModule;
         machine = (importModule ./modules/machine).homeManagerModule;
         system = importModule ./modules/system;
         theme = themeModule.homeManagerModule;
@@ -39,6 +33,7 @@
 
       nixosModules = {
         desktop = (importModule ./modules/desktop).nixosModule;
+        development = (importModule ./modules/development).nixosModule;
         machine = (importModule ./modules/machine).nixosModule;
         theme = themeModule.nixosModule;
       };
@@ -50,5 +45,10 @@
         rclone = import ./utils/rclone.nix;
         ssh = import ./utils/ssh.nix;
       };
+
+      packages = builtins.listToAttrs (map (system: {
+        name = system;
+        value = import ./packages { pkgs = nixpkgs.legacyPackages.${system}; };
+      }) [ "x86_64-linux" "aarch64-linux" ]);
     };
 }
