@@ -12,6 +12,10 @@ in
   options.modules.desktop.waybar = with lib; {
     enable = mkEnableOption "waybar status bar";
 
+    battery = mkEnableOption "battery module";
+
+    network = mkEnableOption "network module" // { default = true; };
+
     output = mkOption {
       type = types.nullOr types.str;
       default = null;
@@ -45,7 +49,9 @@ in
 
         modules-left = [ "tray" ];
         modules-center = [ "clock#date" "clock#time" ];
-        modules-right = [ "cpu" "memory" "pulseaudio" "custom/powermenu" ];
+        modules-right = lib.optional cfg.battery "battery"
+          ++ lib.optional cfg.network "network"
+          ++ [ "cpu" "memory" "pulseaudio" "custom/powermenu" ];
 
         "clock#date" = {
           format = " {:%A %d.%m.%Y, Week %W}";
@@ -59,6 +65,25 @@ in
 
         cpu = {
           format = " {usage}%";
+          interval = 2;
+        };
+
+        battery = {
+          format = "{icon} {capacity}%";
+          format-charging = "󰂄 {capacity}%";
+          format-icons = [ "󰂎" "󰁺" "󰁻" "󰁼" "󰁽" "󰁾" "󰁿" "󰂀" "󰂁" "󰂂" "󰁹" ];
+          states = {
+            warning = 30;
+            critical = 15;
+          };
+          interval = 10;
+        };
+
+        network = {
+          format-wifi = "󰤨 {essid}";
+          format-ethernet = "󰈀 {ipaddr}";
+          format-disconnected = "󰤭";
+          tooltip-format = "{ifname}: {ipaddr}/{cidr}\n󰁅 {bandwidthDownBytes}  󰁝 {bandwidthUpBytes}";
           interval = 2;
         };
 
@@ -118,6 +143,8 @@ in
         #clock.time,
         #cpu,
         #memory,
+        #battery,
+        #network,
         #pulseaudio,
         #custom-powermenu {
           background: transparent;
@@ -126,6 +153,14 @@ in
 
         #pulseaudio.muted {
           color: ${textDisabled};
+        }
+
+        #battery.warning {
+          color: #f5a97f;
+        }
+
+        #battery.critical {
+          color: #ed8796;
         }
       '';
     };

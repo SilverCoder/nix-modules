@@ -3,6 +3,10 @@ let
   options = { lib, machineCfg, ... }: {
     enable = lib.mkEnableOption "desktop environment modules" // { default = machineCfg.features.desktop; };
 
+    nm-applet = {
+      enable = lib.mkEnableOption "NetworkManager applet in system tray" // { default = true; };
+    };
+
     wallpaper = lib.mkOption {
       type = lib.types.nullOr lib.types.path;
       default = null;
@@ -56,6 +60,8 @@ in
             profiles = { };
           };
         };
+
+        services.network-manager-applet.enable = cfg.nm-applet.enable;
       };
     };
 }
