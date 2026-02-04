@@ -19,12 +19,6 @@ let
       description = "Models to preload";
     };
 
-    completionModel = lib.mkOption {
-      type = lib.types.str;
-      default = "starcoder2:3b";
-      description = "Model for code completion";
-    };
-
     package = lib.mkOption {
       type = lib.types.enum [ "ollama" "ollama-cuda" "ollama-rocm" "ollama-vulkan" "ollama-cpu" ];
       default = "ollama";
@@ -34,15 +28,18 @@ let
 in
 {
   nixosModule = { config, lib, pkgs, ... }:
-    let cfg = config.modules.development.ollama; in
+    let
+      cfg = config.modules.development.ollama;
+    in
     {
       options.modules.development.ollama = mkOptions { inherit lib; };
 
       config = lib.mkIf cfg.enable {
         services.ollama = {
           enable = true;
+          port = cfg.port;
           package = pkgs.${cfg.package};
-          loadModels = lib.unique (cfg.models ++ [ cfg.completionModel ]);
+          loadModels = cfg.models;
         };
       };
     };
