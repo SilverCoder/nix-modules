@@ -15,9 +15,9 @@ let
       openssl_1_1
       pango
       udev
-      xorg.libX11
-      xorg.libXcursor
-      xorg.libXrandr
+      libX11
+      libXcursor
+      libXrandr
     ];
   });
 in

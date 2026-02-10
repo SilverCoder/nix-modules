@@ -128,7 +128,7 @@ in
             variant = "";
           };
           displayManager.setupCommands = ''
-            ${pkgs.xorg.xrandr}/bin/xrandr --auto
+            ${pkgs.xrandr}/bin/xrandr --auto
           '';
         };
       }

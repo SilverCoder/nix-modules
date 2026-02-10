@@ -129,7 +129,7 @@ let
       exec ${pkgs.swaylock-effects}/bin/swaylock -C ${swaylockConfig}
     else
       # Ensure keyboard layout is set before locking
-      ${pkgs.xorg.setxkbmap}/bin/setxkbmap de
+      ${pkgs.setxkbmap}/bin/setxkbmap de
       exec ${pkgs.betterlockscreen}/bin/betterlockscreen -l blur
     fi
   '';
