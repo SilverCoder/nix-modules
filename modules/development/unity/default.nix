@@ -33,7 +33,15 @@ in
   config = lib.mkIf (developmentCfg.enable && cfg.enable) {
     home = {
       packages = [
-        unityhub
+        (pkgs.symlinkJoin {
+          name = "unityhub-x11";
+          paths = [ unityhub ];
+          buildInputs = [ pkgs.makeWrapper ];
+          postBuild = ''
+            wrapProgram $out/bin/unityhub \
+              --set GDK_BACKEND x11
+          '';
+        })
         (pkgs.writeShellScriptBin "fix-unity-bee_backend" ''
           COMMAND="''${1:-apply}"
           UNITY_VERSION=$2
