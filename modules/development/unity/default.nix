@@ -3,6 +3,9 @@ let
   developmentCfg = config.modules.development;
   cfg = config.modules.development.unity;
   unityhub = (pkgs.unityhub.override {
+    extraPkgs = pkgs: with pkgs; [
+      fira
+    ];
     extraLibs = pkgs: with pkgs; [
       cairo
       fontconfig
