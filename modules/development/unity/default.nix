@@ -42,6 +42,37 @@ in
               --set GDK_BACKEND x11
           '';
         })
+        (pkgs.writeShellScriptBin "fix-unity-editor" ''
+          COMMAND="''${1:-apply}"
+          UNITY_VERSION=$2
+
+          if [[ -n ''${UNITY_VERSION} ]]; then
+            versions=($UNITY_VERSION)
+          else
+            versions=($(ls "$HOME/Unity/Hub/Editor"))
+          fi
+
+          for version in ''${versions[@]}; do
+            unity_bin="$HOME/Unity/Hub/Editor/''${version}/Editor/Unity"
+
+            if [[ "''${COMMAND}" == "apply" ]]; then
+              if [[ ! -f "''${unity_bin}_real" ]]; then
+                echo "Apply editor font fix to unity version ''${version}"
+
+                mv "''${unity_bin}" "''${unity_bin}_real"
+                cat ${./unity_wrapper} > "''${unity_bin}"
+                chmod +x "''${unity_bin}"
+              else
+                echo "Already applied to ''${version}"
+              fi
+            elif [[ "''${COMMAND}" == "revert" ]]; then
+              if [[ -f "''${unity_bin}_real" ]]; then
+                echo "Revert editor font fix for unity version ''${version}"
+                mv "''${unity_bin}_real" "''${unity_bin}"
+              fi
+            fi
+          done
+        '')
         (pkgs.writeShellScriptBin "fix-unity-bee_backend" ''
           COMMAND="''${1:-apply}"
           UNITY_VERSION=$2
