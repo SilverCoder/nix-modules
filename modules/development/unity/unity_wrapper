@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
 export GDK_BACKEND=x11
 export FONTCONFIG_FILE=/etc/fonts/fonts.conf
+fc-cache -f 2>/dev/null
 exec ${0}_real "$@"
