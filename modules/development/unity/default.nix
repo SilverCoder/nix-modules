@@ -56,46 +56,38 @@ in
           fi
 
           for version in ''${versions[@]}; do
-            unity_bin="$HOME/Unity/Hub/Editor/''${version}/Editor/Unity"
+            editor_bin="$HOME/Unity/Hub/Editor/''${version}/Editor/Unity"
+            bee_backend="$HOME/Unity/Hub/Editor/''${version}/Editor/Data/bee_backend"
 
             if [[ "''${COMMAND}" == "apply" ]]; then
-              if [[ ! -f "''${unity_bin}_real" ]]; then
-                echo "Apply editor font fix to unity version ''${version}"
-
-                mv "''${unity_bin}" "''${unity_bin}_real"
-                cat ${./unity_wrapper} > "''${unity_bin}"
-                chmod +x "''${unity_bin}"
+              # Unity Editor wrapper (font fix + GDK backend)
+              if [[ ! -f "''${editor_bin}_real" ]]; then
+                echo "[''${version}] Patching Unity Editor"
+                mv "''${editor_bin}" "''${editor_bin}_real"
+                cat ${./unity_wrapper} > "''${editor_bin}"
+                chmod +x "''${editor_bin}"
               else
-                echo "Already applied to ''${version}"
+                echo "[''${version}] Unity Editor already patched"
               fi
+
+              # bee_backend wrapper (stdin-canary fix)
+              if [[ ! -f "''${bee_backend}_real" ]]; then
+                echo "[''${version}] Patching bee_backend"
+                mv "''${bee_backend}" "''${bee_backend}_real"
+                cat ${./bee_backend} > "''${bee_backend}"
+                chmod +x "''${bee_backend}"
+              else
+                echo "[''${version}] bee_backend already patched"
+              fi
+
             elif [[ "''${COMMAND}" == "revert" ]]; then
-              if [[ -f "''${unity_bin}_real" ]]; then
-                echo "Revert editor font fix for unity version ''${version}"
-                mv "''${unity_bin}_real" "''${unity_bin}"
+              if [[ -f "''${editor_bin}_real" ]]; then
+                echo "[''${version}] Reverting Unity Editor"
+                mv "''${editor_bin}_real" "''${editor_bin}"
               fi
-            fi
-          done
-        '')
-        (pkgs.writeShellScriptBin "fix-unity-bee_backend" ''
-          COMMAND="''${1:-apply}"
-          UNITY_VERSION=$2
-
-          if [[ -n ''${UNITY_VERSION} ]]; then
-            versions=($UNITY_VERSION)
-          else
-            versions=($(ls "$HOME/Unity/Hub/Editor"))
-          fi
-
-          for version in ''${versions[@]}; do
-            unity_path="$HOME/Unity/Hub/Editor/''${version}/Editor/Data"
-
-            if [[ "''${COMMAND}" == "apply" ]]; then
-              if [[ ! -f "''${unity_path}/bee_backend_real" ]]; then
-                echo "Apply bee_backend fix to unity version ''${version}"
-
-                mv "''${unity_path}/bee_backend" "''${unity_path}/bee_backend_real"
-                cat ${./bee_backend} >> "''${unity_path}/bee_backend"
-                chmod +x "''${unity_path}/bee_backend"
+              if [[ -f "''${bee_backend}_real" ]]; then
+                echo "[''${version}] Reverting bee_backend"
+                mv "''${bee_backend}_real" "''${bee_backend}"
               fi
             fi
           done
