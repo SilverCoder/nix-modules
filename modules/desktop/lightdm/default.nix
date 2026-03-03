@@ -18,7 +18,7 @@ in
     config = lib.mkIf (desktopCfg.enable && cfg.enable) {
       services.xserver.displayManager.lightdm = {
         enable = true;
-        background = desktopCfg.wallpaper;
+        background = "/run/current-system/wallpaper";
         extraConfig = ''
           sessions-directory=/run/current-system/sw/share/wayland-sessions:/run/current-system/sw/share/xsessions
         '';

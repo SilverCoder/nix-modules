@@ -141,7 +141,7 @@ in
         };
 
         spawn-at-startup = lib.optional (desktopCfg.wallpaper != null)
-          { command = [ "${pkgs.swaybg}/bin/swaybg" "-i" "${config.home.homeDirectory}/.config/wallpaper" "-m" "fill" ]; }
+          { command = [ "${pkgs.swaybg}/bin/swaybg" "-i" "/run/current-system/wallpaper" "-m" "fill" ]; }
         ++ [
           { command = [ "${pkgs.waybar}/bin/waybar" ]; }
         ];
@@ -247,9 +247,6 @@ in
         };
       };
 
-      home.file.".config/wallpaper" = lib.mkIf (desktopCfg.wallpaper != null) {
-        source = desktopCfg.wallpaper;
-      };
 
       home.packages = with pkgs; [
         wl-clipboard

@@ -65,7 +65,7 @@ in
         sddm-astronaut-package = pkgs.sddm-astronaut.override {
           embeddedTheme = "black_hole";
           themeConfig = {
-            Background = toString desktopCfg.wallpaper;
+            Background = "/run/current-system/wallpaper";
             FormBackgroundColor = cfg.colors.background;
             BackgroundColor = cfg.colors.background;
             DimBackgroundColor = cfg.colors.background;

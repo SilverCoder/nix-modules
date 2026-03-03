@@ -101,7 +101,7 @@ in
             "polybar right"
           ])
           cfg.secondaryPolybars
-          (lib.mkIf (desktopCfg.wallpaper != null) [ "feh --bg-fill ${desktopCfg.wallpaper}" ])
+          (lib.mkIf (desktopCfg.wallpaper != null) [ "feh --bg-fill /run/current-system/wallpaper" ])
         ];
       };
     };

@@ -30,6 +30,12 @@ in
         (import ./niri { inherit config lib pkgs niri; }).nixosModule
         (import ./sddm { inherit config lib pkgs; }).nixosModule
       ];
+
+      config = lib.mkIf (config.modules.desktop.enable && config.modules.desktop.wallpaper != null) {
+        system.extraSystemBuilderCmds = ''
+          ln -s ${config.modules.desktop.wallpaper} $out/wallpaper
+        '';
+      };
     };
 
   homeManagerModule = { config, lib, pkgs, ... }:

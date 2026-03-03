@@ -180,8 +180,8 @@ in
       xdg.configFile."betterlockscreen/betterlockscreenrc".source = betterlockscreenConfig;
 
       home.activation.betterlockscreenCache = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-        if [ -f "${toString desktopCfg.wallpaper}" ]; then
-          ${pkgs.betterlockscreen}/bin/betterlockscreen -u "${toString desktopCfg.wallpaper}" --fx blur 2>/dev/null || true
+        if [ -f "/run/current-system/wallpaper" ]; then
+          ${pkgs.betterlockscreen}/bin/betterlockscreen -u "/run/current-system/wallpaper" --fx blur 2>/dev/null || true
         fi
       '';
     };
