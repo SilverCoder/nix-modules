@@ -105,7 +105,7 @@ in
 
         services.displayManager.sddm = {
           enable = true;
-          wayland.enable = true;
+          wayland.enable = false;
           theme = "sddm-astronaut-theme";
           extraPackages = [ sddm-astronaut-package ];
           settings = {
