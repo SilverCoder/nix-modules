@@ -32,7 +32,7 @@ in
       ];
 
       config = lib.mkIf (config.modules.desktop.enable && config.modules.desktop.wallpaper != null) {
-        system.extraSystemBuilderCmds = ''
+        system.systemBuilderCommands = ''
           ln -s ${config.modules.desktop.wallpaper} $out/wallpaper
         '';
       };
