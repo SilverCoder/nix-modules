@@ -11,15 +11,14 @@ in
 {
   config = lib.mkIf (cfg.enable) {
     home = {
-      packages = (with pkgs.nodePackages; [
+      packages = with pkgs; [
         prettier
         svelte-language-server
         typescript-language-server
         vscode-langservers-extracted
-      ]) ++ (with pkgs; [
         tailwindcss-language-server
         vscode-extensions.vue.volar
-      ]);
+      ];
     };
 
     programs.helix = {
@@ -52,10 +51,10 @@ in
             args = [ "--stdio" ];
             config = { userLanguages = { rust = "html"; "*.rs" = "html"; }; };
           };
-          volar = with pkgs.nodePackages; {
+          volar = {
             command = "vue-language-server";
             args = [ "--stdio" ];
-            config.typescript.tsdk = "${typescript}/lib/node_modules/typescript/lib";
+            config.typescript.tsdk = "${pkgs.typescript}/lib/node_modules/typescript/lib";
           };
         };
         language =

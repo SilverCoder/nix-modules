@@ -96,11 +96,11 @@ in
       omnisharp-roslyn
       taplo
       tailwindcss-language-server
-      nodePackages.bash-language-server
-      nodePackages.markdownlint-cli
-      nodePackages.prettier
-      nodePackages.vscode-langservers-extracted
-      nodePackages.yaml-language-server
+      bash-language-server
+      markdownlint-cli
+      prettier
+      vscode-langservers-extracted
+      yaml-language-server
     ] ++ lib.optionals completionEnabled [ pkgs.lsp-ai ];
 
     programs.helix = {
