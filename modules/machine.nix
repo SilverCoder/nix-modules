@@ -1,18 +1,27 @@
-{ lib, ... }: {
-  options.host = {
-    name = lib.mkOption {
-      type = lib.types.str;
-      description = "Machine hostname";
+{ ... }: {
+  flake.nixosModules.host = { lib, config, ... }: {
+    options.host = {
+      name = lib.mkOption {
+        type = lib.types.str;
+        description = "Machine hostname";
+      };
+
+      features.desktop = lib.mkOption {
+        type = lib.types.bool;
+        default = true;
+        description = "Desktop features available";
+      };
     };
 
-    features.desktop = lib.mkOption {
-      type = lib.types.bool;
-      default = true;
-      description = "Desktop features available (set false for servers/wsl)";
+    config = {
+      networking.hostName = config.host.name;
     };
   };
 
-  config.flake.nixosModules.host = { config, ... }: {
-    networking.hostName = config.host.name;
+  flake.homeManagerModules.host = { lib, ... }: {
+    options.host = {
+      name = lib.mkOption { type = lib.types.str; };
+      features.desktop = lib.mkOption { type = lib.types.bool; default = true; };
+    };
   };
 }
