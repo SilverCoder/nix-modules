@@ -51,11 +51,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1767748692,
-        "narHash": "sha256-VfQ8aIj7wzt5t4hUbG3W7rhDXBSg74RPX768ZELwUYs=",
+        "lastModified": 1776999445,
+        "narHash": "sha256-vu2S5gnSTS4aDz25mr4yCrKh9sspPVlgD5KQQVHA4AM=",
         "owner": "helix-editor",
         "repo": "helix",
-        "rev": "7a7edbdb49b0a12047e3d637b2a1be23e75483ef",
+        "rev": "3beb268068d23294a26b47eab43b0a13a2a3a951",
         "type": "github"
       },
       "original": {
