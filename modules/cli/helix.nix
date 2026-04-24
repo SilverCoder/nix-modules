@@ -27,7 +27,7 @@
       userCompletionModelParameters = lib.filterAttrsRecursive (n: v: v != null) completionCfg.parameters;
       completionModelParameters = lib.recursiveUpdate completionModelPresets.${matchedCompletionModelKey} userCompletionModelParameters;
 
-      completionLspEntry = lib.optionalAttrs completionEnabled {
+      completionLspEntries = lib.optional completionEnabled {
         name = "lsp-ai";
         only-features = [ "completion" ];
       };
@@ -93,22 +93,27 @@
         home.packages = with pkgs; [
           inputs.ccase.packages.${pkgs.stdenv.hostPlatform.system}.default
           bash-language-server
+          delve
           dockerfile-language-server
           dot-language-server
           efm-langserver
+          gopls
+          jdt-language-server
           kotlin-language-server
           ktlint
           marksman
           markdownlint-cli
           nil
+          nixd
           nixpkgs-fmt
           omnisharp-roslyn
           prettier
+          python3Packages.python-lsp-server
           svelte-language-server
           tailwindcss-language-server
           taplo
           typescript-language-server
-          vscode-extensions.vue.volar
+          vue-language-server
           vscode-langservers-extracted
           yaml-language-server
         ] ++ lib.optionals completionEnabled [ pkgs.lsp-ai ];
@@ -213,6 +218,15 @@
                 args = [ "--stdio" ];
                 config.typescript.tsdk = "${pkgs.typescript}/lib/node_modules/typescript/lib";
               };
+              jdtls = {
+                command = "jdt-language-server";
+              };
+              pylsp = {
+                command = "pylsp";
+              };
+              nixd = {
+                command = "nixd";
+              };
             };
 
             language =
@@ -221,14 +235,12 @@
                   { name = "typescript-language-server"; except-features = [ "format" ]; }
                   { name = "eslint"; except-features = [ "format" ]; }
                   { name = "efm-prettier"; only-features = [ "format" ]; }
-                  completionLspEntry
-                ];
+                ] ++ completionLspEntries;
                 webLanguageServers = [
                   { name = "vscode-html-language-server"; except-features = [ "format" ]; }
                   { name = "vscode-css-language-server"; except-features = [ "format" ]; }
                   { name = "efm-prettier"; only-features = [ "format" ]; }
-                  completionLspEntry
-                ];
+                ] ++ completionLspEntries;
               in
               [
                 { name = "javascript"; auto-format = true; language-servers = scriptLanguageServers; }
@@ -237,24 +249,24 @@
                 { name = "tsx"; auto-format = true; language-servers = scriptLanguageServers; }
                 { name = "html"; auto-format = true; language-servers = webLanguageServers; }
                 { name = "css"; auto-format = true; language-servers = webLanguageServers; }
-                { name = "vue"; auto-format = true; language-servers = [ "volar" { name = "efm-prettier"; only-features = [ "format" ]; } completionLspEntry ]; }
-                { name = "svelte"; auto-format = true; language-servers = [ "svelteserver" { name = "efm-prettier"; only-features = [ "format" ]; } completionLspEntry ]; }
-                { name = "json"; auto-format = true; language-servers = [ { name = "vscode-json-language-server"; except-features = [ "format" ]; } { name = "efm-prettier"; only-features = [ "format" ]; } completionLspEntry ]; }
-                { name = "yaml"; language-servers = [ "yaml-language-server" completionLspEntry ]; }
-                { name = "markdown"; language-servers = [ "marksman" "efm-markdown" completionLspEntry ]; }
-                { name = "nix"; auto-format = true; formatter.command = "nixpkgs-fmt"; language-servers = [ "nil" completionLspEntry ]; }
-                { name = "kotlin"; auto-format = true; language-servers = [ { name = "kotlin-language-server"; except-features = [ "format" ]; } "efm-kotlin" completionLspEntry ]; }
-                { name = "swift"; auto-format = true; language-servers = [ { name = "sourcekit-lsp"; except-features = [ "format" ]; } "efm-swift" completionLspEntry ]; }
-                { name = "dockerfile"; language-servers = [ "dockerfile-language-server" completionLspEntry ]; }
-                { name = "bash"; language-servers = [ "bash-language-server" completionLspEntry ]; }
-                { name = "toml"; language-servers = [ "taplo" completionLspEntry ]; }
-                { name = "rust"; auto-format = true; language-servers = [ "rust-analyzer" completionLspEntry ]; }
-                { name = "python"; language-servers = [ completionLspEntry ]; }
-                { name = "go"; language-servers = [ "gopls" completionLspEntry ]; }
-                { name = "c"; language-servers = [ "clangd" completionLspEntry ]; }
-                { name = "cpp"; language-servers = [ "clangd" completionLspEntry ]; }
-                { name = "c-sharp"; language-servers = [ "omnisharp" completionLspEntry ]; }
-                { name = "java"; language-servers = [ "jdtls" completionLspEntry ]; }
+                { name = "vue"; auto-format = true; language-servers = [ "volar" { name = "efm-prettier"; only-features = [ "format" ]; } ] ++ completionLspEntries; }
+                { name = "svelte"; auto-format = true; language-servers = [ "svelteserver" { name = "efm-prettier"; only-features = [ "format" ]; } ] ++ completionLspEntries; }
+                { name = "json"; auto-format = true; language-servers = [ { name = "vscode-json-language-server"; except-features = [ "format" ]; } { name = "efm-prettier"; only-features = [ "format" ]; } ] ++ completionLspEntries; }
+                { name = "yaml"; language-servers = [ "yaml-language-server" ] ++ completionLspEntries; }
+                { name = "markdown"; language-servers = [ "marksman" "efm-markdown" ] ++ completionLspEntries; }
+                { name = "nix"; auto-format = true; formatter.command = "nixpkgs-fmt"; language-servers = [ "nil" "nixd" ] ++ completionLspEntries; }
+                { name = "kotlin"; auto-format = true; language-servers = [ { name = "kotlin-language-server"; except-features = [ "format" ]; } "efm-kotlin" ] ++ completionLspEntries; }
+                { name = "swift"; auto-format = true; language-servers = [ { name = "sourcekit-lsp"; except-features = [ "format" ]; } "efm-swift" ] ++ completionLspEntries; }
+                { name = "dockerfile"; language-servers = [ "dockerfile-language-server" ] ++ completionLspEntries; }
+                { name = "bash"; language-servers = [ "bash-language-server" ] ++ completionLspEntries; }
+                { name = "toml"; language-servers = [ "taplo" ] ++ completionLspEntries; }
+                { name = "rust"; auto-format = true; language-servers = [ "rust-analyzer" ] ++ completionLspEntries; }
+                { name = "python"; language-servers = [ "pylsp" ] ++ completionLspEntries; }
+                { name = "go"; language-servers = [ "gopls" ] ++ completionLspEntries; }
+                { name = "c"; language-servers = [ "clangd" ] ++ completionLspEntries; }
+                { name = "cpp"; language-servers = [ "clangd" ] ++ completionLspEntries; }
+                { name = "c-sharp"; language-servers = [ "omnisharp" ] ++ completionLspEntries; }
+                { name = "java"; language-servers = [ "jdtls" ] ++ completionLspEntries; }
               ];
           };
         };
