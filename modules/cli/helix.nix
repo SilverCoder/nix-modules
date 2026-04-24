@@ -1,4 +1,4 @@
-{ ... }: {
+{ inputs, ... }: {
   flake.homeManagerModules.helix = { config, lib, pkgs, ... }:
     let
       completionCfg = config.modules.helix.completion;
@@ -91,7 +91,7 @@
 
       config = {
         home.packages = with pkgs; [
-          ccase
+          inputs.ccase.packages.${pkgs.stdenv.hostPlatform.system}.default
           dockerfile-language-server
           dot-language-server
           efm-langserver
