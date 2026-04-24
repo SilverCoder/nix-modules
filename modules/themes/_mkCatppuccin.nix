@@ -1,5 +1,5 @@
 # Catppuccin theme factory: takes flavor name, colors, accent, and asset path,
-# returns { nixosModule, homeManagerModule } pair for that variant.
+# returns { nixosModule, homeManagerModule } attrsets (not module functions).
 { flavor, colors, accent ? "mauve", cursorVariant, wallpaper, pkgs, lib }:
 let
   themeLib = import ./_lib.nix { inherit lib; };
@@ -26,9 +26,11 @@ let
     rev = "5955cf0213d14a3494ec63580a81818b6f7caa66";
     sha256 = "sha256-rBp9wU6QHpmNAjeaKnI6u8rOUlv8MC70SLUzeKHN/eY=";
   };
+
+  flavorCap = lib.toUpper (lib.substring 0 1 flavor) + lib.substring 1 (-1) flavor;
 in
 {
-  homeManagerModule = { ... }: {
+  homeManagerModule = {
     programs.helix = {
       themes.${helixTheme} = {
         inherits = helixBase;
@@ -62,10 +64,8 @@ in
       header = colors.base03;
     };
 
-    programs.kitty.themeFile = "Catppuccin-${lib.toUpper (lib.substring 0 1 flavor)}${lib.substring 1 (-1) flavor}";
-
-    programs.bat.config.theme = "Catppuccin ${lib.toUpper (lib.substring 0 1 flavor)}${lib.substring 1 (-1) flavor}";
-
+    programs.kitty.themeFile = "Catppuccin-${flavorCap}";
+    programs.bat.config.theme = "Catppuccin ${flavorCap}";
     programs.zellij.settings.theme = "catppuccin-${flavor}";
 
     programs.rofi = {
@@ -139,7 +139,7 @@ in
     };
   };
 
-  nixosModule = { ... }: {
+  nixosModule = {
     modules.desktop.wallpaper = lib.mkDefault wallpaper;
 
     modules.sddm = {
