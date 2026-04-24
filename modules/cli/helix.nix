@@ -92,20 +92,23 @@
       config = {
         home.packages = with pkgs; [
           inputs.ccase.packages.${pkgs.stdenv.hostPlatform.system}.default
+          bash-language-server
           dockerfile-language-server
           dot-language-server
           efm-langserver
           kotlin-language-server
           ktlint
           marksman
+          markdownlint-cli
           nil
           nixpkgs-fmt
           omnisharp-roslyn
-          taplo
-          tailwindcss-language-server
-          bash-language-server
-          markdownlint-cli
           prettier
+          svelte-language-server
+          tailwindcss-language-server
+          taplo
+          typescript-language-server
+          vscode-extensions.vue.volar
           vscode-langservers-extracted
           yaml-language-server
         ] ++ lib.optionals completionEnabled [ pkgs.lsp-ai ];
