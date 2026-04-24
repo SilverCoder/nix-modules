@@ -9,7 +9,7 @@ let
       base08 = "#ed8796"; base09 = "#f5a97f"; base0A = "#eed49f"; base0B = "#a6da95";
       base0C = "#8bd5ca"; base0D = "#8aadf4"; base0E = "#c6a0f6"; base0F = "#f0c6c6";
     };
-    wallpaper = ../../assets/themes/catppuccin/macchiato.jpg;
+    wallpaper = ../../assets/themes/catppuccin/mocha.jpg;
   };
 in
 {
