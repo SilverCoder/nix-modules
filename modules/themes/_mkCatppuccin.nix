@@ -100,8 +100,6 @@ in
       x11.enable = true;
     };
 
-    modules.desktop.wallpaper = lib.mkDefault wallpaper;
-
     modules.niri = {
       activeBorderColor = colors.base0D;
       inactiveBorderColor = colors.base02;
