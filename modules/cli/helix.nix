@@ -218,9 +218,6 @@
                 args = [ "--stdio" ];
                 config.typescript.tsdk = "${pkgs.typescript}/lib/node_modules/typescript/lib";
               };
-              jdtls = {
-                command = "jdt-language-server";
-              };
               pylsp = {
                 command = "pylsp";
               };
