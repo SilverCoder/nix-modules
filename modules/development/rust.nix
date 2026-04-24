@@ -1,13 +1,5 @@
-{ lib, ... }: {
-  options.modules.rust.cargo-config = lib.mkOption {
-    type = lib.types.attrsOf lib.types.anything;
-    default = {
-      net.git-fetch-with-cli = true;
-    };
-    description = "Cargo configuration";
-  };
-
-  config.flake.homeManagerModules.rust = { config, pkgs, ... }:
+{ ... }: {
+  flake.homeManagerModules.rust = { config, lib, pkgs, ... }:
     let
       tomlFormat = pkgs.formats.toml { };
       rustPackage = pkgs.rust-bin.stable.latest.default.override {
@@ -16,14 +8,18 @@
       };
     in
     {
-      home.packages = with pkgs; [
-        rustPackage
-        cargo-update
-      ];
+      options.modules.rust.cargo-config = lib.mkOption {
+        type = lib.types.attrsOf lib.types.anything;
+        default = { net.git-fetch-with-cli = true; };
+      };
 
-      home.file.".cargo/config.toml".source =
-        tomlFormat.generate "cargo-config" config.modules.rust.cargo-config;
+      config = {
+        home.packages = with pkgs; [ rustPackage cargo-update ];
 
-      home.sessionVariables.PATH = "$PATH:$HOME/.cargo/bin";
+        home.file.".cargo/config.toml".source =
+          tomlFormat.generate "cargo-config" config.modules.rust.cargo-config;
+
+        home.sessionVariables.PATH = "$PATH:$HOME/.cargo/bin";
+      };
     };
 }
