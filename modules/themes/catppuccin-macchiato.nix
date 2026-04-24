@@ -14,11 +14,11 @@ let
 in
 {
   flake.homeManagerModules.theme-catppuccin-macchiato-cli = { pkgs, lib, ... }:
-    (import ./_mkCatppuccin.nix (args // { inherit pkgs lib; })).cliModule;
+    (import ./_catppuccin-factory.nix (args // { inherit pkgs lib; })).cliModule;
 
   flake.homeManagerModules.theme-catppuccin-macchiato-desktop = { pkgs, lib, ... }:
-    (import ./_mkCatppuccin.nix (args // { inherit pkgs lib; })).desktopModule;
+    (import ./_catppuccin-factory.nix (args // { inherit pkgs lib; })).desktopModule;
 
   flake.nixosModules.theme-catppuccin-macchiato = { pkgs, lib, ... }:
-    (import ./_mkCatppuccin.nix (args // { inherit pkgs lib; })).nixosModule;
+    (import ./_catppuccin-factory.nix (args // { inherit pkgs lib; })).nixosModule;
 }
