@@ -17,6 +17,7 @@
       inputs.nixpkgs-lib.follows = "nixpkgs";
     };
     import-tree.url = "github:vic/import-tree";
+    ccase = { url = "github:rutrum/ccase"; inputs.nixpkgs.follows = "nixpkgs"; };
   };
 
   outputs = inputs:
