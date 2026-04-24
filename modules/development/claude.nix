@@ -1,8 +1,8 @@
 { ... }: {
   flake.homeManagerModules.claude-code = { lib, pkgs, ... }: {
-    home.file.".claude/CLAUDE.md".source = ./_assets/CLAUDE.md.template;
+    home.file.".claude/CLAUDE.md".source = ../../assets/development/CLAUDE.md.template;
     home.file.".claude/skills" = {
-      source = ./_assets/skills;
+      source = ../../assets/development/skills;
       recursive = true;
     };
 
@@ -71,7 +71,7 @@
       defaults_file=$(mktemp)
 
       cat > "$defaults_file" <<'EOF'
-${builtins.readFile ./_assets/claude.json.template}
+${builtins.readFile ../../assets/development/claude.json.template}
 EOF
 
       if [[ -f "$claude_json" ]]; then
@@ -90,7 +90,7 @@ EOF
       defaults_file=$(mktemp)
 
       cat > "$defaults_file" <<'EOF'
-${builtins.readFile ./_assets/claude-settings.json.template}
+${builtins.readFile ../../assets/development/claude-settings.json.template}
 EOF
 
       $DRY_RUN_CMD mkdir -p "$HOME/.claude"

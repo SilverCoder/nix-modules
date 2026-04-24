@@ -1,6 +1,6 @@
 { ... }: {
   flake.homeManagerModules.opencode = { lib, pkgs, ... }: {
-    home.file.".config/opencode/AGENTS.md".source = ./_assets/AGENTS.md.template;
+    home.file.".config/opencode/AGENTS.md".source = ../../assets/development/AGENTS.md.template;
 
     home.activation.opencodeInstall = lib.hm.dag.entryAfter [ "linkGeneration" ] ''
       export NPM_CONFIG_PREFIX="$HOME/.npm-global"
@@ -41,7 +41,7 @@
       defaults_file=$(mktemp)
 
       cat > "$defaults_file" <<'EOF'
-${builtins.readFile ./_assets/opencode.json.template}
+${builtins.readFile ../../assets/development/opencode.json.template}
 EOF
 
       $DRY_RUN_CMD mkdir -p "$HOME/.config/opencode"

@@ -1,3 +1,3 @@
 { ... }: {
-  flake.lib.utils.gh = import ./_gh.nix;
+  flake.lib.utils.gh = import ../../lib/utils/gh.nix;
 }

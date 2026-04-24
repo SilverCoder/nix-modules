@@ -1,3 +1,3 @@
 { ... }: {
-  flake.lib.utils.age = import ./_age.nix;
+  flake.lib.utils.age = import ../../lib/utils/age.nix;
 }

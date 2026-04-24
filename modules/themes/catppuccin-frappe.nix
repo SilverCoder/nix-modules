@@ -9,16 +9,16 @@ let
       base08 = "#e78284"; base09 = "#ef9f76"; base0A = "#e5c890"; base0B = "#a6d189";
       base0C = "#81c8be"; base0D = "#8caaee"; base0E = "#ca9ee6"; base0F = "#eebebe";
     };
-    wallpaper = ./_assets/catppuccin/frappe.png;
+    wallpaper = ../../assets/themes/catppuccin/frappe.png;
   };
 in
 {
   flake.homeManagerModules.theme-catppuccin-frappe-cli = { pkgs, lib, ... }:
-    (import ./_catppuccin-factory.nix (args // { inherit pkgs lib; })).cliModule;
+    (import ../../lib/themes/catppuccin.nix (args // { inherit pkgs lib; })).cliModule;
 
   flake.homeManagerModules.theme-catppuccin-frappe-desktop = { pkgs, lib, ... }:
-    (import ./_catppuccin-factory.nix (args // { inherit pkgs lib; })).desktopModule;
+    (import ../../lib/themes/catppuccin.nix (args // { inherit pkgs lib; })).desktopModule;
 
   flake.nixosModules.theme-catppuccin-frappe = { pkgs, lib, ... }:
-    (import ./_catppuccin-factory.nix (args // { inherit pkgs lib; })).nixosModule;
+    (import ../../lib/themes/catppuccin.nix (args // { inherit pkgs lib; })).nixosModule;
 }

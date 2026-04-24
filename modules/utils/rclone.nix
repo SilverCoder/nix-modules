@@ -1,3 +1,3 @@
 { ... }: {
-  flake.lib.utils.rclone = import ./_rclone.nix;
+  flake.lib.utils.rclone = import ../../lib/utils/rclone.nix;
 }

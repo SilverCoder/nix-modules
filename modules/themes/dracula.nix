@@ -6,9 +6,9 @@ let
     base08 = "#ff5555"; base09 = "#ffb86c"; base0A = "#f1fa8c"; base0B = "#50fa7b";
     base0C = "#8be9fd"; base0D = "#bd93f9"; base0E = "#ff79c6"; base0F = "#ff79c6";
   };
-  wallpaper = ./_assets/dracula/wallpaper.jpg;
-  powermenuImage = ./_assets/dracula/powermenu.png;
-  launcherImage = ./_assets/dracula/launcher.png;
+  wallpaper = ../../assets/themes/dracula/wallpaper.jpg;
+  powermenuImage = ../../assets/themes/dracula/powermenu.png;
+  launcherImage = ../../assets/themes/dracula/launcher.png;
 in
 {
   flake.homeManagerModules.theme-dracula-cli = { pkgs, ... }: {
@@ -62,7 +62,7 @@ in
 
   flake.homeManagerModules.theme-dracula-desktop = { pkgs, lib, ... }:
     let
-      themeLib = import ./_lib.nix { inherit lib; };
+      themeLib = import ../../lib/themes/opacity.nix { inherit lib; };
     in
     {
       programs.rofi = {

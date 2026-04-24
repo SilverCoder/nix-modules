@@ -9,16 +9,16 @@ let
       base08 = "#ed8796"; base09 = "#f5a97f"; base0A = "#eed49f"; base0B = "#a6da95";
       base0C = "#8bd5ca"; base0D = "#8aadf4"; base0E = "#c6a0f6"; base0F = "#f0c6c6";
     };
-    wallpaper = ./_assets/catppuccin/macchiato.jpg;
+    wallpaper = ../../assets/themes/catppuccin/macchiato.jpg;
   };
 in
 {
   flake.homeManagerModules.theme-catppuccin-macchiato-cli = { pkgs, lib, ... }:
-    (import ./_catppuccin-factory.nix (args // { inherit pkgs lib; })).cliModule;
+    (import ../../lib/themes/catppuccin.nix (args // { inherit pkgs lib; })).cliModule;
 
   flake.homeManagerModules.theme-catppuccin-macchiato-desktop = { pkgs, lib, ... }:
-    (import ./_catppuccin-factory.nix (args // { inherit pkgs lib; })).desktopModule;
+    (import ../../lib/themes/catppuccin.nix (args // { inherit pkgs lib; })).desktopModule;
 
   flake.nixosModules.theme-catppuccin-macchiato = { pkgs, lib, ... }:
-    (import ./_catppuccin-factory.nix (args // { inherit pkgs lib; })).nixosModule;
+    (import ../../lib/themes/catppuccin.nix (args // { inherit pkgs lib; })).nixosModule;
 }

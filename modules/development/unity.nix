@@ -38,7 +38,7 @@
               if [[ ! -f "''${editor_bin}_real" ]]; then
                 echo "[''${version}] Patching Unity Editor"
                 mv "''${editor_bin}" "''${editor_bin}_real"
-                cat ${./_assets/unity_wrapper} > "''${editor_bin}"
+                cat ${../../assets/development/unity_wrapper} > "''${editor_bin}"
                 chmod +x "''${editor_bin}"
               else
                 echo "[''${version}] Unity Editor already patched"
@@ -47,7 +47,7 @@
               if [[ ! -f "''${bee_backend}_real" ]]; then
                 echo "[''${version}] Patching bee_backend"
                 mv "''${bee_backend}" "''${bee_backend}_real"
-                cat ${./_assets/bee_backend} > "''${bee_backend}"
+                cat ${../../assets/development/bee_backend} > "''${bee_backend}"
                 chmod +x "''${bee_backend}"
               else
                 echo "[''${version}] bee_backend already patched"

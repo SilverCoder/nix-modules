@@ -33,8 +33,8 @@
 
   config.flake.homeManagerModules.rofi = { config, pkgs, ... }: {
     modules.rofi = {
-      powermenu = pkgs.callPackage ./_rofi/powermenu.nix { inherit config; };
-      launcher = pkgs.callPackage ./_rofi/launcher.nix { inherit config; };
+      powermenu = pkgs.callPackage ../../lib/rofi/powermenu.nix { inherit config; };
+      launcher = pkgs.callPackage ../../lib/rofi/launcher.nix { inherit config; };
     };
 
     programs.rofi.enable = true;

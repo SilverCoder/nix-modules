@@ -5,7 +5,7 @@
 #   nixosModule   — wallpaper, sddm cursor & colors
 { flavor, colors, accent ? "mauve", cursorVariant, wallpaper, pkgs, lib }:
 let
-  themeLib = import ./_lib.nix { inherit lib; };
+  themeLib = import ../../lib/themes/opacity.nix { inherit lib; };
   helixTheme = "catppuccin-${flavor}-custom";
   helixBase = "catppuccin_${flavor}";
 

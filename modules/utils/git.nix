@@ -1,3 +1,3 @@
 { ... }: {
-  flake.lib.utils.git = import ./_git.nix;
+  flake.lib.utils.git = import ../../lib/utils/git.nix;
 }

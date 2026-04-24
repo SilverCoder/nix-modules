@@ -1,3 +1,3 @@
 { ... }: {
-  flake.lib.utils.ssh = import ./_ssh.nix;
+  flake.lib.utils.ssh = import ../../lib/utils/ssh.nix;
 }
