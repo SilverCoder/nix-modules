@@ -182,13 +182,6 @@
                   }];
                 };
               };
-              efm-swift = {
-                command = "efm-langserver";
-                config = {
-                  documentFormatting = true;
-                  languages.swift = [{ formatCommand = "swiftformat --stdin"; formatStdin = true; }];
-                };
-              };
               eslint = {
                 command = "vscode-eslint-language-server";
                 args = [ "--stdio" ];
@@ -253,7 +246,6 @@
                 { name = "markdown"; language-servers = [ "marksman" "efm-markdown" ] ++ completionLspEntries; }
                 { name = "nix"; auto-format = true; formatter.command = "nixpkgs-fmt"; language-servers = [ "nil" "nixd" ] ++ completionLspEntries; }
                 { name = "kotlin"; auto-format = true; language-servers = [ { name = "kotlin-language-server"; except-features = [ "format" ]; } "efm-kotlin" ] ++ completionLspEntries; }
-                { name = "swift"; auto-format = true; language-servers = [ { name = "sourcekit-lsp"; except-features = [ "format" ]; } "efm-swift" ] ++ completionLspEntries; }
                 { name = "dockerfile"; language-servers = [ "dockerfile-language-server" ] ++ completionLspEntries; }
                 { name = "bash"; language-servers = [ "bash-language-server" ] ++ completionLspEntries; }
                 { name = "toml"; language-servers = [ "taplo" ] ++ completionLspEntries; }
