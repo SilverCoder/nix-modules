@@ -78,8 +78,8 @@
 
             pulseaudio = {
               format = "{icon} {volume}%";
-              format-muted = " muted";
-              format-icons.default = [ "" "" "" ];
+              format-muted = " muted";
+              format-icons.default = [ "" "" "" ];
               on-click-right = "${pkgs.pavucontrol}/bin/pavucontrol";
             } // lib.optionalAttrs (cfg.audioSink != null) {
               on-scroll-up = "${pkgs.pulseaudio}/bin/pactl set-sink-volume ${cfg.audioSink} +2%";
@@ -90,7 +90,7 @@
             tray = { icon-size = 18; spacing = 8; };
 
             "custom/powermenu" = {
-              format = "";
+              format = "";
               tooltip = false;
               on-click = "${rofiCfg.powermenu}/bin/powermenu";
             };
