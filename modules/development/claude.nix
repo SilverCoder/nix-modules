@@ -7,36 +7,44 @@
     };
 
     home.activation.claudeInstall = lib.hm.dag.entryAfter [ "linkGeneration" ] ''
-      echo "Installing/updating claude-code"
-      ${pkgs.curl}/bin/curl -fsSL https://claude.ai/install.sh | PATH="${pkgs.curl}/bin:$PATH" ${pkgs.bash}/bin/bash
+      if ! command -v claude >/dev/null 2>&1; then
+        echo "Installing claude-code"
+        ${pkgs.curl}/bin/curl -fsSL --max-time 30 https://claude.ai/install.sh \
+          | PATH="${pkgs.curl}/bin:$PATH" ${pkgs.bash}/bin/bash \
+          || echo "claude-code install failed (offline?), will retry next activation"
+      fi
     '';
 
     home.activation.claudePlugins = lib.hm.dag.entryAfter [ "claudeInstall" ] ''
       $DRY_RUN_CMD mkdir -p "$HOME/.claude/plugins"
 
-      marketplaces_file="$HOME/.claude/plugins/known_marketplaces.json"
-      if [[ -f "$marketplaces_file" ]] && ${pkgs.jq}/bin/jq -e '.["superpowers-marketplace"]' "$marketplaces_file" > /dev/null 2>&1; then
-        echo "Marketplace superpowers-marketplace already added"
+      if ! command -v claude >/dev/null 2>&1; then
+        echo "claude not installed, skipping plugin setup"
       else
-        if ${pkgs.openssh}/bin/ssh -T git@github.com 2>&1 | grep -q "successfully authenticated"; then
-          echo "Adding marketplace superpowers-marketplace"
-          claude plugin marketplace add obra/superpowers-marketplace
+        marketplaces_file="$HOME/.claude/plugins/known_marketplaces.json"
+        if [[ -f "$marketplaces_file" ]] && ${pkgs.jq}/bin/jq -e '.["superpowers-marketplace"]' "$marketplaces_file" > /dev/null 2>&1; then
+          echo "Marketplace superpowers-marketplace already added"
         else
-          echo "Warning: SSH to github.com not configured, skipping marketplace add"
-          echo "Run manually: claude plugin marketplace add obra/superpowers-marketplace"
+          if ${pkgs.openssh}/bin/ssh -T git@github.com 2>&1 | grep -q "successfully authenticated"; then
+            echo "Adding marketplace superpowers-marketplace"
+            claude plugin marketplace add obra/superpowers-marketplace \
+              || echo "marketplace add failed (offline?), will retry next activation"
+          else
+            echo "Warning: SSH to github.com not configured, skipping marketplace add"
+          fi
         fi
-      fi
 
-      plugins_file="$HOME/.claude/plugins/installed_plugins.json"
-      if [[ -f "$plugins_file" ]] && ${pkgs.jq}/bin/jq -e '.plugins["superpowers@superpowers-marketplace"]' "$plugins_file" > /dev/null 2>&1; then
-        echo "Plugin superpowers@superpowers-marketplace already installed"
-      else
-        if ${pkgs.openssh}/bin/ssh -T git@github.com 2>&1 | grep -q "successfully authenticated"; then
-          echo "Installing plugin superpowers@superpowers-marketplace"
-          claude plugin install superpowers@superpowers-marketplace
+        plugins_file="$HOME/.claude/plugins/installed_plugins.json"
+        if [[ -f "$plugins_file" ]] && ${pkgs.jq}/bin/jq -e '.plugins["superpowers@superpowers-marketplace"]' "$plugins_file" > /dev/null 2>&1; then
+          echo "Plugin superpowers@superpowers-marketplace already installed"
         else
-          echo "Warning: SSH to github.com not configured, skipping plugin install"
-          echo "Run manually: claude plugin install superpowers@superpowers-marketplace"
+          if ${pkgs.openssh}/bin/ssh -T git@github.com 2>&1 | grep -q "successfully authenticated"; then
+            echo "Installing plugin superpowers@superpowers-marketplace"
+            claude plugin install superpowers@superpowers-marketplace \
+              || echo "plugin install failed (offline?), will retry next activation"
+          else
+            echo "Warning: SSH to github.com not configured, skipping plugin install"
+          fi
         fi
       fi
 
@@ -50,19 +58,23 @@
     home.activation.claudeMcp = lib.hm.dag.entryAfter [ "claudePlugins" ] ''
       $DRY_RUN_CMD mkdir -p "$HOME/.claude"
 
-      claude_json="$HOME/.claude.json"
-      if [[ -f "$claude_json" ]] && ${pkgs.jq}/bin/jq -e '.mcpServers.context7' "$claude_json" > /dev/null 2>&1; then
-        echo "MCP server context7 already added"
+      if ! command -v claude >/dev/null 2>&1; then
+        echo "claude not installed, skipping MCP setup"
       else
-        echo "Adding MCP server context7"
-        claude mcp add --scope user --transport stdio context7 -- npx -y @upstash/context7@latest || true
-      fi
+        claude_json="$HOME/.claude.json"
+        if [[ -f "$claude_json" ]] && ${pkgs.jq}/bin/jq -e '.mcpServers.context7' "$claude_json" > /dev/null 2>&1; then
+          echo "MCP server context7 already added"
+        else
+          echo "Adding MCP server context7"
+          claude mcp add --scope user --transport stdio context7 -- npx -y @upstash/context7@latest || true
+        fi
 
-      if [[ -f "$claude_json" ]] && ${pkgs.jq}/bin/jq -e '.mcpServers["chrome-devtools"]' "$claude_json" > /dev/null 2>&1; then
-        echo "MCP server chrome-devtools already added"
-      else
-        echo "Adding MCP server chrome-devtools"
-        claude mcp add --scope user --transport stdio chrome-devtools -- npx -y chrome-devtools-mcp@latest || true
+        if [[ -f "$claude_json" ]] && ${pkgs.jq}/bin/jq -e '.mcpServers["chrome-devtools"]' "$claude_json" > /dev/null 2>&1; then
+          echo "MCP server chrome-devtools already added"
+        else
+          echo "Adding MCP server chrome-devtools"
+          claude mcp add --scope user --transport stdio chrome-devtools -- npx -y chrome-devtools-mcp@latest || true
+        fi
       fi
     '';
 

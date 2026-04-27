@@ -8,10 +8,8 @@
 
       if ! command -v opencode &> /dev/null; then
         echo "Installing opencode via npm"
-        ${pkgs.nodejs}/bin/npm install -g opencode-ai
-      else
-        echo "Updating opencode"
-        ${pkgs.nodejs}/bin/npm upgrade -g opencode-ai
+        ${pkgs.nodejs}/bin/npm install -g opencode-ai \
+          || echo "opencode install failed (offline?), will retry next activation"
       fi
     '';
 
@@ -21,10 +19,8 @@
 
       if [[ ! -d "$superpowers_dir" ]]; then
         echo "Cloning superpowers repository"
-        $DRY_RUN_CMD ${pkgs.git}/bin/git clone https://github.com/obra/superpowers.git "$superpowers_dir"
-      else
-        echo "Updating superpowers repository"
-        $DRY_RUN_CMD ${pkgs.git}/bin/git -C "$superpowers_dir" pull --ff-only 2>/dev/null || true
+        $DRY_RUN_CMD ${pkgs.git}/bin/git clone https://github.com/obra/superpowers.git "$superpowers_dir" \
+          || echo "superpowers clone failed (offline?), will retry next activation"
       fi
 
       if [[ -d "$superpowers_dir" ]]; then
