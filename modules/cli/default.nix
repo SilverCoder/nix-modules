@@ -3,7 +3,6 @@
     imports = with config.flake.homeManagerModules; [
       bat
       cli-defaults
-      cli-tools
       fish
       fzf
       helix
