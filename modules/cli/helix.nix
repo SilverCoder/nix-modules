@@ -93,12 +93,9 @@
         home.packages = with pkgs; [
           inputs.ccase.packages.${pkgs.stdenv.hostPlatform.system}.default
           bash-language-server
-          delve
           dockerfile-language-server
           dot-language-server
           efm-langserver
-          gopls
-          jdt-language-server
           kotlin-language-server
           ktlint
           marksman
@@ -108,12 +105,9 @@
           nixpkgs-fmt
           omnisharp-roslyn
           prettier
-          python3Packages.python-lsp-server
-          svelte-language-server
           tailwindcss-language-server
           taplo
           typescript-language-server
-          vue-language-server
           vscode-langservers-extracted
           yaml-language-server
         ] ++ lib.optionals completionEnabled [ pkgs.lsp-ai ];
@@ -206,14 +200,6 @@
                 args = [ "--stdio" ];
                 config.userLanguages = { rust = "html"; "*.rs" = "html"; };
               };
-              volar = {
-                command = "vue-language-server";
-                args = [ "--stdio" ];
-                config.typescript.tsdk = "${pkgs.typescript}/lib/node_modules/typescript/lib";
-              };
-              pylsp = {
-                command = "pylsp";
-              };
               nixd = {
                 command = "nixd";
               };
@@ -239,8 +225,6 @@
                 { name = "tsx"; auto-format = true; language-servers = scriptLanguageServers; }
                 { name = "html"; auto-format = true; language-servers = webLanguageServers; }
                 { name = "css"; auto-format = true; language-servers = webLanguageServers; }
-                { name = "vue"; auto-format = true; language-servers = [ "volar" { name = "efm-prettier"; only-features = [ "format" ]; } ] ++ completionLspEntries; }
-                { name = "svelte"; auto-format = true; language-servers = [ "svelteserver" { name = "efm-prettier"; only-features = [ "format" ]; } ] ++ completionLspEntries; }
                 { name = "json"; auto-format = true; language-servers = [ { name = "vscode-json-language-server"; except-features = [ "format" ]; } { name = "efm-prettier"; only-features = [ "format" ]; } ] ++ completionLspEntries; }
                 { name = "yaml"; language-servers = [ "yaml-language-server" ] ++ completionLspEntries; }
                 { name = "markdown"; language-servers = [ "marksman" "efm-markdown" ] ++ completionLspEntries; }
@@ -250,12 +234,9 @@
                 { name = "bash"; language-servers = [ "bash-language-server" ] ++ completionLspEntries; }
                 { name = "toml"; language-servers = [ "taplo" ] ++ completionLspEntries; }
                 { name = "rust"; auto-format = true; language-servers = [ "rust-analyzer" ] ++ completionLspEntries; }
-                { name = "python"; language-servers = [ "pylsp" ] ++ completionLspEntries; }
-                { name = "go"; language-servers = [ "gopls" ] ++ completionLspEntries; }
                 { name = "c"; language-servers = [ "clangd" ] ++ completionLspEntries; }
                 { name = "cpp"; language-servers = [ "clangd" ] ++ completionLspEntries; }
                 { name = "c-sharp"; language-servers = [ "omnisharp" ] ++ completionLspEntries; }
-                { name = "java"; language-servers = [ "jdtls" ] ++ completionLspEntries; }
               ];
           };
         };
