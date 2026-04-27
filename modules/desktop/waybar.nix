@@ -47,16 +47,16 @@
               ++ [ "cpu" "memory" "pulseaudio" "custom/powermenu" ];
 
             "clock#date" = {
-              format = " {:%A %d.%m.%Y, Week %W}";
+              format = " {:%A %d.%m.%Y, Week %W}";
               interval = 60;
             };
 
             "clock#time" = {
-              format = " {:%H:%M:%S}";
+              format = " {:%H:%M:%S}";
               interval = 1;
             };
 
-            cpu = { format = " {usage}%"; interval = 2; };
+            cpu = { format = " {usage}%"; interval = 2; };
 
             battery = {
               format = "{icon} {capacity}%";
@@ -74,7 +74,7 @@
               interval = 2;
             };
 
-            memory = { format = " {percentage}%"; interval = 1; };
+            memory = { format = " {percentage}%"; interval = 1; };
 
             pulseaudio = {
               format = "{icon} {volume}%";
