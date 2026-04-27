@@ -7,7 +7,6 @@
       fish
       fzf
       helix
-      kitty
       lsd
       starship
       yazi
