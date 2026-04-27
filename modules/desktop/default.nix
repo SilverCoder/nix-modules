@@ -2,6 +2,7 @@
   flake.homeManagerModules.desktop = {
     imports = with config.flake.homeManagerModules; [
       dunst
+      kitty
       localsend
       lock
       niri
