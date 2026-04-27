@@ -19,7 +19,7 @@
     };
   };
 
-  flake.homeManagerModules.niri = { config, lib, pkgs, ... }: {
+  flake.homeManagerModules.niri = { config, lib, osConfig, pkgs, ... }: {
     options.modules.niri = with lib; {
       scale = mkOption {
         type = types.float;
@@ -44,7 +44,7 @@
       let
         cfg = config.modules.niri;
         rofiCfg = config.modules.rofi;
-        wallpaper = config.modules.desktop.wallpaper or null;
+        wallpaper = osConfig.modules.desktop.wallpaper or null;
       in
       {
         home.sessionVariables.DISPLAY = ":2";
