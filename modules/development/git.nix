@@ -1,37 +1,21 @@
-{ config, lib, ... }:
-let
-  developmentCfg = config.modules.development;
-  cfg = config.modules.development.git;
-in
-{
-  options.modules.development.git = {
-    enable = lib.mkEnableOption "git version control" // { default = true; };
-  };
-
-  config = lib.mkIf (developmentCfg.enable && cfg.enable) {
-    programs = {
-      git = {
-        enable = true;
-
-        signing.format = null;
-
-        settings = {
-          init.defaultBranch = "main";
-          pull = { rebase = true; };
-          rebase = { autostash = true; };
-        };
-
-        lfs = { enable = true; };
+{ ... }: {
+  flake.homeManagerModules.git = {
+    programs.git = {
+      enable = true;
+      signing.format = null;
+      settings = {
+        init.defaultBranch = "main";
+        pull.rebase = true;
+        rebase.autostash = true;
       };
-
-      difftastic = {
-        enable = true;
-        git.enable = true;
-      };
-
-      lazygit = {
-        enable = true;
-      };
+      lfs.enable = true;
     };
+
+    programs.difftastic = {
+      enable = true;
+      git.enable = true;
+    };
+
+    programs.lazygit.enable = true;
   };
 }

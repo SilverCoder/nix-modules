@@ -1,30 +1,19 @@
-{ config, lib, pkgs, ... }:
-let
-  developmentCfg = config.modules.development;
-  cfg = config.modules.development.node;
-in
-{
-  options.modules.development.node = {
-    enable = lib.mkEnableOption "Node.js development environment" // { default = true; };
-  };
+{ ... }: {
+  flake.homeManagerModules.node = { pkgs, ... }: {
+    home.packages = with pkgs; [
+      nodejs
+      (pkgs.runCommand "corepack-enable" { } ''
+        mkdir -p $out/bin
+        ${nodejs}/bin/corepack enable --install-directory $out/bin
+      '')
+    ];
 
-  config = lib.mkIf (developmentCfg.enable && cfg.enable) {
-    home = {
-      packages = with pkgs; [
-        nodejs
-        (pkgs.runCommand "corepack-enable" { } ''
-          mkdir -p $out/bin
-          ${nodejs}/bin/corepack enable --install-directory $out/bin
-        '')
-      ];
-
-      sessionVariables = {
-        NPM_CONFIG_PREFIX = "$HOME/.npm-global";
-      };
-
-      sessionPath = [
-        "$HOME/.npm-global/bin"
-      ];
+    home.sessionVariables = {
+      NPM_CONFIG_PREFIX = "$HOME/.npm-global";
     };
+
+    home.sessionPath = [
+      "$HOME/.npm-global/bin"
+    ];
   };
 }
