@@ -84,6 +84,7 @@ in
 
       gtk = {
         theme = { name = "Dracula"; package = pkgs.dracula-theme; };
+        gtk4.theme = null;
         iconTheme = { name = "Dracula"; package = pkgs.dracula-icon-theme; };
       };
 

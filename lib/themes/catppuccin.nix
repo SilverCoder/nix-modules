@@ -89,6 +89,7 @@ in
             variant = flavor;
           };
         };
+        gtk4.theme = null;
         iconTheme = {
           name = "Papirus-Dark";
           package = pkgs.catppuccin-papirus-folders.override {
