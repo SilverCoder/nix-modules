@@ -112,7 +112,7 @@
             in
             monitorBinds // {
               "Mod+T".action.spawn = [ "${pkgs.kitty}/bin/kitty" ];
-              "Mod+B".action.spawn = [ "${pkgs.google-chrome}/bin/google-chrome-stable" "--enable-unsafe-webgpu" ];
+              "Mod+B".action.spawn = [ "${pkgs.google-chrome}/bin/google-chrome-stable" ];
               "Mod+E".action.spawn = [ "${pkgs.thunar}/bin/thunar" ];
               "Mod+Space".action.spawn = [ "${rofiCfg.launcher}/bin/launcher" ];
               "Mod+Escape".action.spawn = [ "lock-screen" ];
