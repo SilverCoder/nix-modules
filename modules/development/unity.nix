@@ -5,7 +5,7 @@
         extraPkgs = pkgs: with pkgs; [ fira ];
         extraLibs = pkgs: with pkgs; [
           cairo fontconfig gdk-pixbuf glib gtk3 libGL libxml2 libz
-          openssl_1_1 pango udev libX11 libXcursor libXrandr
+          openssl_1_1 pango udev libX11 libXcursor libXrandr sqlite
         ];
       });
     in
