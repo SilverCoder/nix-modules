@@ -2,6 +2,7 @@
   flake.homeManagerModules.cli = { pkgs, ... }: {
     imports = with config.flake.homeManagerModules; [
       bat
+      ccase
       fish
       fzf
       helix
