@@ -35,7 +35,7 @@ Reusable NixOS/home-manager modules for declarative system configuration.
 - `git` - Multi-identity git configuration (insteadOfGithub, includesGithub)
 - `gh` - Multi-identity gh cli wrappers (gh-{name})
 - `rclone` - rclone mount systemd service generators
-- `ssh` - SSH config helpers (github matchBlocks)
+- `ssh` - SSH config helpers (github settings block)
 
 ## Theme System
 

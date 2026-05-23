@@ -1,9 +1,9 @@
 { ... }:
 let
   github = identityFile: {
-    hostname = "github.com";
-    user = "git";
-    inherit identityFile;
+    HostName = "github.com";
+    User = "git";
+    IdentityFile = identityFile;
   };
 in
 {
