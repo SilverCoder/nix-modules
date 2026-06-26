@@ -6,6 +6,8 @@
     nixpkgs.overlays = [ inputs.niri.overlays.niri ];
 
     xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
+    # gnome backend's FileChooser is broken under niri (no dialog appears); route it to gtk.
+    xdg.portal.config.niri."org.freedesktop.impl.portal.FileChooser" = [ "gtk" ];
 
     environment.etc."nvidia/nvidia-application-profiles-rc.d/50-niri.json".text = builtins.toJSON {
       rules = [{
