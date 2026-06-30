@@ -5,7 +5,9 @@
     programs.niri.enable = true;
     nixpkgs.overlays = [ inputs.niri.overlays.niri ];
 
-    xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
+    xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-gtk pkgs.xdg-desktop-portal-gnome ];
+    # niri screencast goes through the gnome (Mutter) backend; wlr backend doesn't work under niri.
+    xdg.portal.config.niri.default = [ "gnome" ];
     # gnome backend's FileChooser is broken under niri (no dialog appears); route it to gtk.
     xdg.portal.config.niri."org.freedesktop.impl.portal.FileChooser" = [ "gtk" ];
 
