@@ -184,7 +184,7 @@
               "Alt+Print".action.spawn = [ "sh" "-c" ''${pkgs.grim}/bin/grim -g "$(${pkgs.slurp}/bin/slurp -o)" - | ${pkgs.satty}/bin/satty -f -'' ];
 
               "Mod+Shift+Slash".action.show-hotkey-overlay = { };
-              "Mod+Shift+E".action.quit.skip-confirmation = true;
+              "Mod+Shift+E".action.quit = { };
 
               "XF86AudioRaiseVolume".action.spawn = [ "${pkgs.pulseaudio}/bin/pactl" "set-sink-volume" "@DEFAULT_SINK@" "+5%" ];
               "XF86AudioLowerVolume".action.spawn = [ "${pkgs.pulseaudio}/bin/pactl" "set-sink-volume" "@DEFAULT_SINK@" "-5%" ];
