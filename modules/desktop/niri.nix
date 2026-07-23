@@ -3,7 +3,15 @@
     imports = [ inputs.niri.nixosModules.niri ];
 
     programs.niri.enable = true;
+    # unstable for blur support; niri-flake's stable is still pinned to 25.08
+    programs.niri.package = pkgs.niri-unstable;
     nixpkgs.overlays = [ inputs.niri.overlays.niri ];
+
+    # binary cache for niri-flake's niri-stable/niri-unstable builds
+    nix.settings = {
+      substituters = [ "https://niri.cachix.org" ];
+      trusted-public-keys = [ "niri.cachix.org-1:Wv0OmO7PsuocRKzfDoJ3mulSl7Z6oezYhGhR+3W2964=" ];
+    };
 
     xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-gtk pkgs.xdg-desktop-portal-gnome ];
     # niri screencast goes through the gnome (Mutter) backend; wlr backend doesn't work under niri.
@@ -23,7 +31,7 @@
     };
   };
 
-  flake.homeManagerModules.niri = { config, lib, osConfig, pkgs, ... }: {
+  flake.homeManagerModules.niri = { config, options, lib, osConfig, pkgs, ... }: {
     options.modules.niri = with lib; {
       scale = mkOption {
         type = types.float;
@@ -202,6 +210,29 @@
               "Mod+Shift+WheelScrollUp".action.focus-workspace-up = { };
             };
         };
+
+        # niri-flake's settings schema doesn't cover background-effect yet;
+        # append the blur rules as raw KDL nodes to the rendered settings.
+        # real (non-xray) blur: blurs windows beneath, not just the wallpaper.
+        # experimental upstream: drops out during animations/window drag.
+        # match-less rules apply to every window/layer; blur is only visible
+        # behind transparent pixels, so opaque surfaces are unaffected.
+        programs.niri.config =
+          let
+            inherit (inputs.niri.lib) kdl;
+            blur = kdl.node "background-effect" [ ] [
+              (kdl.leaf "blur" true)
+              (kdl.leaf "xray" false)
+            ];
+          in
+          options.programs.niri.config.default ++ [
+            (kdl.node "window-rule" [ ] [ blur ])
+            (kdl.node "layer-rule" [ ] [ blur ])
+            (kdl.node "blur" [ ] [
+              (kdl.leaf "passes" 2)
+              (kdl.leaf "offset" 2)
+            ])
+          ];
 
         home.packages = with pkgs; [
           wl-clipboard
