@@ -217,6 +217,8 @@
         # experimental upstream: drops out during animations/window drag.
         # match-less rules apply to every window/layer; blur is only visible
         # behind transparent pixels, so opaque surfaces are unaffected.
+        # slurp's fullscreen overlay (namespace "selection") is excluded, else
+        # the whole desktop blurs while picking a region screenshot.
         programs.niri.config =
           let
             inherit (inputs.niri.lib) kdl;
@@ -227,7 +229,10 @@
           in
           options.programs.niri.config.default ++ [
             (kdl.node "window-rule" [ ] [ blur ])
-            (kdl.node "layer-rule" [ ] [ blur ])
+            (kdl.node "layer-rule" [ ] [
+              (kdl.leaf "exclude" { namespace = "^selection$"; })
+              blur
+            ])
             (kdl.node "blur" [ ] [
               (kdl.leaf "passes" 2)
               (kdl.leaf "offset" 2)
