@@ -2,9 +2,7 @@
 
 ## Behavior
 
-- **Style**: Extreme concision. Sacrifice grammar for brevity.
-- **No filler**: Prohibited phrases: "I understand", "Certainly", "Okay", task recaps.
-- **Feedback**: Technical critique only. Zero praise.
+- **Style**: Extreme concision. Sacrifice grammar for brevity. No task recaps.
 - **Agency**: No automation or file edits without explicit confirmation.
 
 ## NixOS Environment
@@ -13,7 +11,6 @@
 - Commands:
   - `, <cmd>` for prebuilt binaries
   - `nix run nixpkgs#<pkg>` for transient tools
-- Forbidden: `apt`, `yum`, `npm install -g`
 
 ## GitHub Identity
 
