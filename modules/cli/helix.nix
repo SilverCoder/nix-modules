@@ -19,8 +19,11 @@
       };
       yankAndPasteMapings = {
         y = "yank_joined_to_clipboard";
+        Y = "yank_main_selection_to_clipboard";
+        d = [ "yank_joined_to_clipboard" "delete_selection" ];
         p = "paste_clipboard_after";
         P = "paste_clipboard_before";
+        R = "replace_selections_with_clipboard";
       };
     in
     {
@@ -74,10 +77,13 @@
 
           keys = {
             insert = commonMappings;
-            normal = commonMappings // {
-              space = spaceModeMappings // { y = yankAndPasteMapings; };
-            };
-            select = commonMappings;
+            normal = {
+              X = [ "extend_line_up" "extend_to_line_bounds" ];
+              space = spaceModeMappings;
+            } // commonMappings // yankAndPasteMapings;
+            select = {
+              space = spaceModeMappings;
+            } // commonMappings // yankAndPasteMapings;
           };
         };
 
