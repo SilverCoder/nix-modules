@@ -89,6 +89,7 @@ in
       };
 
       home.pointerCursor = {
+        enable = true;
         name = "Capitaine Cursors (Palenight)";
         package = pkgs.capitaine-cursors-themed;
         size = 32;

@@ -100,6 +100,7 @@ in
       };
 
       home.pointerCursor = {
+        enable = true;
         name = "catppuccin-${flavor}-light-cursors";
         package = pkgs.catppuccin-cursors.${cursorVariant};
         size = 32;
