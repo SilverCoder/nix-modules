@@ -5,7 +5,19 @@
     programs.niri.enable = true;
     # unstable for blur support; niri-flake's stable is still pinned to 25.08
     programs.niri.package = pkgs.niri-unstable;
-    nixpkgs.overlays = [ inputs.niri.overlays.niri ];
+    nixpkgs.overlays = [
+      # nixpkgs dropped libdisplay-info_0_2; niri-flake still asserts on 0.2.0.
+      # remove once sodiboo/niri-flake moves off it.
+      (final: prev: {
+        libdisplay-info_0_2 = final.callPackage
+          (import "${prev.path}/pkgs/by-name/li/libdisplay-info/generic.nix" {
+            version = "0.2.0";
+            hash = "sha256-6xmWBrPHghjok43eIDGeshpUEQTuwWLXNHg7CnBUt3Q=";
+          })
+          { };
+      })
+      inputs.niri.overlays.niri
+    ];
 
     # binary cache for niri-flake's niri-stable/niri-unstable builds
     nix.settings = {
