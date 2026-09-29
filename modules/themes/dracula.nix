@@ -66,7 +66,7 @@ in
     in
     {
       programs.rofi = {
-        font = "Fira Sans Mono 11";
+        settings.font = "Fira Sans Mono 11";
         theme = "${(pkgs.fetchFromGitHub {
           owner = "dracula";
           repo = "rofi";
