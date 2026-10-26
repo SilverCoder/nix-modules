@@ -50,7 +50,10 @@
 
       programs.helix = {
         enable = true;
-        package = inputs.helix.packages.${pkgs.stdenv.hostPlatform.system}.default;
+        # tree-sitter-perl fails to build against glibc 2.44 (bsearch vs C23 _Generic)
+        package = inputs.helix.packages.${pkgs.stdenv.hostPlatform.system}.default.override {
+          includeGrammarIf = g: g.name != "perl";
+        };
         defaultEditor = true;
 
         settings = {
