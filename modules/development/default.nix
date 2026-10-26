@@ -5,7 +5,6 @@
       claude-code
       git
       node
-      opencode
       rust
     ];
   };
