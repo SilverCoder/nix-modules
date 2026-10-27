@@ -58,6 +58,7 @@
                 chmod +x "''${bee_backend}"
               elif [[ -f "$bee_backend_shipped" ]]; then
                 echo "[''${version}] Patching bee_backend (from Tools/BuildPipeline)"
+                rm -f "''${bee_backend}" "''${bee_backend}_real"
                 cp "$bee_backend_shipped" "''${bee_backend}_real"
                 cat "$bee_wrapper" > "''${bee_backend}"
                 chmod +x "''${bee_backend}"
