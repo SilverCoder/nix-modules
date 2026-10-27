@@ -55,12 +55,6 @@
         done
       fi
 
-      for skins_store in "$HOME"/.claude/plugins/store/skins_hellosverre-mods-*.json; do
-        [[ -f "$skins_store" ]] || continue
-        ${pkgs.jq}/bin/jq '.prefs.skin = "catppuccin"' "$skins_store" > "$skins_store.tmp"
-        $DRY_RUN_CMD mv "$skins_store.tmp" "$skins_store"
-      done
-
       settings_file="$HOME/.claude/settings.json"
       if [[ -f "$settings_file" ]]; then
         ${pkgs.jq}/bin/jq 'if .enabledPlugins then .enabledPlugins |= (del(.["superpowers@superpowers-dev"]) | .["superpowers@superpowers-marketplace"] = true) else . end' "$settings_file" > "$settings_file.tmp"

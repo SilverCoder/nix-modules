@@ -22,11 +22,6 @@
       "source": { "source": "github", "repo": "data-goblin/claude-code-filetree" }
     }
   },
-  "pluginConfigs": {
-    "savvy-progress@claude-kit": {
-      "options": { "language": "auto", "autoOpen": "savvy" }
-    }
-  },
   "permissions": {
     "deny": [
       "Bash(curl:*)",
