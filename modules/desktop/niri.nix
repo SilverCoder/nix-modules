@@ -115,10 +115,7 @@
           };
 
           spawn-at-startup = lib.optional (wallpaper != null)
-            { command = [ "${pkgs.swaybg}/bin/swaybg" "-i" "/run/current-system/wallpaper" "-m" "fill" ]; }
-          ++ [
-            { command = [ "${pkgs.waybar}/bin/waybar" ]; }
-          ];
+            { command = [ "${pkgs.swaybg}/bin/swaybg" "-i" "/run/current-system/wallpaper" "-m" "fill" ]; };
 
           environment = {
             DISPLAY = ":2";
