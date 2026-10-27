@@ -22,31 +22,44 @@
         echo "claude not installed, skipping plugin setup"
       else
         marketplaces_file="$HOME/.claude/plugins/known_marketplaces.json"
-        if [[ -f "$marketplaces_file" ]] && ${pkgs.jq}/bin/jq -e '.["superpowers-marketplace"]' "$marketplaces_file" > /dev/null 2>&1; then
-          echo "Marketplace superpowers-marketplace already added"
-        else
-          if ${pkgs.openssh}/bin/ssh -T git@github.com 2>&1 | grep -q "successfully authenticated"; then
-            echo "Adding marketplace superpowers-marketplace"
-            claude plugin marketplace add obra/superpowers-marketplace \
+        plugins_file="$HOME/.claude/plugins/installed_plugins.json"
+        ssh_ok=""
+        ${pkgs.openssh}/bin/ssh -T git@github.com 2>&1 | grep -q "successfully authenticated" && ssh_ok=1
+
+        for entry in \
+          "superpowers-marketplace obra/superpowers-marketplace superpowers" \
+          "claude-kit johnnyvizz/claude-kit savvy-progress" \
+          "hellosverre-mods hellosverre/claude-skins skins" \
+          "claude-code-filetree data-goblin/claude-code-filetree filetree"; do
+          read -r marketplace repo plugin <<< "$entry"
+
+          if [[ -f "$marketplaces_file" ]] && ${pkgs.jq}/bin/jq -e --arg m "$marketplace" '.[$m]' "$marketplaces_file" > /dev/null 2>&1; then
+            echo "Marketplace $marketplace already added"
+          elif [[ -n "$ssh_ok" ]]; then
+            echo "Adding marketplace $marketplace"
+            claude plugin marketplace add "$repo" \
               || echo "marketplace add failed (offline?), will retry next activation"
           else
-            echo "Warning: SSH to github.com not configured, skipping marketplace add"
+            echo "Warning: SSH to github.com not configured, skipping marketplace $marketplace"
           fi
-        fi
 
-        plugins_file="$HOME/.claude/plugins/installed_plugins.json"
-        if [[ -f "$plugins_file" ]] && ${pkgs.jq}/bin/jq -e '.plugins["superpowers@superpowers-marketplace"]' "$plugins_file" > /dev/null 2>&1; then
-          echo "Plugin superpowers@superpowers-marketplace already installed"
-        else
-          if ${pkgs.openssh}/bin/ssh -T git@github.com 2>&1 | grep -q "successfully authenticated"; then
-            echo "Installing plugin superpowers@superpowers-marketplace"
-            claude plugin install superpowers@superpowers-marketplace \
+          if [[ -f "$plugins_file" ]] && ${pkgs.jq}/bin/jq -e --arg p "$plugin@$marketplace" '.plugins[$p]' "$plugins_file" > /dev/null 2>&1; then
+            echo "Plugin $plugin@$marketplace already installed"
+          elif [[ -n "$ssh_ok" ]]; then
+            echo "Installing plugin $plugin@$marketplace"
+            claude plugin install "$plugin@$marketplace" \
               || echo "plugin install failed (offline?), will retry next activation"
           else
-            echo "Warning: SSH to github.com not configured, skipping plugin install"
+            echo "Warning: SSH to github.com not configured, skipping plugin $plugin@$marketplace"
           fi
-        fi
+        done
       fi
+
+      for skins_store in "$HOME"/.claude/plugins/store/skins_hellosverre-mods-*.json; do
+        [[ -f "$skins_store" ]] || continue
+        ${pkgs.jq}/bin/jq '.prefs.skin = "catppuccin"' "$skins_store" > "$skins_store.tmp"
+        $DRY_RUN_CMD mv "$skins_store.tmp" "$skins_store"
+      done
 
       settings_file="$HOME/.claude/settings.json"
       if [[ -f "$settings_file" ]]; then
