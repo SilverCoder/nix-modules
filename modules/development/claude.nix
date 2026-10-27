@@ -55,6 +55,12 @@
         done
       fi
 
+      skins_store="$HOME/.claude/plugins/store/skins_hellosverre-mods-8037c34839ba.json"
+      $DRY_RUN_CMD mkdir -p "$(dirname "$skins_store")"
+      [[ -f "$skins_store" ]] || echo '{}' > "$skins_store"
+      ${pkgs.jq}/bin/jq --slurpfile p ${../../assets/development/skins.prefs.json} '.prefs = (.prefs // {}) * $p[0]' "$skins_store" > "$skins_store.tmp"
+      $DRY_RUN_CMD mv "$skins_store.tmp" "$skins_store"
+
       settings_file="$HOME/.claude/settings.json"
       if [[ -f "$settings_file" ]]; then
         ${pkgs.jq}/bin/jq 'if .enabledPlugins then .enabledPlugins |= (del(.["superpowers@superpowers-dev"]) | .["superpowers@superpowers-marketplace"] = true) else . end' "$settings_file" > "$settings_file.tmp"
