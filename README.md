@@ -29,6 +29,7 @@ Reusable NixOS/home-manager modules for declarative system configuration.
 ### nixosModules
 - `desktop` - NixOS desktop configuration (cosmic support)
 - `machine` - NixOS machine settings
+- `syncthing` - Syncthing client: static devices, untrusted encrypted hub, folders with synced ignore lists (`modules.syncthing`)
 
 ### lib.utils
 - `age` - agenix secret declaration helpers
