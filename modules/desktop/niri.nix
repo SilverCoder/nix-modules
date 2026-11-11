@@ -78,6 +78,7 @@
         programs.niri.settings = {
           prefer-no-csd = true;
           hotkey-overlay.skip-at-startup = true;
+          debug.disable-cursor-plane = [ ];
           screenshot-path = "~/Pictures/Screenshots/%Y-%m-%dT%H:%M:%S.png";
           gestures.hot-corners.enable = false;
 
