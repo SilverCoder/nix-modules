@@ -10,6 +10,7 @@ Reusable NixOS/home-manager modules for declarative system configuration.
 │   ├── cli/        # CLI tools (helix, fish, zellij, bat, lsd, yazi, etc)
 │   ├── desktop/    # Desktop environments (bspwm, cosmic, dunst, picom, rofi, etc)
 │   ├── development/# Development tools (git, rust, node, vscode, android, claude, etc)
+│   ├── gaming/     # Gaming tools (curseforge)
 │   ├── machine/    # Machine metadata and feature flags
 │   └── system/     # System services (fonts, locale, gtk, easyeffects)
 ├── themes/         # Color themes (dracula)
@@ -22,6 +23,7 @@ Reusable NixOS/home-manager modules for declarative system configuration.
 - `cli` - CLI tools (helix, fish, bat, lsd, fzf, kitty, zellij, yazi)
 - `desktop` - Desktop environments (bspwm, cosmic, dunst, lightdm, picom, polybar, rofi, sxhkd, localsend)
 - `development` - Development tools (git, rust, node, dotnet, deno, vscode, android, unity, claude)
+- `curseforge` - CurseForge mod manager (pinned AppImage, desktop entry, `curseforge://` handler)
 - `machine` - Machine settings framework with feature flags
 - `system` - System configuration (fonts, locale, gtk, easyeffects)
 - `theme` - Base16 theme system (dracula default, extensible)
